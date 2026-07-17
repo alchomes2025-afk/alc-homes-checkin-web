@@ -685,12 +685,16 @@ const I18N = {
     chips: ['¿Cómo abro la puerta?', 'WiFi', 'Horario check-out', 'Cómo llegar', 'Normas'],
     welcome: (n,r,p) => `¡Hola${n?', '+n.split(' ')[0]:''}! Bienvenido a ALC Homes Self Check In. Soy tu asistente virtual. Puedes preguntarme cualquier cosa acerca del check in o tu estancia en nuestro hostal. ¿En qué puedo ayudarte?`,
     pinUpdate: '✅ ¡Hemos recibido tu registro! Tu código de acceso ya está visible arriba.',
-    doneTitle: '✅ Registro completado',
-    doneDesc:  (d) => `Tu parte de viajeros ha sido recibido. Tu código de acceso se mostrará aquí el día de tu llegada (${d}).`,
-    preTitle:  'Completa el registro de viajeros',
-    preDesc:   (d) => `Tu llegada está prevista para el ${d}. Completa el parte de viajeros antes de ese día para acceder a tu habitación.`,
-    expiredTitle: 'Estancia finalizada',
-    expiredDesc:  '¡Gracias por alojarte en ALC Homes! Esperamos verte pronto.',
+    preTitle:       'Completa el registro de viajeros',
+    preDesc:        (d) => `Tu llegada está prevista para el ${d}. Completa el parte de viajeros antes de ese día para acceder a tu habitación.`,
+    pendingTitle:   '✅ Registro completado',
+    pendingDesc:    (d, isToday) => isToday
+      ? `Gracias por completar su registro de entrada en ALC Homes Self Check In. Consulte esta web a partir de las 15:00 h de hoy para disponer de los códigos de entrada al hostal y a su habitación.`
+      : `Gracias por completar su registro de entrada en ALC Homes Self Check In. Consulte esta web a partir del día ${d} a las 15:00 hora local, para disponer de los códigos de entrada al hostal y a su habitación.`,
+    checkinPendingTitle: 'Completa el registro ahora',
+    checkinPendingDesc:  'El acceso está disponible desde las 15:00. Completa el parte de viajeros para recibir tu código de puerta.',
+    expiredTitle:   'Estancia finalizada',
+    expiredDesc:    '¡Gracias por alojarte en ALC Homes! Esperamos verte pronto.',
     welcomeCard: (n, r, p) => {
       const first = n ? n.split(' ')[0] : '';
       return `<div class="welcome-card">
@@ -731,12 +735,16 @@ const I18N = {
     chips: ['How to open the door?', 'WiFi', 'Check-out time', 'How to get here', 'House rules'],
     welcome: (n,r,p) => `Hello${n?', '+n.split(' ')[0]:''}! Welcome to ALC Homes Self Check In. I'm your virtual assistant. Feel free to ask me anything about your check in or your stay at our hostal. How can I help you?`,
     pinUpdate: '✅ Registration received! Your access code is now visible above.',
-    doneTitle: '✅ Registration complete',
-    doneDesc:  (d) => `Your traveller registration has been received. Your access code will appear here on your arrival day (${d}).`,
-    preTitle:  'Complete the traveller registration',
-    preDesc:   (d) => `Your check-in is scheduled for ${d}. Please complete the registration before that day to access your room.`,
-    expiredTitle: 'Stay completed',
-    expiredDesc:  'Thank you for staying at ALC Homes! We hope to see you again soon.',
+    preTitle:       'Complete the traveller registration',
+    preDesc:        (d) => `Your check-in is scheduled for ${d}. Please complete the registration before that day to access your room.`,
+    pendingTitle:   '✅ Registration complete',
+    pendingDesc:    (d, isToday) => isToday
+      ? `Thank you for completing your check-in registration at ALC Homes Self Check In. Please check this page from 15:00 today to receive your entry codes.`
+      : `Thank you for completing your check-in registration at ALC Homes Self Check In. Please check this page from ${d} at 15:00 local time to receive your entry codes.`,
+    checkinPendingTitle: 'Complete registration now',
+    checkinPendingDesc:  'Access is available from 15:00. Complete the traveller registration to receive your door code.',
+    expiredTitle:   'Stay completed',
+    expiredDesc:    'Thank you for staying at ALC Homes! We hope to see you again soon.',
     welcomeCard: (n, r, p) => {
       const first = n ? n.split(' ')[0] : '';
       return `<div class="welcome-card">
@@ -777,12 +785,16 @@ const I18N = {
     chips: ['Comment ouvrir la porte ?', 'WiFi', 'Heure de check-out', 'Comment venir', 'Règlement'],
     welcome: (n,r,p) => `Bonjour${n?', '+n.split(' ')[0]:''}! Bienvenue à ALC Homes Self Check In. Je suis votre assistant virtuel. N'hésitez pas à me poser toutes vos questions sur le check in ou votre séjour. Comment puis-je vous aider ?`,
     pinUpdate: '✅ Enregistrement reçu ! Votre code d\'accès est maintenant visible ci-dessus.',
-    doneTitle: '✅ Enregistrement complété',
-    doneDesc:  (d) => `Votre enregistrement voyageur a été reçu. Votre code d'accès sera affiché ici le jour de votre arrivée (${d}).`,
-    preTitle:  'Complétez l\'enregistrement voyageur',
-    preDesc:   (d) => `Votre arrivée est prévue le ${d}. Veuillez compléter l'enregistrement avant ce jour pour accéder à votre chambre.`,
-    expiredTitle: 'Séjour terminé',
-    expiredDesc:  'Merci d\'avoir séjourné à ALC Homes ! Nous espérons vous revoir bientôt.',
+    preTitle:       'Complétez l\'enregistrement voyageur',
+    preDesc:        (d) => `Votre arrivée est prévue le ${d}. Veuillez compléter l'enregistrement avant ce jour pour accéder à votre chambre.`,
+    pendingTitle:   '✅ Enregistrement complété',
+    pendingDesc:    (d, isToday) => isToday
+      ? `Merci d'avoir complété votre enregistrement à ALC Homes Self Check In. Consultez cette page à partir de 15h00 aujourd'hui pour obtenir vos codes d'accès.`
+      : `Merci d'avoir complété votre enregistrement à ALC Homes Self Check In. Consultez cette page à partir du ${d} à 15h00 heure locale pour obtenir vos codes d'accès.`,
+    checkinPendingTitle: 'Complétez l\'enregistrement maintenant',
+    checkinPendingDesc:  'L\'accès est disponible à partir de 15h00. Complétez l\'enregistrement pour recevoir votre code de porte.',
+    expiredTitle:   'Séjour terminé',
+    expiredDesc:    'Merci d\'avoir séjourné à ALC Homes ! Nous espérons vous revoir bientôt.',
     welcomeCard: (n, r, p) => {
       const first = n ? n.split(' ')[0] : '';
       return `<div class="welcome-card">
@@ -823,12 +835,16 @@ const I18N = {
     chips: ['Wie öffne ich die Tür?', 'WLAN', 'Check-out-Zeit', 'Anreise', 'Hausordnung'],
     welcome: (n,r,p) => `Hallo${n?', '+n.split(' ')[0]:''}! Willkommen bei ALC Homes Self Check In. Ich bin dein virtueller Assistent. Du kannst mich alles rund um den Check In oder deinen Aufenthalt fragen. Wie kann ich dir helfen?`,
     pinUpdate: '✅ Meldung erhalten! Dein Zugangscode ist jetzt oben sichtbar.',
-    doneTitle: '✅ Registrierung abgeschlossen',
-    doneDesc:  (d) => `Deine Reisemeldung ist eingegangen. Dein Zugangscode wird hier am Anreisetag (${d}) angezeigt.`,
-    preTitle:  'Reisemeldung ausfüllen',
-    preDesc:   (d) => `Deine Ankunft ist für den ${d} geplant. Bitte fülle die Meldung vor diesem Tag aus, um Zugang zu deinem Zimmer zu erhalten.`,
-    expiredTitle: 'Aufenthalt beendet',
-    expiredDesc:  'Danke für deinen Aufenthalt bei ALC Homes! Wir freuen uns, dich bald wiederzusehen.',
+    preTitle:       'Reisemeldung ausfüllen',
+    preDesc:        (d) => `Deine Ankunft ist für den ${d} geplant. Bitte fülle die Meldung vor diesem Tag aus, um Zugang zu deinem Zimmer zu erhalten.`,
+    pendingTitle:   '✅ Registrierung abgeschlossen',
+    pendingDesc:    (d, isToday) => isToday
+      ? `Danke für das Ausfüllen deiner Eincheck-Meldung bei ALC Homes Self Check In. Bitte schaue ab 15:00 Uhr heute auf dieser Seite nach, um deine Zugangscodes zu erhalten.`
+      : `Danke für das Ausfüllen deiner Eincheck-Meldung bei ALC Homes Self Check In. Bitte schaue ab dem ${d} um 15:00 Uhr (Ortszeit) auf dieser Seite nach, um deine Zugangscodes zu erhalten.`,
+    checkinPendingTitle: 'Jetzt registrieren',
+    checkinPendingDesc:  'Der Zugang ist ab 15:00 Uhr verfügbar. Fülle die Reisemeldung aus, um deinen Türcode zu erhalten.',
+    expiredTitle:   'Aufenthalt beendet',
+    expiredDesc:    'Danke für deinen Aufenthalt bei ALC Homes! Wir freuen uns, dich bald wiederzusehen.',
     welcomeCard: (n, r, p) => {
       const first = n ? n.split(' ')[0] : '';
       return `<div class="welcome-card">
@@ -869,12 +885,16 @@ const I18N = {
     chips: ['Com obric la porta?', 'WiFi', 'Hora check-out', 'Com arribar', 'Normes'],
     welcome: (n,r,p) => `Hola${n?', '+n.split(' ')[0]:''}! Benvingut a ALC Homes Self Check In. Sóc el teu assistent virtual. Pots preguntar-me qualsevol cosa sobre el check in o la teua estada al nostre hostal. En què puc ajudar-te?`,
     pinUpdate: '✅ Registre rebut! El teu codi d\'accés ja és visible dalt.',
-    doneTitle: '✅ Registre completat',
-    doneDesc:  (d) => `El teu full de viatger ha estat rebut. El teu codi d'accés es mostrarà ací el dia de l'arribada (${d}).`,
-    preTitle:  'Completa el registre de viatgers',
-    preDesc:   (d) => `La teua arribada està prevista per al ${d}. Completa el full de viatger abans d'eixe dia per accedir a l'habitació.`,
-    expiredTitle: 'Estada finalitzada',
-    expiredDesc:  'Gràcies per allotjar-te a ALC Homes! Esperem veure\'t prompte.',
+    preTitle:       'Completa el registre de viatgers',
+    preDesc:        (d) => `La teua arribada està prevista per al ${d}. Completa el full de viatger abans d'eixe dia per accedir a l'habitació.`,
+    pendingTitle:   '✅ Registre completat',
+    pendingDesc:    (d, isToday) => isToday
+      ? `Gràcies per completar el teu registre d'entrada a ALC Homes Self Check In. Consulta aquesta web a partir de les 15:00 h d'avui per disposar dels codis d'accés.`
+      : `Gràcies per completar el teu registre d'entrada a ALC Homes Self Check In. Consulta aquesta web a partir del dia ${d} a les 15:00 hora local, per disposar dels codis d'accés.`,
+    checkinPendingTitle: 'Completa el registre ara',
+    checkinPendingDesc:  'L\'accés està disponible des de les 15:00. Completa el full de viatger per rebre el teu codi de porta.',
+    expiredTitle:   'Estada finalitzada',
+    expiredDesc:    'Gràcies per allotjar-te a ALC Homes! Esperem veure\'t prompte.',
     welcomeCard: (n, r, p) => {
       const first = n ? n.split(' ')[0] : '';
       return `<div class="welcome-card">
@@ -992,51 +1012,72 @@ function fmtDate(iso) {
   return `${d}/${m}/${y}`;
 }
 
+function isToday(isoDate) {
+  const today = new Date().toISOString().slice(0, 10);
+  return isoDate === today;
+}
+
 function renderInfoPanel() {
-  const T     = I18N[lang];
-  const el    = $('ci-info');
+  const T      = I18N[lang];
+  const el     = $('ci-info');
   const estado = booking.estado;
+  stopPoll();
 
-  if (estado === 'expired') {
-    // ── Estancia finalizada ──────────────────────────────────────────────
-    stopPoll();
-    el.innerHTML = `
-      <div class="info-card done ic-appear">
-        <span class="ic-icon">👋</span>
-        <div class="ic-title">${T.expiredTitle}</div>
-        <div class="ic-desc">${T.expiredDesc}</div>
-      </div>`;
+  switch (estado) {
 
-  } else if (estado === 'pre_checkin') {
-    // ── Antes del check-in: mostrar enlace RPV con fecha de llegada ──────
-    el.innerHTML = `
-      <div class="info-card rpv ic-appear">
-        <span class="ic-icon">📋</span>
-        <div class="ic-title">${T.preTitle}</div>
-        <div class="ic-desc">${T.preDesc(fmtDate(booking.arrival))}</div>
-        <a class="btn-rpv" href="${booking.rpv_link}" target="_blank" rel="noopener noreferrer">
-          ${T.rpvBtn}
-        </a>
-      </div>`;
+    case 'expired':
+      // ── Estancia finalizada ────────────────────────────────────────────
+      el.innerHTML = `
+        <div class="info-card done ic-appear">
+          <span class="ic-icon">👋</span>
+          <div class="ic-title">${T.expiredTitle}</div>
+          <div class="ic-desc">${T.expiredDesc}</div>
+        </div>`;
+      break;
 
-  } else if (estado === 'checkin_day' && !booking.parte_submitted) {
-    // ── Día de check-in, parte pendiente ────────────────────────────────
-    el.innerHTML = `
-      <div class="info-card rpv ic-appear">
-        <span class="ic-icon">📋</span>
-        <div class="ic-title">${T.rpvTitle}</div>
-        <div class="ic-desc">${T.rpvDesc}</div>
-        <a class="btn-rpv" href="${booking.rpv_link}" target="_blank" rel="noopener noreferrer">
-          ${T.rpvBtn}
-        </a>
-        <div class="rpv-poll">${T.rpvPoll}</div>
-      </div>`;
-    startPoll();
+    case 'pre_checkin':
+      // ── Antes del check-in, parte pendiente: enlace RPV ───────────────
+      el.innerHTML = `
+        <div class="info-card rpv ic-appear">
+          <span class="ic-icon">📋</span>
+          <div class="ic-title">${T.preTitle}</div>
+          <div class="ic-desc">${T.preDesc(fmtDate(booking.arrival))}</div>
+          <a class="btn-rpv" href="${booking.rpv_link}" target="_blank" rel="noopener noreferrer">
+            ${T.rpvBtn}
+          </a>
+        </div>`;
+      break;
 
-  } else {
-    // ── Parte completado y en rango de estancia: bienvenida completa ─────
-    stopPoll();
-    el.innerHTML = T.welcomeCard(booking.guest_name, booking.room_name, booking.pin);
+    case 'pending_early':
+      // ── Parte enviado con antelación (antes de las 15:00 del día de llegada) ──
+      el.innerHTML = `
+        <div class="info-card done ic-appear">
+          <span class="ic-icon">✅</span>
+          <div class="ic-title">${T.pendingTitle}</div>
+          <div class="ic-desc">${T.pendingDesc(fmtDate(booking.arrival), isToday(booking.arrival))}</div>
+        </div>`;
+      break;
+
+    case 'checkin_pending':
+      // ── Día de check-in 15:00+, parte aún pendiente: RPV + autopoll ───
+      el.innerHTML = `
+        <div class="info-card rpv ic-appear">
+          <span class="ic-icon">📋</span>
+          <div class="ic-title">${T.checkinPendingTitle}</div>
+          <div class="ic-desc">${T.checkinPendingDesc}</div>
+          <a class="btn-rpv" href="${booking.rpv_link}" target="_blank" rel="noopener noreferrer">
+            ${T.rpvBtn}
+          </a>
+          <div class="rpv-poll">${T.rpvPoll}</div>
+        </div>`;
+      startPoll();
+      break;
+
+    case 'staying':
+    default:
+      // ── En estancia con parte completado: tarjeta de bienvenida + PIN ──
+      el.innerHTML = T.welcomeCard(booking.guest_name, booking.room_name, booking.pin);
+      break;
   }
 }
 
