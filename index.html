@@ -1000,7 +1000,12 @@ $('bk-input').addEventListener('keydown', e => {
 function renderCheckinScreen() {
   renderTileStrip();
   $('ci-room-label').textContent = t('roomLabel');
-  $('ci-room-name').textContent  = booking.room_name;
+  // Solo mostramos la habitación cuando el parte ya está enviado
+  if (booking.parte_submitted) {
+    $('ci-room-name').textContent = booking.room_name;
+  } else {
+    $('ci-room').style.display = 'none';
+  }
   $('ci-sep-label').textContent  = t('sepLabel');
   renderInfoPanel();
   initChat();
@@ -1090,6 +1095,9 @@ function startPoll() {
       const data = await res.json();
       if (data.ok && data.parte_submitted) {
         booking = data;
+        // Mostrar habitación en el header ahora que el parte está enviado
+        $('ci-room').style.display = '';
+        $('ci-room-name').textContent = booking.room_name;
         renderInfoPanel();
         addChatMsg(I18N[lang].pinUpdate, 'bot');
       }
