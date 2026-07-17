@@ -253,6 +253,51 @@ html, body {
   max-height: 38vh;
 }
 
+.info-card.done {
+  background: #EAF5EC;
+  border: 1.5px solid #82C98F;
+}
+.info-card.done .ic-title { color: #2A6B37; }
+
+/* Bienvenida completa (PIN disponible) */
+.welcome-card {
+  border-radius: var(--radius);
+  padding: 16px;
+  background: var(--sand);
+  border: 1.5px solid #D4A88A;
+  font-size: .82rem;
+  line-height: 1.6;
+  color: var(--ink);
+}
+.welcome-card-header {
+  font-family: 'Georgia', serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #8B4520;
+  margin-bottom: 10px;
+}
+.welcome-pin-inline {
+  display: inline-block;
+  font-family: 'Courier New', monospace;
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: .2em;
+  color: var(--geranio);
+  background: rgba(255,255,255,.7);
+  border: 2px dashed #D4A88A;
+  border-radius: 8px;
+  padding: 4px 12px;
+  margin: 4px 0;
+  animation: breathe 3s ease-in-out infinite;
+}
+.welcome-wifi {
+  margin-top: 8px;
+  background: rgba(255,255,255,.5);
+  border-radius: 8px;
+  padding: 6px 10px;
+  font-size: .78rem;
+}
+
 /* Info cards */
 .info-card {
   border-radius: var(--radius);
@@ -640,6 +685,27 @@ const I18N = {
     chips: ['¿Cómo abro la puerta?', 'WiFi', 'Horario check-out', 'Cómo llegar', 'Normas'],
     welcome: (n,r,p) => `¡Hola${n?', '+n.split(' ')[0]:''}! Bienvenido a ALC Homes Self Check In. Soy tu asistente virtual. Puedes preguntarme cualquier cosa acerca del check in o tu estancia en nuestro hostal. ¿En qué puedo ayudarte?`,
     pinUpdate: '✅ ¡Hemos recibido tu registro! Tu código de acceso ya está visible arriba.',
+    doneTitle: '✅ Registro completado',
+    doneDesc:  (d) => `Tu parte de viajeros ha sido recibido. Tu código de acceso se mostrará aquí el día de tu llegada (${d}).`,
+    preTitle:  'Completa el registro de viajeros',
+    preDesc:   (d) => `Tu llegada está prevista para el ${d}. Completa el parte de viajeros antes de ese día para acceder a tu habitación.`,
+    expiredTitle: 'Estancia finalizada',
+    expiredDesc:  '¡Gracias por alojarte en ALC Homes! Esperamos verte pronto.',
+    welcomeCard: (n, r, p) => {
+      const first = n ? n.split(' ')[0] : '';
+      return `<div class="welcome-card">
+        <div class="welcome-card-header">🏨 ${first ? first + ', b' : 'B'}ienvenido a ALC Homes Alicante</div>
+        Nos encontrará en la <strong>Calle Camino de Ronda, 1</strong> (Alicante).<br>
+        Para abrir la puerta de la calle, introduzca el código de entrada y empuje la puerta.<br>
+        <strong>Código de entrada: 130773#</strong> (seis dígitos + almohadilla)<br><br>
+        Su habitación es <strong>${r}</strong>.<br>
+        Su código es <span class="welcome-pin-inline">${p || '—'}</span><br>
+        Para cerrar la puerta desde fuera, pulse el triángulo.<br>
+        <div class="welcome-wifi">📶 WiFi: <strong>ALCHOMES</strong> · Contraseña: <strong>Alchomes2025</strong></div><br>
+        Para cualquier duda, tiene a su disposición el asistente virtual (abajo) y el teléfono <strong>+34 622 38 35 87</strong> las 24h.<br><br>
+        <em>Alc Homes le desea una agradable estancia.</em>
+      </div>`;
+    },
   },
   en: {
     bkSub:    'Self Check-In',
@@ -665,6 +731,27 @@ const I18N = {
     chips: ['How to open the door?', 'WiFi', 'Check-out time', 'How to get here', 'House rules'],
     welcome: (n,r,p) => `Hello${n?', '+n.split(' ')[0]:''}! Welcome to ALC Homes Self Check In. I'm your virtual assistant. Feel free to ask me anything about your check in or your stay at our hostal. How can I help you?`,
     pinUpdate: '✅ Registration received! Your access code is now visible above.',
+    doneTitle: '✅ Registration complete',
+    doneDesc:  (d) => `Your traveller registration has been received. Your access code will appear here on your arrival day (${d}).`,
+    preTitle:  'Complete the traveller registration',
+    preDesc:   (d) => `Your check-in is scheduled for ${d}. Please complete the registration before that day to access your room.`,
+    expiredTitle: 'Stay completed',
+    expiredDesc:  'Thank you for staying at ALC Homes! We hope to see you again soon.',
+    welcomeCard: (n, r, p) => {
+      const first = n ? n.split(' ')[0] : '';
+      return `<div class="welcome-card">
+        <div class="welcome-card-header">🏨 ${first ? first + ', w' : 'W'}elcome to ALC Homes Alicante</div>
+        You'll find us at <strong>Calle Camino de Ronda, 1</strong> (Alicante).<br>
+        To open the street door, enter the access code and push the door.<br>
+        <strong>Entry code: 130773#</strong> (six digits + hash key)<br><br>
+        Your room is <strong>${r}</strong>.<br>
+        Your code is <span class="welcome-pin-inline">${p || '—'}</span><br>
+        To lock the door from outside, press the triangle.<br>
+        <div class="welcome-wifi">📶 WiFi: <strong>ALCHOMES</strong> · Password: <strong>Alchomes2025</strong></div><br>
+        For any questions, our virtual assistant (below) and phone <strong>+34 622 38 35 87</strong> are available 24h.<br><br>
+        <em>Alc Homes wishes you a pleasant stay.</em>
+      </div>`;
+    },
   },
   fr: {
     bkSub:    'Self Check-In',
@@ -690,6 +777,27 @@ const I18N = {
     chips: ['Comment ouvrir la porte ?', 'WiFi', 'Heure de check-out', 'Comment venir', 'Règlement'],
     welcome: (n,r,p) => `Bonjour${n?', '+n.split(' ')[0]:''}! Bienvenue à ALC Homes Self Check In. Je suis votre assistant virtuel. N'hésitez pas à me poser toutes vos questions sur le check in ou votre séjour. Comment puis-je vous aider ?`,
     pinUpdate: '✅ Enregistrement reçu ! Votre code d\'accès est maintenant visible ci-dessus.',
+    doneTitle: '✅ Enregistrement complété',
+    doneDesc:  (d) => `Votre enregistrement voyageur a été reçu. Votre code d'accès sera affiché ici le jour de votre arrivée (${d}).`,
+    preTitle:  'Complétez l\'enregistrement voyageur',
+    preDesc:   (d) => `Votre arrivée est prévue le ${d}. Veuillez compléter l'enregistrement avant ce jour pour accéder à votre chambre.`,
+    expiredTitle: 'Séjour terminé',
+    expiredDesc:  'Merci d\'avoir séjourné à ALC Homes ! Nous espérons vous revoir bientôt.',
+    welcomeCard: (n, r, p) => {
+      const first = n ? n.split(' ')[0] : '';
+      return `<div class="welcome-card">
+        <div class="welcome-card-header">🏨 ${first ? first + ', b' : 'B'}ienvenue à ALC Homes Alicante</div>
+        Vous nous trouverez au <strong>Calle Camino de Ronda, 1</strong> (Alicante).<br>
+        Pour ouvrir la porte d'entrée, entrez le code et poussez la porte.<br>
+        <strong>Code d'entrée : 130773#</strong> (six chiffres + dièse)<br><br>
+        Votre chambre est <strong>${r}</strong>.<br>
+        Votre code est <span class="welcome-pin-inline">${p || '—'}</span><br>
+        Pour verrouiller depuis l'extérieur, appuyez sur le triangle.<br>
+        <div class="welcome-wifi">📶 WiFi : <strong>ALCHOMES</strong> · Mot de passe : <strong>Alchomes2025</strong></div><br>
+        Pour toute question, notre assistant virtuel (ci-dessous) et le téléphone <strong>+34 622 38 35 87</strong> sont disponibles 24h/24.<br><br>
+        <em>Alc Homes vous souhaite un agréable séjour.</em>
+      </div>`;
+    },
   },
   de: {
     bkSub:    'Self Check-In',
@@ -715,6 +823,27 @@ const I18N = {
     chips: ['Wie öffne ich die Tür?', 'WLAN', 'Check-out-Zeit', 'Anreise', 'Hausordnung'],
     welcome: (n,r,p) => `Hallo${n?', '+n.split(' ')[0]:''}! Willkommen bei ALC Homes Self Check In. Ich bin dein virtueller Assistent. Du kannst mich alles rund um den Check In oder deinen Aufenthalt fragen. Wie kann ich dir helfen?`,
     pinUpdate: '✅ Meldung erhalten! Dein Zugangscode ist jetzt oben sichtbar.',
+    doneTitle: '✅ Registrierung abgeschlossen',
+    doneDesc:  (d) => `Deine Reisemeldung ist eingegangen. Dein Zugangscode wird hier am Anreisetag (${d}) angezeigt.`,
+    preTitle:  'Reisemeldung ausfüllen',
+    preDesc:   (d) => `Deine Ankunft ist für den ${d} geplant. Bitte fülle die Meldung vor diesem Tag aus, um Zugang zu deinem Zimmer zu erhalten.`,
+    expiredTitle: 'Aufenthalt beendet',
+    expiredDesc:  'Danke für deinen Aufenthalt bei ALC Homes! Wir freuen uns, dich bald wiederzusehen.',
+    welcomeCard: (n, r, p) => {
+      const first = n ? n.split(' ')[0] : '';
+      return `<div class="welcome-card">
+        <div class="welcome-card-header">🏨 ${first ? first + ', w' : 'W'}illkommen bei ALC Homes Alicante</div>
+        Du findest uns in der <strong>Calle Camino de Ronda, 1</strong> (Alicante).<br>
+        Um die Eingangstür zu öffnen, gib den Code ein und drücke die Tür.<br>
+        <strong>Eingangscode: 130773#</strong> (sechs Ziffern + Raute)<br><br>
+        Dein Zimmer ist <strong>${r}</strong>.<br>
+        Dein Code ist <span class="welcome-pin-inline">${p || '—'}</span><br>
+        Um von außen abzusperren, drücke das Dreieck.<br>
+        <div class="welcome-wifi">📶 WLAN: <strong>ALCHOMES</strong> · Passwort: <strong>Alchomes2025</strong></div><br>
+        Bei Fragen stehen dir unser virtueller Assistent (unten) und das Telefon <strong>+34 622 38 35 87</strong> rund um die Uhr zur Verfügung.<br><br>
+        <em>Alc Homes wünscht dir einen angenehmen Aufenthalt.</em>
+      </div>`;
+    },
   },
   val: {
     bkSub:    'Self Check-In',
@@ -740,6 +869,27 @@ const I18N = {
     chips: ['Com obric la porta?', 'WiFi', 'Hora check-out', 'Com arribar', 'Normes'],
     welcome: (n,r,p) => `Hola${n?', '+n.split(' ')[0]:''}! Benvingut a ALC Homes Self Check In. Sóc el teu assistent virtual. Pots preguntar-me qualsevol cosa sobre el check in o la teua estada al nostre hostal. En què puc ajudar-te?`,
     pinUpdate: '✅ Registre rebut! El teu codi d\'accés ja és visible dalt.',
+    doneTitle: '✅ Registre completat',
+    doneDesc:  (d) => `El teu full de viatger ha estat rebut. El teu codi d'accés es mostrarà ací el dia de l'arribada (${d}).`,
+    preTitle:  'Completa el registre de viatgers',
+    preDesc:   (d) => `La teua arribada està prevista per al ${d}. Completa el full de viatger abans d'eixe dia per accedir a l'habitació.`,
+    expiredTitle: 'Estada finalitzada',
+    expiredDesc:  'Gràcies per allotjar-te a ALC Homes! Esperem veure\'t prompte.',
+    welcomeCard: (n, r, p) => {
+      const first = n ? n.split(' ')[0] : '';
+      return `<div class="welcome-card">
+        <div class="welcome-card-header">🏨 ${first ? first + ', b' : 'B'}envingut a ALC Homes Alicante</div>
+        Ens trobaràs al <strong>Carrer Camino de Ronda, 1</strong> (Alacant).<br>
+        Per obrir la porta del carrer, introdueix el codi i empeny la porta.<br>
+        <strong>Codi d'entrada: 130773#</strong> (sis dígits + coixinet)<br><br>
+        La teua habitació és <strong>${r}</strong>.<br>
+        El teu codi és <span class="welcome-pin-inline">${p || '—'}</span><br>
+        Per tancar des de fora, prem el triangle.<br>
+        <div class="welcome-wifi">📶 WiFi: <strong>ALCHOMES</strong> · Contrasenya: <strong>Alchomes2025</strong></div><br>
+        Per a qualsevol dubte, tens a la teua disposició l'assistent virtual (baix) i el telèfon <strong>+34 622 38 35 87</strong> les 24h.<br><br>
+        <em>Alc Homes et desitja una agradable estada.</em>
+      </div>`;
+    },
   },
 };
 
@@ -836,21 +986,41 @@ function renderCheckinScreen() {
   initChat();
 }
 
-function renderInfoPanel() {
-  const T = I18N[lang];
-  const el = $('ci-info');
+function fmtDate(iso) {
+  if (!iso) return iso;
+  const [y, m, d] = iso.split('-');
+  return `${d}/${m}/${y}`;
+}
 
-  if (booking.parte_submitted) {
+function renderInfoPanel() {
+  const T     = I18N[lang];
+  const el    = $('ci-info');
+  const estado = booking.estado;
+
+  if (estado === 'expired') {
+    // ── Estancia finalizada ──────────────────────────────────────────────
     stopPoll();
     el.innerHTML = `
-      <div class="info-card pin ic-appear">
-        <span class="ic-icon">🔑</span>
-        <div class="ic-title">${T.pinTitle}</div>
-        <div class="ic-desc">${booking.room_name}</div>
-        <div class="pin-code">${booking.pin}</div>
-        <div class="pin-hint">${T.pinHint}</div>
+      <div class="info-card done ic-appear">
+        <span class="ic-icon">👋</span>
+        <div class="ic-title">${T.expiredTitle}</div>
+        <div class="ic-desc">${T.expiredDesc}</div>
       </div>`;
-  } else {
+
+  } else if (estado === 'pre_checkin') {
+    // ── Antes del check-in: mostrar enlace RPV con fecha de llegada ──────
+    el.innerHTML = `
+      <div class="info-card rpv ic-appear">
+        <span class="ic-icon">📋</span>
+        <div class="ic-title">${T.preTitle}</div>
+        <div class="ic-desc">${T.preDesc(fmtDate(booking.arrival))}</div>
+        <a class="btn-rpv" href="${booking.rpv_link}" target="_blank" rel="noopener noreferrer">
+          ${T.rpvBtn}
+        </a>
+      </div>`;
+
+  } else if (estado === 'checkin_day' && !booking.parte_submitted) {
+    // ── Día de check-in, parte pendiente ────────────────────────────────
     el.innerHTML = `
       <div class="info-card rpv ic-appear">
         <span class="ic-icon">📋</span>
@@ -862,6 +1032,11 @@ function renderInfoPanel() {
         <div class="rpv-poll">${T.rpvPoll}</div>
       </div>`;
     startPoll();
+
+  } else {
+    // ── Parte completado y en rango de estancia: bienvenida completa ─────
+    stopPoll();
+    el.innerHTML = T.welcomeCard(booking.guest_name, booking.room_name, booking.pin);
   }
 }
 
