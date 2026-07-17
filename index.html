@@ -595,12 +595,8 @@ form#composerForm {
 'use strict';
 
 // ── CONFIG ───────────────────────────────────────────────────────────────
-const BACKEND      = 'https://hostal-pdf-extractor.onrender.com';
-// Misma key que el asistente de Vercel (ya pública en el repo)
-const GROQ_API_KEY = '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';
-const GROQ_URL     = 'https://api.groq.com/openai/v1/chat/completions';
-const MODEL_PRI    = 'llama-3.3-70b-versatile';
-const MODEL_FALL   = 'llama-3.1-8b-instant';
+const BACKEND = 'https://hostal-pdf-extractor.onrender.com';
+// El chat pasa por el proxy /chat de Render — la key de Groq nunca está en el HTML
 
 // ── DOCUMENTO FAQ (idéntico al asistente Vercel) ─────────────────────────
 const FAQ_DOCUMENT = `
@@ -1191,22 +1187,18 @@ function showTyping() {
 }
 function hideTyping() { const el = $('typingEl'); if (el) el.remove(); }
 
-async function callGroq(model, messages) {
-  return fetch(GROQ_URL, {
-    method:  'POST',
-    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + GROQ_API_KEY },
-    body: JSON.stringify({ model, messages, temperature: 0.3, max_tokens: 600 }),
-  });
-}
-
 async function askAssistant(userText) {
-  const sys   = buildSystemPrompt();
-  const msgs  = [{ role: 'system', content: sys }, ...chatHist, { role: 'user', content: userText }];
-  let resp = await callGroq(MODEL_PRI, msgs);
-  if (resp.status === 429) resp = await callGroq(MODEL_FALL, msgs);
-  if (!resp.ok) throw new Error('Groq ' + resp.status);
+  const sys  = buildSystemPrompt();
+  const msgs = [...chatHist, { role: 'user', content: userText }];
+  const resp = await fetch(`${BACKEND}/chat`, {
+    method:  'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ system: sys, messages: msgs }),
+  });
+  if (!resp.ok) throw new Error('Chat proxy ' + resp.status);
   const data = await resp.json();
-  return data.choices[0].message.content.trim();
+  if (!data.ok) throw new Error(data.error || 'Error en el asistente');
+  return data.reply;
 }
 
 async function sendMessage(text) {
