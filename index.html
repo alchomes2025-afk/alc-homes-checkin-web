@@ -1031,6 +1031,26 @@ function renderTileStrip() {
   }
 }
 
+// ── HISTORIAL DE INTERACCIONES (Firestore vía backend) ─────────────────────
+function logEvent(eventType, content) {
+  try {
+    fetch(`${BACKEND}/log-event`, {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        ref:        bookRef,
+        room_id:    booking?.room_id    || '',
+        room_name:  booking?.room_name  || '',
+        arrival:    booking?.arrival    || '',
+        departure:  booking?.departure  || '',
+        event_type: eventType,
+        content:    content || '',
+        state:      booking?.estado     || '',
+      }),
+    }).catch(() => { /* nunca bloquea la UI del huésped */ });
+  } catch (_) { /* nunca bloquea la UI del huésped */ }
+}
+
 // ── PANTALLA 1: IDIOMA ────────────────────────────────────────────────────
 function pickLang(l) {
   lang = l;
@@ -1075,6 +1095,7 @@ async function lookupBooking() {
     booking = data;
     renderCheckinScreen();
     show('s-checkin');
+    logEvent('page_view', booking.estado);
 
   } catch (_) {
     $('bk-btn').disabled = false;
@@ -1192,6 +1213,7 @@ function startPoll() {
         $('ci-room-name').textContent = booking.room_name;
         renderInfoPanel();
         addChatMsg(I18N[lang].pinUpdate, 'bot');
+        logEvent('state_changed', booking.estado);
       }
     } catch (_) { /* silent */ }
   }, 45_000);
@@ -1318,6 +1340,7 @@ async function sendMessage(text) {
 
   addChatMsg(trimmed, 'user');
   chatHist.push({ role: 'user', content: trimmed });
+  logEvent('chat_user', trimmed);
   $('userInput').value = '';
   $('sendBtn').disabled = true;
   chatBusy = true;
@@ -1328,10 +1351,12 @@ async function sendMessage(text) {
     hideTyping();
     addChatMsg(reply, 'bot');
     chatHist.push({ role: 'assistant', content: reply });
+    logEvent('chat_bot', reply);
   } catch (err) {
     hideTyping();
     addChatMsg(t('errChat'), 'error');
     console.error(err);
+    logEvent('error', String(err?.message || err));
   } finally {
     $('sendBtn').disabled = false;
     chatBusy = false;
