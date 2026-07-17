@@ -13,3 +13,4 @@ jobs:
           firebaseServiceAccount: ${{ secrets.FIREBASE_TOKEN }}
           channelId: live
           projectId: alc-homes-checkin
+          entryPoint: ./alc-homes-checkin
