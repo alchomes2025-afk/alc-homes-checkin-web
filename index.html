@@ -71,6 +71,25 @@ html, body {
   text-decoration: underline;
 }
 
+.screen-footer {
+  background: rgba(44, 81, 99, 0.95);
+  color: white;
+  padding: 10px 16px;
+  text-align: center;
+  font-size: 11px;
+  line-height: 1.5;
+  border-top: 2px solid var(--sand);
+  margin-top: auto;
+  width: 100%;
+  flex-shrink: 0;
+}
+.screen-footer a {
+  color: #90EE90;
+  text-decoration: none;
+  font-weight: bold;
+}
+.screen-footer a:hover { text-decoration: underline; }
+
 .logo-img {
   width: 100px;
   height: 100px;
@@ -598,6 +617,9 @@ form#composerForm {
     <button class="welcome-btn" onclick="pickLang('fr')">Français</button>
     <button class="welcome-btn span2" onclick="pickLang('val')">Valencià</button>
   </div>
+  <div class="screen-footer">
+    Para cualquier duda / for any questions: asistente virtual · teléfono o WhatsApp <a href="tel:+34622383587">+34 622 38 35 87</a> (24h)
+  </div>
 </div>
 
 <!-- ══ PANTALLA 2: NÚMERO DE RESERVA ════════════════════════════════════ -->
@@ -616,6 +638,7 @@ form#composerForm {
     <div class="bk-error" id="bk-error"></div>
     <div class="bk-hint"  id="bk-hint">Si no encuentras tu número, contacta con recepción: +34 622 38 35 87</div>
   </div>
+  <div class="screen-footer" id="s-booking-footer"></div>
 </div>
 
 <!-- ══ PANTALLA 3: CHECK-IN (split) ═════════════════════════════════════ -->
@@ -652,6 +675,7 @@ form#composerForm {
       <button type="submit" id="sendBtn" id="sendBtn">Enviar</button>
     </form>
   </div>
+  <div class="screen-footer" id="s-checkin-footer"></div>
 
 </div>
 
@@ -743,6 +767,7 @@ const I18N = {
     sendBtn:  'Enviar',
     placeholder: 'Escribe tu pregunta…',
     errChat:  'Lo siento, no he podido procesar tu pregunta. Inténtalo de nuevo o llama al +34 622 38 35 87.',
+    footerContact: 'Para cualquier duda, tiene a su disposición el asistente virtual (abajo) y el teléfono o WhatsApp <a href="tel:+34622383587">+34 622 38 35 87</a> las 24h.',
     chips: ['¿Cómo abro la puerta?', 'WiFi', 'Horario check-out', 'Cómo llegar', 'Normas'],
     welcome: (n,r,p) => `¡Hola${n?', '+n.split(' ')[0]:''}! Bienvenido a ALC Homes Self Check In. Soy tu asistente virtual. Puedes preguntarme cualquier cosa acerca del check in o tu estancia en nuestro hostal. ¿En qué puedo ayudarte?`,
     pinUpdate: '✅ ¡Hemos recibido tu registro! Tu código de acceso ya está visible arriba.',
@@ -793,6 +818,7 @@ const I18N = {
     sendBtn:  'Send',
     placeholder: 'Type your question…',
     errChat:  'Sorry, I couldn\'t process your question. Try again or call +34 622 38 35 87.',
+    footerContact: 'For any questions, our virtual assistant (below) and phone or WhatsApp <a href="tel:+34622383587">+34 622 38 35 87</a> are available 24h.',
     chips: ['How to open the door?', 'WiFi', 'Check-out time', 'How to get here', 'House rules'],
     welcome: (n,r,p) => `Hello${n?', '+n.split(' ')[0]:''}! Welcome to ALC Homes Self Check In. I'm your virtual assistant. Feel free to ask me anything about your check in or your stay at our hostal. How can I help you?`,
     pinUpdate: '✅ Registration received! Your access code is now visible above.',
@@ -843,6 +869,7 @@ const I18N = {
     sendBtn:  'Envoyer',
     placeholder: 'Posez votre question…',
     errChat:  'Désolé, je n\'ai pas pu traiter votre question. Réessayez ou appelez le +34 622 38 35 87.',
+    footerContact: 'Pour toute question, notre assistant virtuel (ci-dessous) et le téléphone ou WhatsApp <a href="tel:+34622383587">+34 622 38 35 87</a> sont disponibles 24h/24.',
     chips: ['Comment ouvrir la porte ?', 'WiFi', 'Heure de check-out', 'Comment venir', 'Règlement'],
     welcome: (n,r,p) => `Bonjour${n?', '+n.split(' ')[0]:''}! Bienvenue à ALC Homes Self Check In. Je suis votre assistant virtuel. N'hésitez pas à me poser toutes vos questions sur le check in ou votre séjour. Comment puis-je vous aider ?`,
     pinUpdate: '✅ Enregistrement reçu ! Votre code d\'accès est maintenant visible ci-dessus.',
@@ -893,6 +920,7 @@ const I18N = {
     sendBtn:  'Senden',
     placeholder: 'Deine Frage…',
     errChat:  'Tut mir leid, Fehler. Erneut versuchen oder anrufen: +34 622 38 35 87.',
+    footerContact: 'Bei Fragen stehen dir unser virtueller Assistent (unten) und das Telefon oder WhatsApp <a href="tel:+34622383587">+34 622 38 35 87</a> rund um die Uhr zur Verfügung.',
     chips: ['Wie öffne ich die Tür?', 'WLAN', 'Check-out-Zeit', 'Anreise', 'Hausordnung'],
     welcome: (n,r,p) => `Hallo${n?', '+n.split(' ')[0]:''}! Willkommen bei ALC Homes Self Check In. Ich bin dein virtueller Assistent. Du kannst mich alles rund um den Check In oder deinen Aufenthalt fragen. Wie kann ich dir helfen?`,
     pinUpdate: '✅ Meldung erhalten! Dein Zugangscode ist jetzt oben sichtbar.',
@@ -943,6 +971,7 @@ const I18N = {
     sendBtn:  'Enviar',
     placeholder: 'Escriu la teua pregunta…',
     errChat:  'Ho sentim, error. Torna a intentar-ho o truca al +34 622 38 35 87.',
+    footerContact: 'Per a qualsevol dubte, tens a la teua disposició l\'assistent virtual (baix) i el telèfon o WhatsApp <a href="tel:+34622383587">+34 622 38 35 87</a> les 24h.',
     chips: ['Com obric la porta?', 'WiFi', 'Hora check-out', 'Com arribar', 'Normes'],
     welcome: (n,r,p) => `Hola${n?', '+n.split(' ')[0]:''}! Benvingut a ALC Homes Self Check In. Sóc el teu assistent virtual. Pots preguntar-me qualsevol cosa sobre el check in o la teua estada al nostre hostal. En què puc ajudar-te?`,
     pinUpdate: '✅ Registre rebut! El teu codi d\'accés ja és visible dalt.',
@@ -1018,6 +1047,7 @@ function applyLangToBookingScreen() {
   $('bk-input').placeholder = T.bkPlaceholder;
   $('bk-btn-label').textContent = T.bkBtn;
   $('bk-hint').textContent  = T.bkHint;
+  $('s-booking-footer').innerHTML = T.footerContact;
 }
 
 // ── PANTALLA 2: BÚSQUEDA RESERVA ─────────────────────────────────────────
@@ -1068,6 +1098,7 @@ function renderCheckinScreen() {
     $('ci-room-name').style.display  = 'none';
   }
   $('ci-sep-label').textContent = t('sepLabel');
+  $('s-checkin-footer').innerHTML = t('footerContact');
   renderInfoPanel();
   initChat();
 }
@@ -1307,20 +1338,11 @@ async function sendMessage(text) {
   }
 }
 
-<script type="application/javascript" src="https://cdn.jsdelivr.net/npm/groq"></script>
-<script>
 $('composerForm').addEventListener('submit', e => {
   e.preventDefault();
   sendMessage($('userInput').value);
 });
 </script>
-
-<!-- ════════════════════════════════════════════════════════════════════════ -->
-<!-- FOOTER — Disponible en todas las pantallas ────────────────────────────── -->
-<!-- ════════════════════════════════════════════════════════════════════════ -->
-<div class="footer-contact">
-  Para cualquier duda, tiene a su disposición el asistente virtual (abajo) y el teléfono o WhatsApp <a href="tel:+34622383587">+34 622 38 35 87</a> las 24h.
-</div>
 
 </body>
 </html>
