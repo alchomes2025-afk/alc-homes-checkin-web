@@ -796,7 +796,7 @@ const I18N = {
     checkinPendingDesc:  'El acceso está disponible desde las 15:00. Completa el parte de viajeros para recibir tu código de puerta.<span class="ic-highlight">Una vez hayas completado el registro de viajeros, vuelve a esta página para obtener información acerca de los códigos de entrada al establecimiento y a tu habitación, así como el nombre de tu habitación.</span>',
     expiredTitle:   'Estancia finalizada',
     expiredDesc:    '¡Gracias por alojarte en ALC Homes! Esperamos verte pronto.',
-    welcomeCard: (n, r, p) => {
+    welcomeCard: (n, r, p, contact) => {
       const first = n ? n.split(' ')[0] : '';
       return `<div class="welcome-card">
         <div class="welcome-card-header">🏨 ${first ? first + ', b' : 'B'}ienvenido a ALC Homes Alicante</div>
@@ -807,7 +807,7 @@ const I18N = {
         ${p ? `Su código es <span class="welcome-pin-inline">${p}</span><br>` : `<span class="welcome-pin-note">No funciona el código. La habitación estará abierta y la llave en la mesita de noche.</span>`}
         Para cerrar la puerta desde fuera, pulse el triángulo.<br>
         <div class="welcome-wifi">📶 WiFi: <strong>ALCHOMES</strong> · Contraseña: <strong>Alchomes2025</strong></div><br>
-        Para cualquier duda, tiene a su disposición el asistente virtual (abajo) y el teléfono <strong>+34 622 38 35 87</strong> las 24h.<br><br>
+        ${contact}<br><br>
         <em>Alc Homes le desea una agradable estancia.</em>
       </div>`;
     },
@@ -847,7 +847,7 @@ const I18N = {
     checkinPendingDesc:  'Access is available from 15:00. Complete the traveller registration to receive your door code.<span class="ic-highlight">Once you\'ve completed the traveller registration, come back to this page to get the entry codes for the building and your room, as well as your room name.</span>',
     expiredTitle:   'Stay completed',
     expiredDesc:    'Thank you for staying at ALC Homes! We hope to see you again soon.',
-    welcomeCard: (n, r, p) => {
+    welcomeCard: (n, r, p, contact) => {
       const first = n ? n.split(' ')[0] : '';
       return `<div class="welcome-card">
         <div class="welcome-card-header">🏨 ${first ? first + ', w' : 'W'}elcome to ALC Homes Alicante</div>
@@ -858,7 +858,7 @@ const I18N = {
         ${p ? `Your code is <span class="welcome-pin-inline">${p}</span><br>` : `<span class="welcome-pin-note">The code isn't working. The room will be open and the key will be on the nightstand.</span>`}
         To lock the door from outside, press the triangle.<br>
         <div class="welcome-wifi">📶 WiFi: <strong>ALCHOMES</strong> · Password: <strong>Alchomes2025</strong></div><br>
-        For any questions, our virtual assistant (below) and phone <strong>+34 622 38 35 87</strong> are available 24h.<br><br>
+        ${contact}<br><br>
         <em>Alc Homes wishes you a pleasant stay.</em>
       </div>`;
     },
@@ -898,7 +898,7 @@ const I18N = {
     checkinPendingDesc:  'L\'accès est disponible à partir de 15h00. Complétez l\'enregistrement pour recevoir votre code de porte.<span class="ic-highlight">Une fois l\'enregistrement voyageur complété, revenez sur cette page pour obtenir les codes d\'accès à l\'établissement et à votre chambre, ainsi que le nom de votre chambre.</span>',
     expiredTitle:   'Séjour terminé',
     expiredDesc:    'Merci d\'avoir séjourné à ALC Homes ! Nous espérons vous revoir bientôt.',
-    welcomeCard: (n, r, p) => {
+    welcomeCard: (n, r, p, contact) => {
       const first = n ? n.split(' ')[0] : '';
       return `<div class="welcome-card">
         <div class="welcome-card-header">🏨 ${first ? first + ', b' : 'B'}ienvenue à ALC Homes Alicante</div>
@@ -909,7 +909,7 @@ const I18N = {
         ${p ? `Votre code est <span class="welcome-pin-inline">${p}</span><br>` : `<span class="welcome-pin-note">Le code ne fonctionne pas. La chambre sera ouverte et la clé sera sur la table de chevet.</span>`}
         Pour verrouiller depuis l'extérieur, appuyez sur le triangle.<br>
         <div class="welcome-wifi">📶 WiFi : <strong>ALCHOMES</strong> · Mot de passe : <strong>Alchomes2025</strong></div><br>
-        Pour toute question, notre assistant virtuel (ci-dessous) et le téléphone <strong>+34 622 38 35 87</strong> sont disponibles 24h/24.<br><br>
+        ${contact}<br><br>
         <em>Alc Homes vous souhaite un agréable séjour.</em>
       </div>`;
     },
@@ -949,7 +949,7 @@ const I18N = {
     checkinPendingDesc:  'Der Zugang ist ab 15:00 Uhr verfügbar. Fülle die Reisemeldung aus, um deinen Türcode zu erhalten.<span class="ic-highlight">Sobald du die Reisemeldung abgeschlossen hast, komm zurück auf diese Seite, um die Zugangscodes für das Gebäude und dein Zimmer sowie den Namen deines Zimmers zu erhalten.</span>',
     expiredTitle:   'Aufenthalt beendet',
     expiredDesc:    'Danke für deinen Aufenthalt bei ALC Homes! Wir freuen uns, dich bald wiederzusehen.',
-    welcomeCard: (n, r, p) => {
+    welcomeCard: (n, r, p, contact) => {
       const first = n ? n.split(' ')[0] : '';
       return `<div class="welcome-card">
         <div class="welcome-card-header">🏨 ${first ? first + ', w' : 'W'}illkommen bei ALC Homes Alicante</div>
@@ -960,7 +960,7 @@ const I18N = {
         ${p ? `Dein Code ist <span class="welcome-pin-inline">${p}</span><br>` : `<span class="welcome-pin-note">Der Code funktioniert nicht. Das Zimmer ist offen und der Schlüssel liegt auf dem Nachttisch.</span>`}
         Um von außen abzusperren, drücke das Dreieck.<br>
         <div class="welcome-wifi">📶 WLAN: <strong>ALCHOMES</strong> · Passwort: <strong>Alchomes2025</strong></div><br>
-        Bei Fragen stehen dir unser virtueller Assistent (unten) und das Telefon <strong>+34 622 38 35 87</strong> rund um die Uhr zur Verfügung.<br><br>
+        ${contact}<br><br>
         <em>Alc Homes wünscht dir einen angenehmen Aufenthalt.</em>
       </div>`;
     },
@@ -1000,7 +1000,7 @@ const I18N = {
     checkinPendingDesc:  'L\'accés està disponible des de les 15:00. Completa el full de viatger per rebre el teu codi de porta.<span class="ic-highlight">Una vegada hages completat el registre de viatgers, torna a aquesta pàgina per obtindre informació sobre els codis d\'entrada a l\'establiment i a la teua habitació, així com el nom de la teua habitació.</span>',
     expiredTitle:   'Estada finalitzada',
     expiredDesc:    'Gràcies per allotjar-te a ALC Homes! Esperem veure\'t prompte.',
-    welcomeCard: (n, r, p) => {
+    welcomeCard: (n, r, p, contact) => {
       const first = n ? n.split(' ')[0] : '';
       return `<div class="welcome-card">
         <div class="welcome-card-header">🏨 ${first ? first + ', b' : 'B'}envingut a ALC Homes Alicante</div>
@@ -1011,7 +1011,7 @@ const I18N = {
         ${p ? `El teu codi és <span class="welcome-pin-inline">${p}</span><br>` : `<span class="welcome-pin-note">El codi no funciona. L'habitació estarà oberta i la clau estarà a la tauleta de nit.</span>`}
         Per tancar des de fora, prem el triangle.<br>
         <div class="welcome-wifi">📶 WiFi: <strong>ALCHOMES</strong> · Contrasenya: <strong>Alchomes2025</strong></div><br>
-        Per a qualsevol dubte, tens a la teua disposició l'assistent virtual (baix) i el telèfon <strong>+34 622 38 35 87</strong> les 24h.<br><br>
+        ${contact}<br><br>
         <em>Alc Homes et desitja una agradable estada.</em>
       </div>`;
     },
@@ -1165,6 +1165,7 @@ function renderInfoPanel() {
           <span class="ic-icon">👋</span>
           <div class="ic-title">${T.expiredTitle}</div>
           <div class="ic-desc">${T.expiredDesc}</div>
+          <div class="ic-desc">${T.footerContact}</div>
         </div>`;
       break;
 
@@ -1178,6 +1179,7 @@ function renderInfoPanel() {
           <a class="btn-rpv" href="${booking.rpv_link}" target="_blank" rel="noopener noreferrer">
             ${T.rpvBtn}
           </a>
+          <div class="ic-desc" style="margin-top:12px;">${T.footerContact}</div>
         </div>`;
       startPoll();
       break;
@@ -1189,6 +1191,7 @@ function renderInfoPanel() {
           <span class="ic-icon">✅</span>
           <div class="ic-title">${T.pendingTitle}</div>
           <div class="ic-desc">${T.pendingDesc(fmtDate(booking.arrival), isToday(booking.arrival))}</div>
+          <div class="ic-desc">${T.footerContact}</div>
         </div>`;
       break;
 
@@ -1203,6 +1206,7 @@ function renderInfoPanel() {
             ${T.rpvBtn}
           </a>
           <div class="rpv-poll">${T.rpvPoll}</div>
+          <div class="ic-desc" style="margin-top:12px;">${T.footerContact}</div>
         </div>`;
       startPoll();
       break;
@@ -1210,7 +1214,7 @@ function renderInfoPanel() {
     case 'staying':
     default:
       // ── En estancia con parte completado: tarjeta de bienvenida + PIN ──
-      el.innerHTML = T.welcomeCard(booking.guest_name, booking.room_name, booking.pin);
+      el.innerHTML = T.welcomeCard(booking.guest_name, booking.room_name, booking.pin, T.footerContact);
       break;
   }
 }
