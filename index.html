@@ -411,6 +411,13 @@ html, body {
   line-height: 1.5;
   margin-bottom: 12px;
 }
+.ic-desc .ic-highlight {
+  display: block;
+  margin-top: 10px;
+  font-weight: 700;
+  font-size: .92rem;
+  color: var(--ink);
+}
 
 /* RPV button */
 .btn-rpv {
@@ -767,18 +774,18 @@ const I18N = {
     sendBtn:  'Enviar',
     placeholder: 'Escribe tu pregunta…',
     errChat:  'Lo siento, no he podido procesar tu pregunta. Inténtalo de nuevo o llama al +34 622 38 35 87.',
-    footerContact: 'Para cualquier duda, tiene a su disposición el asistente virtual haciendo su pregunta en la conversación en esta misma página, y el teléfono o WhatsApp <a href="tel:+34622383587">+34 622 38 35 87</a> las 24h. Por favor, asegúrese de haber consultado el asistente virtual antes de llamar o WhatsApp.',
+    footerContact: 'Para cualquier duda, tiene a su disposición el asistente virtual haciendo su pregunta en la conversación en esta misma página, y el teléfono o WhatsApp <a href="tel:+34622383587">+34 622 38 35 87</a> las 24h. <strong>Por favor, asegúrese de haber consultado el asistente virtual antes de llamar o WhatsApp.</strong>',
     chips: ['¿Cómo abro la puerta?', 'WiFi', 'Horario check-out', 'Cómo llegar', 'Normas'],
     welcome: (n,r,p) => `¡Hola${n?', '+n.split(' ')[0]:''}! Bienvenido a ALC Homes Self Check In. Soy tu asistente virtual. Puedes preguntarme cualquier cosa acerca del check in o tu estancia en nuestro hostal. ¿En qué puedo ayudarte?`,
     pinUpdate: '✅ ¡Hemos recibido tu registro! Tu código de acceso ya está visible arriba.',
     preTitle:       'Completa el registro de viajeros',
-    preDesc:        (d) => `Tu llegada está prevista para el ${d}. Completa el parte de viajeros antes de ese día para acceder a tu habitación. Una vez hayas completado el registro de viajeros, vuelve a esta página para obtener información acerca de los códigos de entrada al establecimiento y a tu habitación, así como el nombre de tu habitación.`,
+    preDesc:        (d) => `Tu llegada está prevista para el ${d}. Completa el parte de viajeros antes de ese día para acceder a tu habitación.<span class="ic-highlight">Una vez hayas completado el registro de viajeros, vuelve a esta página para obtener información acerca de los códigos de entrada al establecimiento y a tu habitación, así como el nombre de tu habitación.</span>`,
     pendingTitle:   '✅ Registro completado',
     pendingDesc:    (d, isToday) => isToday
       ? `Gracias por completar su registro de entrada en ALC Homes Self Check In. Consulte esta web a partir de las 15:00 h de hoy para disponer de los códigos de entrada al hostal y a su habitación.`
       : `Gracias por completar su registro de entrada en ALC Homes Self Check In. Consulte esta web a partir del día ${d} a las 15:00 hora local, para disponer de los códigos de entrada al hostal y a su habitación.`,
     checkinPendingTitle: 'Completa el registro ahora',
-    checkinPendingDesc:  'El acceso está disponible desde las 15:00. Completa el parte de viajeros para recibir tu código de puerta. Una vez hayas completado el registro de viajeros, vuelve a esta página para obtener información acerca de los códigos de entrada al establecimiento y a tu habitación, así como el nombre de tu habitación.',
+    checkinPendingDesc:  'El acceso está disponible desde las 15:00. Completa el parte de viajeros para recibir tu código de puerta.<span class="ic-highlight">Una vez hayas completado el registro de viajeros, vuelve a esta página para obtener información acerca de los códigos de entrada al establecimiento y a tu habitación, así como el nombre de tu habitación.</span>',
     expiredTitle:   'Estancia finalizada',
     expiredDesc:    '¡Gracias por alojarte en ALC Homes! Esperamos verte pronto.',
     welcomeCard: (n, r, p) => {
@@ -818,18 +825,18 @@ const I18N = {
     sendBtn:  'Send',
     placeholder: 'Type your question…',
     errChat:  'Sorry, I couldn\'t process your question. Try again or call +34 622 38 35 87.',
-    footerContact: 'For any questions, you have the virtual assistant available by asking your question in the conversation on this same page, and the phone or WhatsApp <a href="tel:+34622383587">+34 622 38 35 87</a> available 24h. Please make sure to consult the virtual assistant before calling or WhatsApp.',
+    footerContact: 'For any questions, you have the virtual assistant available by asking your question in the conversation on this same page, and the phone or WhatsApp <a href="tel:+34622383587">+34 622 38 35 87</a> available 24h. <strong>Please make sure to consult the virtual assistant before calling or WhatsApp.</strong>',
     chips: ['How to open the door?', 'WiFi', 'Check-out time', 'How to get here', 'House rules'],
     welcome: (n,r,p) => `Hello${n?', '+n.split(' ')[0]:''}! Welcome to ALC Homes Self Check In. I'm your virtual assistant. Feel free to ask me anything about your check in or your stay at our hostal. How can I help you?`,
     pinUpdate: '✅ Registration received! Your access code is now visible above.',
     preTitle:       'Complete the traveller registration',
-    preDesc:        (d) => `Your check-in is scheduled for ${d}. Please complete the registration before that day to access your room. Once you've completed the traveller registration, come back to this page to get the entry codes for the building and your room, as well as your room name.`,
+    preDesc:        (d) => `Your check-in is scheduled for ${d}. Please complete the registration before that day to access your room.<span class="ic-highlight">Once you've completed the traveller registration, come back to this page to get the entry codes for the building and your room, as well as your room name.</span>`,
     pendingTitle:   '✅ Registration complete',
     pendingDesc:    (d, isToday) => isToday
       ? `Thank you for completing your check-in registration at ALC Homes Self Check In. Please check this page from 15:00 today to receive your entry codes.`
       : `Thank you for completing your check-in registration at ALC Homes Self Check In. Please check this page from ${d} at 15:00 local time to receive your entry codes.`,
     checkinPendingTitle: 'Complete registration now',
-    checkinPendingDesc:  'Access is available from 15:00. Complete the traveller registration to receive your door code. Once you\'ve completed the traveller registration, come back to this page to get the entry codes for the building and your room, as well as your room name.',
+    checkinPendingDesc:  'Access is available from 15:00. Complete the traveller registration to receive your door code.<span class="ic-highlight">Once you\'ve completed the traveller registration, come back to this page to get the entry codes for the building and your room, as well as your room name.</span>',
     expiredTitle:   'Stay completed',
     expiredDesc:    'Thank you for staying at ALC Homes! We hope to see you again soon.',
     welcomeCard: (n, r, p) => {
@@ -869,18 +876,18 @@ const I18N = {
     sendBtn:  'Envoyer',
     placeholder: 'Posez votre question…',
     errChat:  'Désolé, je n\'ai pas pu traiter votre question. Réessayez ou appelez le +34 622 38 35 87.',
-    footerContact: 'Pour toute question, l\'assistant virtuel est à votre disposition en posant votre question dans la conversation sur cette même page, et le téléphone ou WhatsApp <a href="tel:+34622383587">+34 622 38 35 87</a> sont disponibles 24h/24. Veuillez consulter l\'assistant virtuel avant d\'appeler ou d\'envoyer un WhatsApp.',
+    footerContact: 'Pour toute question, l\'assistant virtuel est à votre disposition en posant votre question dans la conversation sur cette même page, et le téléphone ou WhatsApp <a href="tel:+34622383587">+34 622 38 35 87</a> sont disponibles 24h/24. <strong>Veuillez consulter l\'assistant virtuel avant d\'appeler ou d\'envoyer un WhatsApp.</strong>',
     chips: ['Comment ouvrir la porte ?', 'WiFi', 'Heure de check-out', 'Comment venir', 'Règlement'],
     welcome: (n,r,p) => `Bonjour${n?', '+n.split(' ')[0]:''}! Bienvenue à ALC Homes Self Check In. Je suis votre assistant virtuel. N'hésitez pas à me poser toutes vos questions sur le check in ou votre séjour. Comment puis-je vous aider ?`,
     pinUpdate: '✅ Enregistrement reçu ! Votre code d\'accès est maintenant visible ci-dessus.',
     preTitle:       'Complétez l\'enregistrement voyageur',
-    preDesc:        (d) => `Votre arrivée est prévue le ${d}. Veuillez compléter l'enregistrement avant ce jour pour accéder à votre chambre. Une fois l'enregistrement voyageur complété, revenez sur cette page pour obtenir les codes d'accès à l'établissement et à votre chambre, ainsi que le nom de votre chambre.`,
+    preDesc:        (d) => `Votre arrivée est prévue le ${d}. Veuillez compléter l'enregistrement avant ce jour pour accéder à votre chambre.<span class="ic-highlight">Une fois l'enregistrement voyageur complété, revenez sur cette page pour obtenir les codes d'accès à l'établissement et à votre chambre, ainsi que le nom de votre chambre.</span>`,
     pendingTitle:   '✅ Enregistrement complété',
     pendingDesc:    (d, isToday) => isToday
       ? `Merci d'avoir complété votre enregistrement à ALC Homes Self Check In. Consultez cette page à partir de 15h00 aujourd'hui pour obtenir vos codes d'accès.`
       : `Merci d'avoir complété votre enregistrement à ALC Homes Self Check In. Consultez cette page à partir du ${d} à 15h00 heure locale pour obtenir vos codes d'accès.`,
     checkinPendingTitle: 'Complétez l\'enregistrement maintenant',
-    checkinPendingDesc:  'L\'accès est disponible à partir de 15h00. Complétez l\'enregistrement pour recevoir votre code de porte. Une fois l\'enregistrement voyageur complété, revenez sur cette page pour obtenir les codes d\'accès à l\'établissement et à votre chambre, ainsi que le nom de votre chambre.',
+    checkinPendingDesc:  'L\'accès est disponible à partir de 15h00. Complétez l\'enregistrement pour recevoir votre code de porte.<span class="ic-highlight">Une fois l\'enregistrement voyageur complété, revenez sur cette page pour obtenir les codes d\'accès à l\'établissement et à votre chambre, ainsi que le nom de votre chambre.</span>',
     expiredTitle:   'Séjour terminé',
     expiredDesc:    'Merci d\'avoir séjourné à ALC Homes ! Nous espérons vous revoir bientôt.',
     welcomeCard: (n, r, p) => {
@@ -920,18 +927,18 @@ const I18N = {
     sendBtn:  'Senden',
     placeholder: 'Deine Frage…',
     errChat:  'Tut mir leid, Fehler. Erneut versuchen oder anrufen: +34 622 38 35 87.',
-    footerContact: 'Bei Fragen steht dir der virtuelle Assistent zur Verfügung, indem du deine Frage in der Konversation auf dieser Seite stellst, sowie das Telefon oder WhatsApp <a href="tel:+34622383587">+34 622 38 35 87</a> rund um die Uhr. Bitte konsultiere den virtuellen Assistenten, bevor du anrufst oder eine WhatsApp sendest.',
+    footerContact: 'Bei Fragen steht dir der virtuelle Assistent zur Verfügung, indem du deine Frage in der Konversation auf dieser Seite stellst, sowie das Telefon oder WhatsApp <a href="tel:+34622383587">+34 622 38 35 87</a> rund um die Uhr. <strong>Bitte konsultiere den virtuellen Assistenten, bevor du anrufst oder eine WhatsApp sendest.</strong>',
     chips: ['Wie öffne ich die Tür?', 'WLAN', 'Check-out-Zeit', 'Anreise', 'Hausordnung'],
     welcome: (n,r,p) => `Hallo${n?', '+n.split(' ')[0]:''}! Willkommen bei ALC Homes Self Check In. Ich bin dein virtueller Assistent. Du kannst mich alles rund um den Check In oder deinen Aufenthalt fragen. Wie kann ich dir helfen?`,
     pinUpdate: '✅ Meldung erhalten! Dein Zugangscode ist jetzt oben sichtbar.',
     preTitle:       'Reisemeldung ausfüllen',
-    preDesc:        (d) => `Deine Ankunft ist für den ${d} geplant. Bitte fülle die Meldung vor diesem Tag aus, um Zugang zu deinem Zimmer zu erhalten. Sobald du die Reisemeldung abgeschlossen hast, komm zurück auf diese Seite, um die Zugangscodes für das Gebäude und dein Zimmer sowie den Namen deines Zimmers zu erhalten.`,
+    preDesc:        (d) => `Deine Ankunft ist für den ${d} geplant. Bitte fülle die Meldung vor diesem Tag aus, um Zugang zu deinem Zimmer zu erhalten.<span class="ic-highlight">Sobald du die Reisemeldung abgeschlossen hast, komm zurück auf diese Seite, um die Zugangscodes für das Gebäude und dein Zimmer sowie den Namen deines Zimmers zu erhalten.</span>`,
     pendingTitle:   '✅ Registrierung abgeschlossen',
     pendingDesc:    (d, isToday) => isToday
       ? `Danke für das Ausfüllen deiner Eincheck-Meldung bei ALC Homes Self Check In. Bitte schaue ab 15:00 Uhr heute auf dieser Seite nach, um deine Zugangscodes zu erhalten.`
       : `Danke für das Ausfüllen deiner Eincheck-Meldung bei ALC Homes Self Check In. Bitte schaue ab dem ${d} um 15:00 Uhr (Ortszeit) auf dieser Seite nach, um deine Zugangscodes zu erhalten.`,
     checkinPendingTitle: 'Jetzt registrieren',
-    checkinPendingDesc:  'Der Zugang ist ab 15:00 Uhr verfügbar. Fülle die Reisemeldung aus, um deinen Türcode zu erhalten. Sobald du die Reisemeldung abgeschlossen hast, komm zurück auf diese Seite, um die Zugangscodes für das Gebäude und dein Zimmer sowie den Namen deines Zimmers zu erhalten.',
+    checkinPendingDesc:  'Der Zugang ist ab 15:00 Uhr verfügbar. Fülle die Reisemeldung aus, um deinen Türcode zu erhalten.<span class="ic-highlight">Sobald du die Reisemeldung abgeschlossen hast, komm zurück auf diese Seite, um die Zugangscodes für das Gebäude und dein Zimmer sowie den Namen deines Zimmers zu erhalten.</span>',
     expiredTitle:   'Aufenthalt beendet',
     expiredDesc:    'Danke für deinen Aufenthalt bei ALC Homes! Wir freuen uns, dich bald wiederzusehen.',
     welcomeCard: (n, r, p) => {
@@ -971,18 +978,18 @@ const I18N = {
     sendBtn:  'Enviar',
     placeholder: 'Escriu la teua pregunta…',
     errChat:  'Ho sentim, error. Torna a intentar-ho o truca al +34 622 38 35 87.',
-    footerContact: 'Per a qualsevol dubte, tens l\'assistent virtual a la teua disposició fent la teua pregunta en la conversació en aquesta mateixa pàgina, i el telèfon o WhatsApp <a href="tel:+34622383587">+34 622 38 35 87</a> les 24h. Per favor, assegura\'t de consultar l\'assistent virtual abans de trucar o enviar WhatsApp.',
+    footerContact: 'Per a qualsevol dubte, tens l\'assistent virtual a la teua disposició fent la teua pregunta en la conversació en aquesta mateixa pàgina, i el telèfon o WhatsApp <a href="tel:+34622383587">+34 622 38 35 87</a> les 24h. <strong>Per favor, assegura\'t de consultar l\'assistent virtual abans de trucar o enviar WhatsApp.</strong>',
     chips: ['Com obric la porta?', 'WiFi', 'Hora check-out', 'Com arribar', 'Normes'],
     welcome: (n,r,p) => `Hola${n?', '+n.split(' ')[0]:''}! Benvingut a ALC Homes Self Check In. Sóc el teu assistent virtual. Pots preguntar-me qualsevol cosa sobre el check in o la teua estada al nostre hostal. En què puc ajudar-te?`,
     pinUpdate: '✅ Registre rebut! El teu codi d\'accés ja és visible dalt.',
     preTitle:       'Completa el registre de viatgers',
-    preDesc:        (d) => `La teua arribada està prevista per al ${d}. Completa el full de viatger abans d'eixe dia per accedir a l'habitació. Una vegada hages completat el registre de viatgers, torna a aquesta pàgina per obtindre informació sobre els codis d'entrada a l'establiment i a la teua habitació, així com el nom de la teua habitació.`,
+    preDesc:        (d) => `La teua arribada està prevista per al ${d}. Completa el full de viatger abans d'eixe dia per accedir a l'habitació.<span class="ic-highlight">Una vegada hages completat el registre de viatgers, torna a aquesta pàgina per obtindre informació sobre els codis d'entrada a l'establiment i a la teua habitació, així com el nom de la teua habitació.</span>`,
     pendingTitle:   '✅ Registre completat',
     pendingDesc:    (d, isToday) => isToday
       ? `Gràcies per completar el teu registre d'entrada a ALC Homes Self Check In. Consulta aquesta web a partir de les 15:00 h d'avui per disposar dels codis d'accés.`
       : `Gràcies per completar el teu registre d'entrada a ALC Homes Self Check In. Consulta aquesta web a partir del dia ${d} a les 15:00 hora local, per disposar dels codis d'accés.`,
     checkinPendingTitle: 'Completa el registre ara',
-    checkinPendingDesc:  'L\'accés està disponible des de les 15:00. Completa el full de viatger per rebre el teu codi de porta. Una vegada hages completat el registre de viatgers, torna a aquesta pàgina per obtindre informació sobre els codis d\'entrada a l\'establiment i a la teua habitació, així com el nom de la teua habitació.',
+    checkinPendingDesc:  'L\'accés està disponible des de les 15:00. Completa el full de viatger per rebre el teu codi de porta.<span class="ic-highlight">Una vegada hages completat el registre de viatgers, torna a aquesta pàgina per obtindre informació sobre els codis d\'entrada a l\'establiment i a la teua habitació, així com el nom de la teua habitació.</span>',
     expiredTitle:   'Estada finalitzada',
     expiredDesc:    'Gràcies per allotjar-te a ALC Homes! Esperem veure\'t prompte.',
     welcomeCard: (n, r, p) => {
@@ -1164,6 +1171,7 @@ function renderInfoPanel() {
             ${T.rpvBtn}
           </a>
         </div>`;
+      startPoll();
       break;
 
     case 'pending_early':
@@ -1200,27 +1208,45 @@ function renderInfoPanel() {
 }
 
 // ── AUTO-POLL (parte pendiente → detectar envío) ──────────────────────────
+async function checkBookingStatus() {
+  if (!bookRef || !booking) return;
+  try {
+    const res  = await fetch(`${BACKEND}/check-in?ref=${encodeURIComponent(bookRef)}`);
+    const data = await res.json();
+    if (!data.ok) return;
+
+    const estadoAnterior = booking.estado;
+    if (data.estado === estadoAnterior) return; // sin cambios, no hacer nada
+
+    booking = data;
+
+    if (booking.room_name) {
+      $('ci-room').style.display = '';
+      $('ci-room-name').textContent = booking.room_name;
+    }
+    renderInfoPanel();
+    logEvent('state_changed', booking.estado);
+
+    // Solo avisamos por chat cuando el código de acceso ya está disponible
+    if (booking.estado === 'staying') {
+      addChatMsg(I18N[lang].pinUpdate, 'bot');
+    }
+  } catch (_) { /* silent */ }
+}
+
 function startPoll() {
   if (pollTimer) return;
-  pollTimer = setInterval(async () => {
-    try {
-      const res  = await fetch(`${BACKEND}/check-in?ref=${encodeURIComponent(bookRef)}`);
-      const data = await res.json();
-      if (data.ok && data.parte_submitted) {
-        booking = data;
-        // Mostrar habitación en el header ahora que el parte está enviado
-        $('ci-room').style.display = '';
-        $('ci-room-name').textContent = booking.room_name;
-        renderInfoPanel();
-        addChatMsg(I18N[lang].pinUpdate, 'bot');
-        logEvent('state_changed', booking.estado);
-      }
-    } catch (_) { /* silent */ }
-  }, 45_000);
+  pollTimer = setInterval(checkBookingStatus, 45_000);
 }
 function stopPoll() {
   if (pollTimer) { clearInterval(pollTimer); pollTimer = null; }
 }
+
+// Comprobar el estado al instante cuando el huésped vuelve a esta pestaña
+// (p. ej. tras completar el parte de viajeros en otra pestaña/app)
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible') checkBookingStatus();
+});
 
 // ── CHAT ──────────────────────────────────────────────────────────────────
 function buildSystemPrompt() {
