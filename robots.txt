@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://alc-homes-checkin.web.app/sitemap.xml
