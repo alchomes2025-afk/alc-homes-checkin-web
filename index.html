@@ -853,12 +853,13 @@ const I18N = {
   es: {
     bkSub:    'Self Check-In',
     bkTitle:  'Introduce tu número de reserva',
-    bkDesc:   'Es el número de tu confirmación de Booking.com, o el que te hayamos enviado por correo si reservaste por otra vía.',
+    bkDesc:   'Es el número de tu confirmación de Booking.com, o el que te hayamos enviado por correo si reservaste por otra vía. Si no lo encuentras, prueba a escribir tu nombre completo.',
     bkPlaceholder: 'Ej: 4567890123',
     bkBtn:    'Buscar mi reserva',
     bkSearching: 'Buscando…',
     bkHint:   'Si no encuentras tu número, contacta con recepción: +34 622 38 35 87',
     errNotFound: 'Número de reserva no encontrado. Comprueba que esté bien escrito, o usa el que te enviamos por correo.',
+    errAmbiguous: 'Hemos encontrado varias reservas con ese nombre. Escribe tu nombre y apellidos completos, o contacta con nosotros: +34 622 38 35 87',
     errNet:   'Error de conexión. Render puede tardar ~30 seg si estaba en reposo. Inténtalo de nuevo.',
     roomLabel:'Habitación',
     sepLabel: 'Asistente virtual',
@@ -920,12 +921,13 @@ const I18N = {
   en: {
     bkSub:    'Self Check-In',
     bkTitle:  'Enter your reservation number',
-    bkDesc:   'This is the number from your Booking.com confirmation, or the one we sent you by email if you booked another way.',
+    bkDesc:   'This is the number from your Booking.com confirmation, or the one we sent you by email if you booked another way. If you can\'t find it, try typing your full name instead.',
     bkPlaceholder: 'e.g. 4567890123',
     bkBtn:    'Find my booking',
     bkSearching: 'Searching…',
     bkHint:   'Can\'t find your number? Contact reception: +34 622 38 35 87',
     errNotFound: 'Booking not found. Double-check the number, or use the one we emailed you.',
+    errAmbiguous: 'We found several bookings with that name. Please type your full first and last name, or contact us: +34 622 38 35 87',
     errNet:   'Connection error. The server may take ~30 s to wake up. Please try again.',
     roomLabel:'Room',
     sepLabel: 'Virtual assistant',
@@ -987,12 +989,13 @@ const I18N = {
   fr: {
     bkSub:    'Self Check-In',
     bkTitle:  'Entrez votre numéro de réservation',
-    bkDesc:   'C\'est le numéro de votre confirmation Booking.com, ou celui que nous vous avons envoyé par e-mail si vous avez réservé autrement.',
+    bkDesc:   'C\'est le numéro de votre confirmation Booking.com, ou celui que nous vous avons envoyé par e-mail si vous avez réservé autrement. Si vous ne le trouvez pas, essayez d\'écrire votre nom complet.',
     bkPlaceholder: 'ex: 4567890123',
     bkBtn:    'Trouver ma réservation',
     bkSearching: 'Recherche…',
     bkHint:   'Numéro introuvable ? Contactez la réception : +34 622 38 35 87',
     errNotFound: 'Réservation introuvable. Vérifiez le numéro, ou utilisez celui que nous vous avons envoyé par e-mail.',
+    errAmbiguous: 'Nous avons trouvé plusieurs réservations avec ce nom. Merci d\'écrire votre nom et prénom complets, ou contactez-nous : +34 622 38 35 87',
     errNet:   'Erreur de connexion. Le serveur peut prendre ~30 s à démarrer. Réessayez.',
     roomLabel:'Chambre',
     sepLabel: 'Assistant virtuel',
@@ -1054,12 +1057,13 @@ const I18N = {
   de: {
     bkSub:    'Self Check-In',
     bkTitle:  'Reservierungsnummer eingeben',
-    bkDesc:   'Das ist die Nummer aus deiner Booking.com-Bestätigung, oder die, die wir dir per E-Mail geschickt haben, falls du anders gebucht hast.',
+    bkDesc:   'Das ist die Nummer aus deiner Booking.com-Bestätigung, oder die, die wir dir per E-Mail geschickt haben, falls du anders gebucht hast. Falls du sie nicht findest, versuch es mit deinem vollständigen Namen.',
     bkPlaceholder: 'z.B. 4567890123',
     bkBtn:    'Buchung suchen',
     bkSearching: 'Suche…',
     bkHint:   'Nummer nicht gefunden? Rezeption: +34 622 38 35 87',
     errNotFound: 'Buchung nicht gefunden. Bitte überprüfe die Nummer, oder nutze die, die wir dir per E-Mail geschickt haben.',
+    errAmbiguous: 'Wir haben mehrere Buchungen mit diesem Namen gefunden. Bitte gib deinen vollständigen Vor- und Nachnamen ein, oder kontaktiere uns: +34 622 38 35 87',
     errNet:   'Verbindungsfehler. Der Server braucht evtl. ~30 s. Erneut versuchen.',
     roomLabel:'Zimmer',
     sepLabel: 'Virtueller Assistent',
@@ -1121,12 +1125,13 @@ const I18N = {
   val: {
     bkSub:    'Self Check-In',
     bkTitle:  'Introdueix el teu número de reserva',
-    bkDesc:   'És el número de la teua confirmació de Booking.com, o el que t\'hàgim enviat per correu si has reservat per una altra via.',
+    bkDesc:   'És el número de la teua confirmació de Booking.com, o el que t\'hàgim enviat per correu si has reservat per una altra via. Si no el trobes, prova a escriure el teu nom complet.',
     bkPlaceholder: 'Ex: 4567890123',
     bkBtn:    'Buscar la meua reserva',
     bkSearching: 'Cercant…',
     bkHint:   'No trobes el número? Contacta amb recepció: +34 622 38 35 87',
     errNotFound: 'Reserva no trobada. Comprova el número, o utilitza el que t\'hem enviat per correu.',
+    errAmbiguous: 'Hem trobat diverses reserves amb eixe nom. Escriu el teu nom i cognoms complets, o contacta amb nosaltres: +34 622 38 35 87',
     errNet:   'Error de connexió. El servidor pot tardar ~30 s. Torna a intentar-ho.',
     roomLabel:'Habitació',
     sepLabel: 'Assistent virtual',
@@ -1272,7 +1277,7 @@ async function lookupBooking() {
     $('bk-btn').innerHTML = `<span id="bk-btn-label">${t('bkBtn')}</span>`;
 
     if (!data.ok) {
-      $('bk-error').textContent = t('errNotFound');
+      $('bk-error').textContent = data.error === 'nombre_ambiguo' ? t('errAmbiguous') : t('errNotFound');
       return;
     }
 
