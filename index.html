@@ -879,7 +879,7 @@ const I18N = {
     welcome: (n,r,p,roomId) => `¡Hola${n?', '+n.split(' ')[0]:''}! Bienvenido a ${roomId === '720841' ? 'La Casa de la Primavera' : 'ALC Homes Self Check In'}. Soy tu asistente virtual. Puedes preguntarme cualquier cosa acerca del check in o tu estancia. ¿En qué puedo ayudarte?`,
     pinUpdate: '✅ ¡Hemos recibido tu registro! Tu código de acceso ya está visible arriba.',
     preTitle:       'Completa el registro de viajeros',
-    preDesc:        (d, roomId) => `Tu llegada está prevista para el ${d}. Completa el parte de viajeros antes de ese día para acceder a tu habitación.<span class="ic-highlight">${roomId === '720841' ? 'Una vez hayas completado el registro de viajeros, vuelve a esta página para obtener el código del cajetín con las llaves de la casa.' : 'Una vez hayas completado el registro de viajeros, vuelve a esta página para obtener información acerca de los códigos de entrada al establecimiento y a tu habitación, así como el nombre de tu habitación.'}</span>`,
+    preDesc:        (d, roomId) => `Tu llegada está prevista para el ${d}. Completa el parte de viajeros antes de ese día para acceder.<span class="ic-highlight">${roomId === '720841' ? 'Una vez hayas completado el registro de viajeros, vuelve a esta página para obtener el código del cajetín con las llaves de la casa.' : 'Una vez hayas completado el registro de viajeros, vuelve a esta página para obtener información acerca de los códigos de entrada al establecimiento y a tu habitación, así como el nombre de tu habitación.'}</span>`,
     pendingTitle:   '✅ Registro completado',
     pendingDesc:    (d, isToday, roomId) => {
       const primavera = roomId === '720841';
@@ -955,7 +955,7 @@ const I18N = {
     welcome: (n,r,p,roomId) => `Hello${n?', '+n.split(' ')[0]:''}! Welcome to ${roomId === '720841' ? 'La Casa de la Primavera' : 'ALC Homes Self Check In'}. I'm your virtual assistant. Feel free to ask me anything about your check in or your stay. How can I help you?`,
     pinUpdate: '✅ Registration received! Your access code is now visible above.',
     preTitle:       'Complete the traveller registration',
-    preDesc:        (d, roomId) => `Your check-in is scheduled for ${d}. Please complete the registration before that day to access your room.<span class="ic-highlight">${roomId === '720841' ? 'Once you\'ve completed the traveller registration, come back to this page to get the code for the key box that holds the house keys.' : 'Once you\'ve completed the traveller registration, come back to this page to get the entry codes for the building and your room, as well as your room name.'}</span>`,
+    preDesc:        (d, roomId) => `Your check-in is scheduled for ${d}. Please complete the registration before that day to access it.<span class="ic-highlight">${roomId === '720841' ? 'Once you\'ve completed the traveller registration, come back to this page to get the code for the key box that holds the house keys.' : 'Once you\'ve completed the traveller registration, come back to this page to get the entry codes for the building and your room, as well as your room name.'}</span>`,
     pendingTitle:   '✅ Registration complete',
     pendingDesc:    (d, isToday, roomId) => {
       const primavera = roomId === '720841';
@@ -1031,7 +1031,7 @@ const I18N = {
     welcome: (n,r,p,roomId) => `Bonjour${n?', '+n.split(' ')[0]:''}! Bienvenue à ${roomId === '720841' ? 'La Casa de la Primavera' : 'ALC Homes Self Check In'}. Je suis votre assistant virtuel. N'hésitez pas à me poser toutes vos questions sur le check in ou votre séjour. Comment puis-je vous aider ?`,
     pinUpdate: '✅ Enregistrement reçu ! Votre code d\'accès est maintenant visible ci-dessus.',
     preTitle:       'Complétez l\'enregistrement voyageur',
-    preDesc:        (d, roomId) => `Votre arrivée est prévue le ${d}. Veuillez compléter l'enregistrement avant ce jour pour accéder à votre chambre.<span class="ic-highlight">${roomId === '720841' ? 'Une fois l\'enregistrement voyageur complété, revenez sur cette page pour obtenir le code du coffre à clés contenant les clés de la maison.' : 'Une fois l\'enregistrement voyageur complété, revenez sur cette page pour obtenir les codes d\'accès à l\'établissement et à votre chambre, ainsi que le nom de votre chambre.'}</span>`,
+    preDesc:        (d, roomId) => `Votre arrivée est prévue le ${d}. Veuillez compléter l'enregistrement avant ce jour pour y accéder.<span class="ic-highlight">${roomId === '720841' ? 'Une fois l\'enregistrement voyageur complété, revenez sur cette page pour obtenir le code du coffre à clés contenant les clés de la maison.' : 'Une fois l\'enregistrement voyageur complété, revenez sur cette page pour obtenir les codes d\'accès à l\'établissement et à votre chambre, ainsi que le nom de votre chambre.'}</span>`,
     pendingTitle:   '✅ Enregistrement complété',
     pendingDesc:    (d, isToday, roomId) => {
       const primavera = roomId === '720841';
@@ -1107,7 +1107,7 @@ const I18N = {
     welcome: (n,r,p,roomId) => `Hallo${n?', '+n.split(' ')[0]:''}! Willkommen bei ${roomId === '720841' ? 'La Casa de la Primavera' : 'ALC Homes Self Check In'}. Ich bin dein virtueller Assistent. Du kannst mich alles rund um den Check In oder deinen Aufenthalt fragen. Wie kann ich dir helfen?`,
     pinUpdate: '✅ Meldung erhalten! Dein Zugangscode ist jetzt oben sichtbar.',
     preTitle:       'Reisemeldung ausfüllen',
-    preDesc:        (d, roomId) => `Deine Ankunft ist für den ${d} geplant. Bitte fülle die Meldung vor diesem Tag aus, um Zugang zu deinem Zimmer zu erhalten.<span class="ic-highlight">${roomId === '720841' ? 'Sobald du die Reisemeldung abgeschlossen hast, komm zurück auf diese Seite, um den Code des Schlüsselkastens mit den Haustürschlüsseln zu erhalten.' : 'Sobald du die Reisemeldung abgeschlossen hast, komm zurück auf diese Seite, um die Zugangscodes für das Gebäude und dein Zimmer sowie den Namen deines Zimmers zu erhalten.'}</span>`,
+    preDesc:        (d, roomId) => `Deine Ankunft ist für den ${d} geplant. Bitte fülle die Meldung vor diesem Tag aus, um Zugang zu erhalten.<span class="ic-highlight">${roomId === '720841' ? 'Sobald du die Reisemeldung abgeschlossen hast, komm zurück auf diese Seite, um den Code des Schlüsselkastens mit den Haustürschlüsseln zu erhalten.' : 'Sobald du die Reisemeldung abgeschlossen hast, komm zurück auf diese Seite, um die Zugangscodes für das Gebäude und dein Zimmer sowie den Namen deines Zimmers zu erhalten.'}</span>`,
     pendingTitle:   '✅ Registrierung abgeschlossen',
     pendingDesc:    (d, isToday, roomId) => {
       const primavera = roomId === '720841';
@@ -1183,7 +1183,7 @@ const I18N = {
     welcome: (n,r,p,roomId) => `Hola${n?', '+n.split(' ')[0]:''}! Benvingut a ${roomId === '720841' ? 'La Casa de la Primavera' : 'ALC Homes Self Check In'}. Sóc el teu assistent virtual. Pots preguntar-me qualsevol cosa sobre el check in o la teua estada. En què puc ajudar-te?`,
     pinUpdate: '✅ Registre rebut! El teu codi d\'accés ja és visible dalt.',
     preTitle:       'Completa el registre de viatgers',
-    preDesc:        (d, roomId) => `La teua arribada està prevista per al ${d}. Completa el full de viatger abans d'eixe dia per accedir a l'habitació.<span class="ic-highlight">${roomId === '720841' ? 'Una vegada hages completat el registre de viatgers, torna a aquesta pàgina per obtindre el codi del caixetí amb les claus de la casa.' : 'Una vegada hages completat el registre de viatgers, torna a aquesta pàgina per obtindre informació sobre els codis d\'entrada a l\'establiment i a la teua habitació, així com el nom de la teua habitació.'}</span>`,
+    preDesc:        (d, roomId) => `La teua arribada està prevista per al ${d}. Completa el full de viatger abans d'eixe dia per accedir-hi.<span class="ic-highlight">${roomId === '720841' ? 'Una vegada hages completat el registre de viatgers, torna a aquesta pàgina per obtindre el codi del caixetí amb les claus de la casa.' : 'Una vegada hages completat el registre de viatgers, torna a aquesta pàgina per obtindre informació sobre els codis d\'entrada a l\'establiment i a la teua habitació, així com el nom de la teua habitació.'}</span>`,
     pendingTitle:   '✅ Registre completat',
     pendingDesc:    (d, isToday, roomId) => {
       const primavera = roomId === '720841';
