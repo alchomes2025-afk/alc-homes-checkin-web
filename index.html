@@ -394,6 +394,59 @@ html, body {
   padding: 6px 10px;
   font-size: .78rem;
 }
+.welcome-discount-btn {
+  width: 100%;
+  margin-top: 10px;
+  padding: 11px 14px;
+  background: var(--geranio);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: .82rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: filter .15s;
+  -webkit-tap-highlight-color: transparent;
+}
+.welcome-discount-btn:hover, .welcome-discount-btn:active { filter: brightness(1.08); }
+#discountModal {
+  border: none;
+  border-radius: var(--radius);
+  padding: 22px;
+  max-width: 320px;
+  width: 88vw;
+  color: var(--ink);
+  font-size: .88rem;
+  line-height: 1.6;
+}
+#discountModal::backdrop {
+  background: rgba(43,58,66,.55);
+}
+#discountModal .dm-title {
+  font-family: 'Georgia', serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #8B4520;
+  margin-bottom: 10px;
+}
+#discountModal a {
+  color: var(--azulejo-dk);
+  font-weight: 700;
+}
+#discountModal button {
+  width: 100%;
+  margin-top: 16px;
+  padding: 10px;
+  background: var(--sand);
+  color: var(--ink);
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: .85rem;
+  font-weight: 700;
+  cursor: pointer;
+}
 
 /* Info cards */
 .info-card {
@@ -700,6 +753,13 @@ form#composerForm {
 
 </div>
 
+<!-- Modal: descuento 10% Casa Primavera (contenido se rellena por JS según idioma) -->
+<dialog id="discountModal">
+  <div class="dm-title" id="dm-title"></div>
+  <div id="dm-body"></div>
+  <button type="button" onclick="$('discountModal').close()" id="dm-close"></button>
+</dialog>
+
 <!-- ══════════════════════════════════════════════════════════════════════ -->
 <script>
 'use strict';
@@ -915,7 +975,8 @@ const I18N = {
           </div><br>
           ${p ? `El cajetín de llaves está en la puerta exterior del bungalow, a la izquierda. Tire de la pestaña superior para abrir la tapa e introduzca el código: <span class="welcome-pin-inline">${p}</span><br>` : `<span class="welcome-pin-note">Código no disponible. Contacte con nosotros.</span>`}
           La vivienda se cierra con llave normal (tanto la puerta del jardín como la de la casa). Al salir, cierre ambas con llave. Al finalizar su estancia, deje las llaves dentro del cajetín.<br>
-          <div class="welcome-wifi">📶 WiFi: <strong>MIWIFI_tThy</strong> · Contraseña: <strong>1234carabasi</strong></div><br>
+          <div class="welcome-wifi">📶 WiFi: <strong>MIWIFI_tThy</strong> · Contraseña: <strong>1234carabasi</strong></div>
+          <button type="button" class="welcome-discount-btn" onclick="showDiscountModal()">🎁 10% de descuento en tu próxima estancia</button><br>
           ${contact}<br><br>
           <em>Alc Homes le desea una agradable estancia.</em>
         </div>`;
@@ -998,7 +1059,8 @@ const I18N = {
           </div><br>
           ${p ? `The key box is on the bungalow's exterior door, on the left. Pull the tab at the top to open the lid and enter the code: <span class="welcome-pin-inline">${p}</span><br>` : `<span class="welcome-pin-note">Code not available. Please contact us.</span>`}
           The house locks with a normal key (both the garden door and the house door). Please lock both when you leave. At check-out, leave the keys inside the key box.<br>
-          <div class="welcome-wifi">📶 WiFi: <strong>MIWIFI_tThy</strong> · Password: <strong>1234carabasi</strong></div><br>
+          <div class="welcome-wifi">📶 WiFi: <strong>MIWIFI_tThy</strong> · Password: <strong>1234carabasi</strong></div>
+          <button type="button" class="welcome-discount-btn" onclick="showDiscountModal()">🎁 10% off your next stay</button><br>
           ${contact}<br><br>
           <em>Alc Homes wishes you a pleasant stay.</em>
         </div>`;
@@ -1081,7 +1143,8 @@ const I18N = {
           </div><br>
           ${p ? `La boîte à clés se trouve sur la porte extérieure du bungalow, à gauche. Tirez sur la languette du haut pour ouvrir le couvercle et entrez le code : <span class="welcome-pin-inline">${p}</span><br>` : `<span class="welcome-pin-note">Code non disponible. Veuillez nous contacter.</span>`}
           Le logement se ferme avec une clé classique (la porte du jardin et celle de la maison). Merci de fermer les deux à clé en sortant. Au départ, laissez les clés dans la boîte à clés.<br>
-          <div class="welcome-wifi">📶 WiFi : <strong>MIWIFI_tThy</strong> · Mot de passe : <strong>1234carabasi</strong></div><br>
+          <div class="welcome-wifi">📶 WiFi : <strong>MIWIFI_tThy</strong> · Mot de passe : <strong>1234carabasi</strong></div>
+          <button type="button" class="welcome-discount-btn" onclick="showDiscountModal()">🎁 10% de réduction sur votre prochain séjour</button><br>
           ${contact}<br><br>
           <em>Alc Homes vous souhaite un agréable séjour.</em>
         </div>`;
@@ -1164,7 +1227,8 @@ const I18N = {
           </div><br>
           ${p ? `Der Schlüsselkasten befindet sich an der Außentür des Bungalows, links. Ziehe an der Lasche oben, um den Deckel zu öffnen, und gib den Code ein: <span class="welcome-pin-inline">${p}</span><br>` : `<span class="welcome-pin-note">Code nicht verfügbar. Bitte kontaktiere uns.</span>`}
           Das Haus wird mit einem normalen Schlüssel verschlossen (Gartentür und Haustür). Bitte schließe beim Verlassen beide ab. Beim Check-out lege die Schlüssel bitte zurück in den Schlüsselkasten.<br>
-          <div class="welcome-wifi">📶 WLAN: <strong>MIWIFI_tThy</strong> · Passwort: <strong>1234carabasi</strong></div><br>
+          <div class="welcome-wifi">📶 WLAN: <strong>MIWIFI_tThy</strong> · Passwort: <strong>1234carabasi</strong></div>
+          <button type="button" class="welcome-discount-btn" onclick="showDiscountModal()">🎁 10% Rabatt auf deinen nächsten Aufenthalt</button><br>
           ${contact}<br><br>
           <em>Alc Homes wünscht dir einen angenehmen Aufenthalt.</em>
         </div>`;
@@ -1247,7 +1311,8 @@ const I18N = {
           </div><br>
           ${p ? `La caixa de claus està a la porta exterior del bungalow, a l'esquerra. Estira de la pestanya de dalt per obrir la tapa i introdueix el codi: <span class="welcome-pin-inline">${p}</span><br>` : `<span class="welcome-pin-note">Codi no disponible. Contacta amb nosaltres.</span>`}
           L'habitatge es tanca amb clau normal (tant la porta del jardí com la de la casa). En eixir, tanca les dues amb clau. En finalitzar l'estada, deixa les claus dins de la caixa.<br>
-          <div class="welcome-wifi">📶 WiFi: <strong>MIWIFI_tThy</strong> · Contrasenya: <strong>1234carabasi</strong></div><br>
+          <div class="welcome-wifi">📶 WiFi: <strong>MIWIFI_tThy</strong> · Contrasenya: <strong>1234carabasi</strong></div>
+          <button type="button" class="welcome-discount-btn" onclick="showDiscountModal()">🎁 10% de descompte en la teua pròxima estada</button><br>
           ${contact}<br><br>
           <em>Alc Homes et desitja una agradable estada.</em>
         </div>`;
@@ -1268,6 +1333,47 @@ const I18N = {
     },
   },
 };
+
+// ── Modal descuento 10% (solo La Casa de la Primavera) ─────────────────────
+const DISCOUNT_I18N = {
+  es: {
+    btn:   '🎁 10% de descuento en tu próxima estancia',
+    title: 'Bienvenido a la familia "La Casa de la Primavera"',
+    body:  'Obtenga un 10% de descuento respecto al precio habitual, haciendo su reserva a través de un correo electrónico a <a href="mailto:alchomes2025@gmail.com?subject=Reserva%20VIP">alchomes2025@gmail.com</a>, con el asunto: <strong>Reserva VIP</strong>.',
+    close: 'Cerrar',
+  },
+  en: {
+    btn:   '🎁 10% off your next stay',
+    title: 'Welcome to the "La Casa de la Primavera" family',
+    body:  'Get 10% off the regular price by booking via email at <a href="mailto:alchomes2025@gmail.com?subject=Reserva%20VIP">alchomes2025@gmail.com</a>, with the subject: <strong>Reserva VIP</strong>.',
+    close: 'Close',
+  },
+  fr: {
+    btn:   '🎁 10% de réduction sur votre prochain séjour',
+    title: 'Bienvenue dans la famille « La Casa de la Primavera »',
+    body:  'Obtenez 10% de réduction sur le prix habituel en réservant par email à <a href="mailto:alchomes2025@gmail.com?subject=Reserva%20VIP">alchomes2025@gmail.com</a>, avec pour objet : <strong>Reserva VIP</strong>.',
+    close: 'Fermer',
+  },
+  de: {
+    btn:   '🎁 10% Rabatt auf deinen nächsten Aufenthalt',
+    title: 'Willkommen in der Familie „La Casa de la Primavera"',
+    body:  'Erhalte 10% Rabatt auf den regulären Preis, wenn du per E-Mail an <a href="mailto:alchomes2025@gmail.com?subject=Reserva%20VIP">alchomes2025@gmail.com</a> buchst, mit dem Betreff: <strong>Reserva VIP</strong>.',
+    close: 'Schließen',
+  },
+  val: {
+    btn:   '🎁 10% de descompte en la teua pròxima estada',
+    title: 'Benvingut a la família "La Casa de la Primavera"',
+    body:  'Obtín un 10% de descompte respecte al preu habitual, fent la teua reserva a través d\'un correu electrònic a <a href="mailto:alchomes2025@gmail.com?subject=Reserva%20VIP">alchomes2025@gmail.com</a>, amb l\'assumpte: <strong>Reserva VIP</strong>.',
+    close: 'Tancar',
+  },
+};
+function showDiscountModal() {
+  const d = DISCOUNT_I18N[lang] || DISCOUNT_I18N.es;
+  $('dm-title').textContent = d.title;
+  $('dm-body').innerHTML = d.body;
+  $('dm-close').textContent = d.close;
+  $('discountModal').showModal();
+}
 
 // ── STATE ─────────────────────────────────────────────────────────────────
 let lang     = 'es';
