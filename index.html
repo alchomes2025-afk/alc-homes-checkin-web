@@ -902,14 +902,21 @@ const I18N = {
         // La Casa de la Primavera — Gran Alacant. Cajín de llaves físico, no cerradura
         // electrónica (distinto del portal con código de 6 dígitos del hostal).
         return `<div class="welcome-card">
-          <div class="welcome-card-header">🏨 ${first ? first + ', b' : 'B'}ienvenido a La Casa de la Primavera</div>
-          Le encontrará en <strong>Avenida Carabassí, 1</strong>, Urbanización Costa Hispania, Gran Alacant (Santa Pola). La entrada a la urbanización es por la Calle Polonia.<br>
-          <strong>Código de acceso a la urbanización: 2308</strong><br><br>
-          Dentro de la urbanización, diríjase al <strong>Bungalow 11</strong> (en la fachada verá dos placas con números distintos, 384 y 11 — el correcto es el <strong>11</strong>, no se confunda).<br><br>
+          <div style="display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;">
+            <div style="flex:1;min-width:200px;">
+              <div class="welcome-card-header">🏨 ${first ? first + ', b' : 'B'}ienvenido a La Casa de la Primavera</div>
+              Le encontrará en <strong>Avenida Carabassí, 1</strong>, Urbanización Costa Hispania, Gran Alacant (Santa Pola). La entrada a la urbanización es por la Calle Polonia.<br>
+              <strong>Código de acceso a la urbanización: 2308</strong><br><br>
+              Dentro de la urbanización, diríjase al <strong>Bungalow 11</strong> (en la fachada verá dos placas con números distintos, 384 y 11 — el correcto es el <strong>11</strong>, no se confunda).
+            </div>
+            <div style="flex:0 0 220px;max-width:100%;">
+              <div style="font-weight:600;color:#8B4520;margin-bottom:6px;">Instrucciones para llegar a la Casa de la Primavera</div>
+              <video controls playsinline preload="metadata" style="width:100%;display:block;border-radius:8px;"><source src="videos/bienvenida-es.mp4" type="video/mp4"></video>
+            </div>
+          </div><br>
           Su alojamiento es <strong>${r}</strong>.<br>
           ${p ? `El cajetín de llaves está en la puerta exterior del bungalow, a la izquierda. Tire de la pestaña superior para abrir la tapa e introduzca el código: <span class="welcome-pin-inline">${p}</span><br>` : `<span class="welcome-pin-note">Código no disponible. Contacte con nosotros.</span>`}
           La vivienda se cierra con llave normal (tanto la puerta del jardín como la de la casa). Al salir, cierre ambas con llave. Al finalizar su estancia, deje las llaves dentro del cajetín.<br>
-          <video controls playsinline preload="metadata" style="width:100%;max-width:320px;display:block;margin:10px auto;border-radius:8px;"><source src="videos/bienvenida-es.mp4" type="video/mp4"></video>
           <div class="welcome-wifi">📶 WiFi: <strong>MIWIFI_tThy</strong> · Contraseña: <strong>1234carabasi</strong></div><br>
           ${contact}<br><br>
           <em>Alc Homes le desea una agradable estancia.</em>
@@ -980,14 +987,21 @@ const I18N = {
         // La Casa de la Primavera — Gran Alacant. Physical key box, no electronic
         // lock (different from the hostel's 6-digit portal code).
         return `<div class="welcome-card">
-          <div class="welcome-card-header">🏨 ${first ? first + ', w' : 'W'}elcome to La Casa de la Primavera</div>
-          You'll find us at <strong>Avenida Carabassí, 1</strong>, Urbanización Costa Hispania, Gran Alacant (Santa Pola). Enter the residential complex via Calle Polonia.<br>
-          <strong>Complex entry code: 2308</strong><br><br>
-          Inside the complex, head to <strong>Bungalow 11</strong> (the facade shows two plaques with different numbers, 384 and 11 — the correct one is <strong>11</strong>, don't get confused).<br><br>
+          <div style="display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;">
+            <div style="flex:1;min-width:200px;">
+              <div class="welcome-card-header">🏨 ${first ? first + ', w' : 'W'}elcome to La Casa de la Primavera</div>
+              You'll find us at <strong>Avenida Carabassí, 1</strong>, Urbanización Costa Hispania, Gran Alacant (Santa Pola). Enter the residential complex via Calle Polonia.<br>
+              <strong>Complex entry code: 2308</strong><br><br>
+              Inside the complex, head to <strong>Bungalow 11</strong> (the facade shows two plaques with different numbers, 384 and 11 — the correct one is <strong>11</strong>, don't get confused).
+            </div>
+            <div style="flex:0 0 220px;max-width:100%;">
+              <div style="font-weight:600;color:#8B4520;margin-bottom:6px;">Directions to La Casa de la Primavera</div>
+              <video controls playsinline preload="metadata" style="width:100%;display:block;border-radius:8px;"><source src="videos/welcome-en.mp4" type="video/mp4"></video>
+            </div>
+          </div><br>
           Your accommodation is <strong>${r}</strong>.<br>
           ${p ? `The key box is on the bungalow's exterior door, on the left. Pull the tab at the top to open the lid and enter the code: <span class="welcome-pin-inline">${p}</span><br>` : `<span class="welcome-pin-note">Code not available. Please contact us.</span>`}
           The house locks with a normal key (both the garden door and the house door). Please lock both when you leave. At check-out, leave the keys inside the key box.<br>
-          <video controls playsinline preload="metadata" style="width:100%;max-width:320px;display:block;margin:10px auto;border-radius:8px;"><source src="videos/welcome-en.mp4" type="video/mp4"></video>
           <div class="welcome-wifi">📶 WiFi: <strong>MIWIFI_tThy</strong> · Password: <strong>1234carabasi</strong></div><br>
           ${contact}<br><br>
           <em>Alc Homes wishes you a pleasant stay.</em>
@@ -1058,14 +1072,21 @@ const I18N = {
         // La Casa de la Primavera — Gran Alacant. Boîte à clés physique, pas de
         // serrure électronique (différent du code à 6 chiffres de l'hôtel).
         return `<div class="welcome-card">
-          <div class="welcome-card-header">🏨 ${first ? first + ', b' : 'B'}ienvenue à La Casa de la Primavera</div>
-          Vous nous trouverez au <strong>Avenida Carabassí, 1</strong>, Urbanización Costa Hispania, Gran Alacant (Santa Pola). L'entrée de la résidence se fait par la Calle Polonia.<br>
-          <strong>Code d'accès à la résidence : 2308</strong><br><br>
-          À l'intérieur de la résidence, dirigez-vous vers le <strong>Bungalow 11</strong> (la façade affiche deux plaques avec des numéros différents, 384 et 11 — le bon numéro est le <strong>11</strong>, ne vous trompez pas).<br><br>
+          <div style="display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;">
+            <div style="flex:1;min-width:200px;">
+              <div class="welcome-card-header">🏨 ${first ? first + ', b' : 'B'}ienvenue à La Casa de la Primavera</div>
+              Vous nous trouverez au <strong>Avenida Carabassí, 1</strong>, Urbanización Costa Hispania, Gran Alacant (Santa Pola). L'entrée de la résidence se fait par la Calle Polonia.<br>
+              <strong>Code d'accès à la résidence : 2308</strong><br><br>
+              À l'intérieur de la résidence, dirigez-vous vers le <strong>Bungalow 11</strong> (la façade affiche deux plaques avec des numéros différents, 384 et 11 — le bon numéro est le <strong>11</strong>, ne vous trompez pas).
+            </div>
+            <div style="flex:0 0 220px;max-width:100%;">
+              <div style="font-weight:600;color:#8B4520;margin-bottom:6px;">Itinéraire pour rejoindre La Casa de la Primavera</div>
+              <video controls playsinline preload="metadata" style="width:100%;display:block;border-radius:8px;"><source src="videos/welcome-en.mp4" type="video/mp4"></video>
+            </div>
+          </div><br>
           Votre logement est <strong>${r}</strong>.<br>
           ${p ? `La boîte à clés se trouve sur la porte extérieure du bungalow, à gauche. Tirez sur la languette du haut pour ouvrir le couvercle et entrez le code : <span class="welcome-pin-inline">${p}</span><br>` : `<span class="welcome-pin-note">Code non disponible. Veuillez nous contacter.</span>`}
           Le logement se ferme avec une clé classique (la porte du jardin et celle de la maison). Merci de fermer les deux à clé en sortant. Au départ, laissez les clés dans la boîte à clés.<br>
-          <video controls playsinline preload="metadata" style="width:100%;max-width:320px;display:block;margin:10px auto;border-radius:8px;"><source src="videos/welcome-en.mp4" type="video/mp4"></video>
           <div class="welcome-wifi">📶 WiFi : <strong>MIWIFI_tThy</strong> · Mot de passe : <strong>1234carabasi</strong></div><br>
           ${contact}<br><br>
           <em>Alc Homes vous souhaite un agréable séjour.</em>
@@ -1136,14 +1157,21 @@ const I18N = {
         // La Casa de la Primavera — Gran Alacant. Physischer Schlüsselkasten,
         // kein elektronisches Schloss (anders als der 6-stellige Code des Hostals).
         return `<div class="welcome-card">
-          <div class="welcome-card-header">🏨 ${first ? first + ', w' : 'W'}illkommen bei La Casa de la Primavera</div>
-          Du findest uns in der <strong>Avenida Carabassí, 1</strong>, Urbanización Costa Hispania, Gran Alacant (Santa Pola). Die Einfahrt zur Anlage ist über die Calle Polonia.<br>
-          <strong>Zugangscode zur Anlage: 2308</strong><br><br>
-          Innerhalb der Anlage gehst du zum <strong>Bungalow 11</strong> (an der Fassade hängen zwei Schilder mit unterschiedlichen Nummern, 384 und 11 — richtig ist die <strong>11</strong>, lass dich nicht verwirren).<br><br>
+          <div style="display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;">
+            <div style="flex:1;min-width:200px;">
+              <div class="welcome-card-header">🏨 ${first ? first + ', w' : 'W'}illkommen bei La Casa de la Primavera</div>
+              Du findest uns in der <strong>Avenida Carabassí, 1</strong>, Urbanización Costa Hispania, Gran Alacant (Santa Pola). Die Einfahrt zur Anlage ist über die Calle Polonia.<br>
+              <strong>Zugangscode zur Anlage: 2308</strong><br><br>
+              Innerhalb der Anlage gehst du zum <strong>Bungalow 11</strong> (an der Fassade hängen zwei Schilder mit unterschiedlichen Nummern, 384 und 11 — richtig ist die <strong>11</strong>, lass dich nicht verwirren).
+            </div>
+            <div style="flex:0 0 220px;max-width:100%;">
+              <div style="font-weight:600;color:#8B4520;margin-bottom:6px;">Wegbeschreibung zur Casa de la Primavera</div>
+              <video controls playsinline preload="metadata" style="width:100%;display:block;border-radius:8px;"><source src="videos/welcome-en.mp4" type="video/mp4"></video>
+            </div>
+          </div><br>
           Deine Unterkunft ist <strong>${r}</strong>.<br>
           ${p ? `Der Schlüsselkasten befindet sich an der Außentür des Bungalows, links. Ziehe an der Lasche oben, um den Deckel zu öffnen, und gib den Code ein: <span class="welcome-pin-inline">${p}</span><br>` : `<span class="welcome-pin-note">Code nicht verfügbar. Bitte kontaktiere uns.</span>`}
           Das Haus wird mit einem normalen Schlüssel verschlossen (Gartentür und Haustür). Bitte schließe beim Verlassen beide ab. Beim Check-out lege die Schlüssel bitte zurück in den Schlüsselkasten.<br>
-          <video controls playsinline preload="metadata" style="width:100%;max-width:320px;display:block;margin:10px auto;border-radius:8px;"><source src="videos/welcome-en.mp4" type="video/mp4"></video>
           <div class="welcome-wifi">📶 WLAN: <strong>MIWIFI_tThy</strong> · Passwort: <strong>1234carabasi</strong></div><br>
           ${contact}<br><br>
           <em>Alc Homes wünscht dir einen angenehmen Aufenthalt.</em>
@@ -1214,14 +1242,21 @@ const I18N = {
         // La Casa de la Primavera — Gran Alacant. Caixa de claus física, no és
         // pany electrònic (diferent del codi de 6 dígits de l'hostal).
         return `<div class="welcome-card">
-          <div class="welcome-card-header">🏨 ${first ? first + ', b' : 'B'}envingut a La Casa de la Primavera</div>
-          Ens trobaràs a l'<strong>Avinguda Carabassí, 1</strong>, Urbanització Costa Hispania, Gran Alacant (Santa Pola). L'entrada a la urbanització és pel Carrer Polònia.<br>
-          <strong>Codi d'accés a la urbanització: 2308</strong><br><br>
-          Dins de la urbanització, dirigeix-te al <strong>Bungalow 11</strong> (a la façana veuràs dues plaques amb números distints, 384 i 11 — el correcte és l'<strong>11</strong>, no et confongues).<br><br>
+          <div style="display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;">
+            <div style="flex:1;min-width:200px;">
+              <div class="welcome-card-header">🏨 ${first ? first + ', b' : 'B'}envingut a La Casa de la Primavera</div>
+              Ens trobaràs a l'<strong>Avinguda Carabassí, 1</strong>, Urbanització Costa Hispania, Gran Alacant (Santa Pola). L'entrada a la urbanització és pel Carrer Polònia.<br>
+              <strong>Codi d'accés a la urbanització: 2308</strong><br><br>
+              Dins de la urbanització, dirigeix-te al <strong>Bungalow 11</strong> (a la façana veuràs dues plaques amb números distints, 384 i 11 — el correcte és l'<strong>11</strong>, no et confongues).
+            </div>
+            <div style="flex:0 0 220px;max-width:100%;">
+              <div style="font-weight:600;color:#8B4520;margin-bottom:6px;">Instruccions per arribar a la Casa de la Primavera</div>
+              <video controls playsinline preload="metadata" style="width:100%;display:block;border-radius:8px;"><source src="videos/bienvenida-es.mp4" type="video/mp4"></video>
+            </div>
+          </div><br>
           El teu allotjament és <strong>${r}</strong>.<br>
           ${p ? `La caixa de claus està a la porta exterior del bungalow, a l'esquerra. Estira de la pestanya de dalt per obrir la tapa i introdueix el codi: <span class="welcome-pin-inline">${p}</span><br>` : `<span class="welcome-pin-note">Codi no disponible. Contacta amb nosaltres.</span>`}
           L'habitatge es tanca amb clau normal (tant la porta del jardí com la de la casa). En eixir, tanca les dues amb clau. En finalitzar l'estada, deixa les claus dins de la caixa.<br>
-          <video controls playsinline preload="metadata" style="width:100%;max-width:320px;display:block;margin:10px auto;border-radius:8px;"><source src="videos/bienvenida-es.mp4" type="video/mp4"></video>
           <div class="welcome-wifi">📶 WiFi: <strong>MIWIFI_tThy</strong> · Contrasenya: <strong>1234carabasi</strong></div><br>
           ${contact}<br><br>
           <em>Alc Homes et desitja una agradable estada.</em>
