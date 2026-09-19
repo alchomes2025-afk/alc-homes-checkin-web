@@ -447,6 +447,39 @@ html, body {
   font-weight: 700;
   cursor: pointer;
 }
+#rpvReminderModal {
+  border: none;
+  border-radius: var(--radius);
+  padding: 22px;
+  max-width: 320px;
+  width: 88vw;
+  color: var(--ink);
+  font-size: .88rem;
+  line-height: 1.6;
+}
+#rpvReminderModal::backdrop {
+  background: rgba(43,58,66,.55);
+}
+#rpvReminderModal .dm-title {
+  font-family: 'Georgia', serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #8B4520;
+  margin-bottom: 10px;
+}
+#rpvReminderModal button {
+  width: 100%;
+  margin-top: 16px;
+  padding: 10px;
+  background: var(--azulejo-dk);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: .85rem;
+  font-weight: 700;
+  cursor: pointer;
+}
 
 /* Info cards */
 .info-card {
@@ -758,6 +791,13 @@ form#composerForm {
   <div class="dm-title" id="dm-title"></div>
   <div id="dm-body"></div>
   <button type="button" onclick="$('discountModal').close()" id="dm-close"></button>
+</dialog>
+
+<!-- Modal: aviso antes de ir a RPV (recordatorio de volver a por los códigos) -->
+<dialog id="rpvReminderModal">
+  <div class="dm-title" id="rrm-title"></div>
+  <div id="rrm-body"></div>
+  <button type="button" onclick="closeRpvReminderModal()" id="rrm-close"></button>
 </dialog>
 
 <!-- ══════════════════════════════════════════════════════════════════════ -->
@@ -1380,6 +1420,51 @@ function showDiscountModal(prop) {
   $('discountModal').showModal();
 }
 
+// ── Modal aviso antes de RPV (recordatorio de volver a por los códigos) ────
+const RPV_REMINDER_I18N = {
+  es: {
+    title: 'Antes de continuar',
+    body:  'Recuerda volver a esta misma página el día de tu check-in, a partir de las 15:00h, para consultar tus códigos de acceso.',
+    close: 'Entendido, continuar al registro',
+  },
+  en: {
+    title: 'Before you continue',
+    body:  'Remember to come back to this same page on your check-in day, from 3:00 PM, to get your access codes.',
+    close: 'Got it, continue to registration',
+  },
+  fr: {
+    title: 'Avant de continuer',
+    body:  'N\'oubliez pas de revenir sur cette page le jour de votre arrivée, à partir de 15h00, pour consulter vos codes d\'accès.',
+    close: 'Compris, continuer vers l\'enregistrement',
+  },
+  de: {
+    title: 'Bevor es weitergeht',
+    body:  'Denk daran, am Tag deiner Anreise ab 15:00 Uhr auf diese Seite zurückzukehren, um deine Zugangscodes zu erhalten.',
+    close: 'Verstanden, weiter zur Registrierung',
+  },
+  val: {
+    title: 'Abans de continuar',
+    body:  'Recorda tornar a aquesta mateixa pàgina el dia del teu check-in, a partir de les 15:00h, per a consultar els teus codis d\'accés.',
+    close: 'Entès, continuar al registre',
+  },
+};
+let _pendingRpvUrl = null;
+function openRpvReminder(url) {
+  const d = RPV_REMINDER_I18N[lang] || RPV_REMINDER_I18N.es;
+  _pendingRpvUrl = url;
+  $('rrm-title').textContent = d.title;
+  $('rrm-body').textContent = d.body;
+  $('rrm-close').textContent = d.close;
+  $('rpvReminderModal').showModal();
+}
+function closeRpvReminderModal() {
+  $('rpvReminderModal').close();
+  if (_pendingRpvUrl) {
+    window.open(_pendingRpvUrl, '_blank', 'noopener,noreferrer');
+    _pendingRpvUrl = null;
+  }
+}
+
 // ── STATE ─────────────────────────────────────────────────────────────────
 let lang     = 'es';
 let booking  = null;
@@ -1544,9 +1629,9 @@ function renderInfoPanel() {
           <span class="ic-icon">📋</span>
           <div class="ic-title">${T.preTitle}</div>
           <div class="ic-desc">${T.preDesc(fmtDate(booking.arrival), booking.room_id)}</div>
-          <a class="btn-rpv" href="${booking.rpv_link}" target="_blank" rel="noopener noreferrer">
+          <button type="button" class="btn-rpv" onclick="openRpvReminder('${booking.rpv_link}')">
             ${T.rpvBtn}
-          </a>
+          </button>
           <div class="ic-desc" style="margin-top:12px;">${T.footerContact}</div>
         </div>`;
       startPoll();
@@ -1570,9 +1655,9 @@ function renderInfoPanel() {
           <span class="ic-icon">📋</span>
           <div class="ic-title">${T.checkinPendingTitle}</div>
           <div class="ic-desc">${T.checkinPendingDesc(booking.room_id)}</div>
-          <a class="btn-rpv" href="${booking.rpv_link}" target="_blank" rel="noopener noreferrer">
+          <button type="button" class="btn-rpv" onclick="openRpvReminder('${booking.rpv_link}')">
             ${T.rpvBtn}
-          </a>
+          </button>
           <div class="rpv-poll">${T.rpvPoll}</div>
           <div class="ic-desc" style="margin-top:12px;">${T.footerContact}</div>
         </div>`;
