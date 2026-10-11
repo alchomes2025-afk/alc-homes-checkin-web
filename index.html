@@ -284,6 +284,7 @@ html, body {
 .bk-mail-msg { margin-top: 10px; font-size: .82rem; text-align: center; min-height: 1.2em; color: var(--geranio); line-height: 1.4; }
 .bk-mail-msg.ok { color: #2f7d4f; }
 .ci-remember { font-size: .72rem; color: var(--ink-soft); text-align: center; padding: 6px 16px; line-height: 1.4; }
+.ci-offline { margin: 8px 16px 0; padding: 8px 12px; border-radius: 10px; background: #FFF4D6; color: #6B4E00; border: 1px solid #E8D08A; font-size: .78rem; line-height: 1.4; text-align: center; }
 .ci-remember button { background: none; border: none; padding: 0; font: inherit; color: var(--azulejo); text-decoration: underline; cursor: pointer; }
 #acceso-cargando { position: fixed; inset: 0; z-index: 60; background: var(--bg); display: none; align-items: center; justify-content: center; }
 .spin-dark { width: 28px; height: 28px; border: 3px solid var(--border); border-top-color: var(--azulejo); border-radius: 50%; animation: spin .7s linear infinite; }
@@ -788,6 +789,7 @@ form#composerForm {
   <div class="tile-strip" id="tileStrip"></div>
 
   <!-- Panel de información (RPV link o PIN) -->
+  <div class="ci-offline" id="ci-offline" role="status" style="display:none"></div>
   <div id="ci-info"><!-- rellena JS --></div>
 
   <!-- Separador -->
@@ -997,8 +999,9 @@ const I18N = {
     mailErrLimit: 'Demasiados intentos. Por favor, llama al +34 622 38 35 87.',
     mailErrFail: 'No hemos podido enviar el correo ahora. Por favor, llama al +34 622 38 35 87.',
     errLink: 'Este enlace ya no es válido. Escribe tu nombre para continuar.',
-    rememberNote: 'Este dispositivo recordará tu reserva hasta el check-out para que entres directamente.',
+    rememberNote: 'Este dispositivo recordará tu reserva y, cuando estés alojado, tus códigos hasta el check-out, para que entres directamente y los veas aunque no tengas conexión.',
     rememberOff: 'No recordar en este dispositivo',
+    offlineNote: 'Sin conexión. Te mostramos los códigos guardados en este dispositivo ({f}). Se actualizarán solos cuando vuelva la conexión.',
     errNotFound: 'No hemos encontrado ninguna reserva con ese nombre. Comprueba que esté bien escrito, o contacta con recepción.',
     errAmbiguous: 'Hemos encontrado varias reservas con ese nombre. Escribe tu nombre y apellidos completos, o contacta con nosotros: +34 622 38 35 87',
     errNet:   'Error de conexión. Render puede tardar ~30 seg si estaba en reposo. Inténtalo de nuevo.',
@@ -1099,8 +1102,9 @@ const I18N = {
     mailErrLimit: 'Too many attempts. Please call +34 622 38 35 87.',
     mailErrFail: 'We could not send the email right now. Please call +34 622 38 35 87.',
     errLink: 'This link is no longer valid. Type your name to continue.',
-    rememberNote: 'This device will remember your booking until check-out so you can get in directly.',
+    rememberNote: 'This device will remember your booking and, once you are staying, your codes until check-out, so you get in directly and can see them even without a connection.',
     rememberOff: 'Do not remember on this device',
+    offlineNote: 'No connection. Showing the codes saved on this device ({f}). They will refresh automatically when you are back online.',
     errNotFound: 'We couldn\'t find a booking with that name. Double-check the spelling, or contact reception.',
     errAmbiguous: 'We found several bookings with that name. Please type your full first and last name, or contact us: +34 622 38 35 87',
     errNet:   'Connection error. The server may take ~30 s to wake up. Please try again.',
@@ -1201,8 +1205,9 @@ const I18N = {
     mailErrLimit: 'Trop de tentatives. Veuillez appeler le +34 622 38 35 87.',
     mailErrFail: 'Impossible d\'envoyer l\'e-mail pour le moment. Veuillez appeler le +34 622 38 35 87.',
     errLink: 'Ce lien n\'est plus valide. Saisissez votre nom pour continuer.',
-    rememberNote: 'Cet appareil se souviendra de votre réservation jusqu\'au check-out pour vous donner un accès direct.',
+    rememberNote: 'Cet appareil se souviendra de votre réservation et, pendant votre séjour, de vos codes jusqu\'au check-out, pour un accès direct, même sans connexion.',
     rememberOff: 'Ne pas mémoriser sur cet appareil',
+    offlineNote: 'Pas de connexion. Voici les codes enregistrés sur cet appareil ({f}). Ils se mettront à jour dès le retour de la connexion.',
     errNotFound: 'Nous n\'avons trouvé aucune réservation à ce nom. Vérifiez l\'orthographe, ou contactez la réception.',
     errAmbiguous: 'Nous avons trouvé plusieurs réservations avec ce nom. Merci d\'écrire votre nom et prénom complets, ou contactez-nous : +34 622 38 35 87',
     errNet:   'Erreur de connexion. Le serveur peut prendre ~30 s à démarrer. Réessayez.',
@@ -1303,8 +1308,9 @@ const I18N = {
     mailErrLimit: 'Zu viele Versuche. Bitte ruf +34 622 38 35 87 an.',
     mailErrFail: 'Wir konnten die E-Mail gerade nicht senden. Bitte ruf +34 622 38 35 87 an.',
     errLink: 'Dieser Link ist nicht mehr gültig. Gib deinen Namen ein, um fortzufahren.',
-    rememberNote: 'Dieses Gerät merkt sich deine Buchung bis zum Check-out, damit du direkt hineinkommst.',
+    rememberNote: 'Dieses Gerät merkt sich deine Buchung und, sobald du eingecheckt bist, deine Codes bis zum Check-out, damit du direkt hineinkommst und sie auch ohne Verbindung siehst.',
     rememberOff: 'Auf diesem Gerät nicht merken',
+    offlineNote: 'Keine Verbindung. Angezeigt werden die auf diesem Gerät gespeicherten Codes ({f}). Sie werden automatisch aktualisiert, sobald du wieder online bist.',
     errNotFound: 'Wir haben keine Buchung mit diesem Namen gefunden. Bitte überprüfe die Schreibweise, oder kontaktiere die Rezeption.',
     errAmbiguous: 'Wir haben mehrere Buchungen mit diesem Namen gefunden. Bitte gib deinen vollständigen Vor- und Nachnamen ein, oder kontaktiere uns: +34 622 38 35 87',
     errNet:   'Verbindungsfehler. Der Server braucht evtl. ~30 s. Erneut versuchen.',
@@ -1405,8 +1411,9 @@ const I18N = {
     mailErrLimit: 'Massa intents. Si us plau, telefona al +34 622 38 35 87.',
     mailErrFail: 'No hem pogut enviar el correu ara mateix. Si us plau, telefona al +34 622 38 35 87.',
     errLink: 'Aquest enllaç ja no és vàlid. Escriu el teu nom per continuar.',
-    rememberNote: 'Aquest dispositiu recordarà la teua reserva fins al check-out perquè entres directament.',
+    rememberNote: 'Aquest dispositiu recordarà la teua reserva i, quan estigues allotjat, els teus codis fins al check-out, perquè entres directament i els vegis encara que no tingues connexió.',
     rememberOff: 'No recordar en aquest dispositiu',
+    offlineNote: 'Sense connexió. Et mostrem els codis guardats en aquest dispositiu ({f}). S\'actualitzaran sols quan torne la connexió.',
     errNotFound: 'No hem trobat cap reserva amb eixe nom. Comprova que estiga ben escrit, o contacta amb recepció.',
     errAmbiguous: 'Hem trobat diverses reserves amb eixe nom. Escriu el teu nom i cognoms complets, o contacta amb nosaltres: +34 622 38 35 87',
     errNet:   'Error de connexió. El servidor pot tardar ~30 s. Torna a intentar-ho.',
@@ -1589,6 +1596,10 @@ let pollTimer = null;
 let bookRef   = '';
 let accesoT    = '';            // token del enlace personal de esta reserva (lo devuelve el backend)
 const KEY_ACCESO = 'alc_checkin_acceso';
+const KEY_COPIA  = 'alc_checkin_copia';   // últimos datos con códigos, para verlos sin conexión
+let sinConexion = false;               // true mientras se muestra la copia guardada
+let reintentando = false;
+let offlineTimer = null;
 const LANGS = ['es', 'en', 'fr', 'de', 'val'];
 
 // ── UTILS ─────────────────────────────────────────────────────────────────
@@ -1663,8 +1674,96 @@ function leerAcceso() {
 }
 function dejarDeRecordar() {
   olvidarAcceso();
+  olvidarCopia();
   $('ci-remember').style.display = 'none';
 }
+// ── CÓDIGOS SIN CONEXIÓN ─────────────────────────────────────────────────────
+// Cuando el huésped ya está alojado se guarda en este dispositivo una copia de lo que ve (habitación y códigos).
+// Si más tarde no hay internet (o el servidor tarda en despertar), se le muestra esa copia con un aviso.
+// La copia se borra a las 12:00 del día de salida (la misma hora a la que el backend da la estancia por terminada),
+// al olvidar el dispositivo, si el enlace deja de valer o si la reserva ya no está en curso.
+function horaMadrid() {
+  return parseInt(new Date().toLocaleTimeString('en-GB', { timeZone: 'Europe/Madrid', hour: '2-digit', hourCycle: 'h23' }), 10);
+}
+function copiaCaducada(salida) {
+  const hoy = todayISOMadrid();
+  return !salida || hoy > salida || (hoy === salida && horaMadrid() >= 12);
+}
+function olvidarCopia() {
+  try { localStorage.removeItem(KEY_COPIA); } catch (_) { /* nada que borrar */ }
+}
+function actualizarCopia() {
+  if (!booking || booking.estado !== 'staying' || !accesoT || copiaCaducada(booking.departure)) { olvidarCopia(); return; }
+  const datos = {};
+  ['room_id', 'room_name', 'guest_name', 'arrival', 'departure', 'estado', 'parte_submitted', 'pin_available', 'pin']
+    .forEach((k) => { datos[k] = booking[k] === undefined ? null : booking[k]; });
+  try { localStorage.setItem(KEY_COPIA, JSON.stringify({ t: accesoT, ts: Date.now(), datos })); } catch (_) { /* sin almacenamiento */ }
+}
+function leerCopia(token) {
+  try {
+    const c = JSON.parse(localStorage.getItem(KEY_COPIA) || 'null');
+    if (!c || !c.datos || c.t !== token) return null;
+    if (copiaCaducada(c.datos.departure)) { olvidarCopia(); return null; }
+    return c;
+  } catch (_) { return null; }
+}
+function mostrarSinConexion(copia) {
+  const f = new Date(copia.ts).toLocaleString('es-ES', { timeZone: 'Europe/Madrid', day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
+  const el = $('ci-offline');
+  el.textContent = t('offlineNote').replace('{f}', f);
+  el.style.display = '';
+}
+function abrirDesdeCopia(copia) {
+  booking = { ok: true, ...copia.datos };
+  accesoT = copia.t;
+  bookRef = booking.guest_name || '';
+  sinConexion = true;
+  renderCheckinScreen();
+  show('s-checkin');
+  mostrarSinConexion(copia);
+  if (!offlineTimer) offlineTimer = setInterval(reintentarConexion, 30_000);
+}
+// Pide la reserva con el token. Con tiempo límite si hay copia a la que recurrir (un servidor dormido tarda ~30 s).
+async function pedirReserva(token, conTiempoLimite) {
+  const ctl = new AbortController();
+  const plazo = conTiempoLimite ? setTimeout(() => ctl.abort(), 10_000) : null;
+  try {
+    const res = await fetch(`${BACKEND}/check-in?t=${encodeURIComponent(token)}`, { signal: ctl.signal });
+    return await res.json();
+  } finally { if (plazo) clearTimeout(plazo); }
+}
+function volverAlInicio(aviso) {
+  applyLangToBookingScreen();
+  show('s-booking');
+  $('bk-error').textContent = t(aviso);
+}
+async function reintentarConexion() {
+  if (!sinConexion || reintentando || !accesoT) return;
+  reintentando = true;
+  try {
+    const data = await pedirReserva(accesoT, true);
+    if (data.ok) {
+      sinConexion = false;
+      clearInterval(offlineTimer); offlineTimer = null;
+      $('ci-offline').style.display = 'none';
+      booking = data;
+      accesoT = data.acceso || accesoT;
+      guardarAcceso();
+      actualizarCopia();
+      if (booking.room_name) $('ci-room-name').textContent = booking.room_name;
+      renderInfoPanel();
+    } else if (data.error === 'enlace_no_valido') {
+      sinConexion = false;
+      clearInterval(offlineTimer); offlineTimer = null;
+      olvidarAcceso(); olvidarCopia();
+      $('ci-offline').style.display = 'none';
+      volverAlInicio('errLink');
+    }
+  } catch (_) { /* sigue sin conexión: se reintenta */ }
+  reintentando = false;
+}
+window.addEventListener('online', reintentarConexion);
+
 function consultaCheckin() {
   return accesoT ? `t=${encodeURIComponent(accesoT)}` : `ref=${encodeURIComponent(bookRef)}`;
 }
@@ -1756,6 +1855,7 @@ async function lookupBooking() {
     booking = data;
     accesoT = data.acceso || '';
     guardarAcceso();
+    actualizarCopia();
     renderCheckinScreen();
     show('s-checkin');
     logEvent('page_view', booking.estado);
@@ -1915,6 +2015,7 @@ function renderInfoPanel() {
 // ── AUTO-POLL (parte pendiente → detectar envío) ──────────────────────────
 async function checkBookingStatus() {
   if ((!bookRef && !accesoT) || !booking) return;
+  if (sinConexion) { reintentarConexion(); return; }
   try {
     const res  = await fetch(`${BACKEND}/check-in?${consultaCheckin()}`);
     const data = await res.json();
@@ -1925,6 +2026,7 @@ async function checkBookingStatus() {
     if (data.estado === estadoAnterior && (data.aviso_parte || null) === avisoAnterior) return; // sin cambios, no hacer nada
 
     booking = data;
+    actualizarCopia();
 
     if (booking.room_name) {
       $('ci-room').style.display = '';
@@ -2306,15 +2408,16 @@ $('composerForm').addEventListener('submit', e => {
   lang = LANGS.includes(idioma) ? idioma : (guardado && LANGS.includes(guardado.lang) ? guardado.lang : idiomaNavegador());
   const cargando = $('acceso-cargando');
   cargando.style.display = 'flex';
+  const copia = leerCopia(token);          // códigos guardados en este dispositivo, por si no hay conexión
   let aviso = '';
   try {
-    const res  = await fetch(`${BACKEND}/check-in?t=${encodeURIComponent(token)}`);
-    const data = await res.json();
+    const data = await pedirReserva(token, !!copia);
     if (data.ok) {
       booking = data;
       accesoT = data.acceso || token;
       bookRef = data.guest_name || '';
       guardarAcceso();
+      actualizarCopia();
       renderCheckinScreen();
       show('s-checkin');
       logEvent('page_view', booking.estado);
@@ -2322,16 +2425,28 @@ $('composerForm').addEventListener('submit', e => {
       cargando.style.display = 'none';
       return;
     }
-    olvidarAcceso();                       // el enlace ya no vale (reserva cancelada, clave cambiada…)
-    aviso = 'errLink';
+    if (data.error === 'enlace_no_valido') {
+      olvidarAcceso(); olvidarCopia();     // el enlace ya no vale (reserva cancelada, clave cambiada…)
+      aviso = 'errLink';
+    } else {
+      throw new Error('respuesta no válida'); // límite de consultas o fallo del servidor: se trata como falta de conexión
+    }
   } catch (_) {
-    aviso = 'errNet';                      // sin conexión o servidor dormido: se conserva lo recordado
+    if (copia) {                           // sin conexión o servidor dormido: se enseña lo guardado
+      abrirDesdeCopia(copia);
+      cargando.style.display = 'none';
+      return;
+    }
+    aviso = 'errNet';                      // se conserva lo recordado
   }
   cargando.style.display = 'none';
-  applyLangToBookingScreen();
-  show('s-booking');
-  $('bk-error').textContent = t(aviso);
+  volverAlInicio(aviso);
 })();
+
+// Service worker: permite abrir la página sin conexión (los datos los guarda la copia de arriba).
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => { navigator.serviceWorker.register('/sw.js').catch(() => { /* sin SW: funciona igual con conexión */ }); });
+}
 </script>
 
 </body>
