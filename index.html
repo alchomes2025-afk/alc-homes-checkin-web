@@ -520,6 +520,7 @@ html, body {
 }
 .info-card.rpv .ic-title { color: var(--azulejo-dk); }
 .info-card.pin .ic-title { color: #8B4520; }
+.grupo-hab-titulo { font-weight: 700; font-size: .95rem; color: var(--azulejo-dk); margin: 16px 4px 4px; }
 .ic-desc {
   font-size: .8rem;
   color: var(--ink-soft);
@@ -1044,6 +1045,11 @@ const I18N = {
     expiredDesc:    '¡Gracias por alojarte en ALC Homes! Esperamos verte pronto.',
     expiredOther:   '¿Tienes otra reserva con nosotros?',
     expiredOtherBtn: 'Buscar otra reserva',
+    roomsLabel:     'Habitaciones',
+    grupoTitulo:    (n) => `Tu reserva incluye ${n} habitaciones`,
+    grupoDesc:      'Cada habitación tiene su propio registro de viajeros: el código de cada una aparece cuando se completa el de esa habitación.',
+    grupoPendiente: 'registro pendiente',
+    grupoAbierta:   'sin código: la habitación estará abierta',
     welcomeCard: (n, r, p, contact, roomId) => {
       const first = n ? n.split(' ')[0] : '';
       if (roomId === '720841') {
@@ -1149,6 +1155,11 @@ const I18N = {
     expiredDesc:    'Thank you for staying at ALC Homes! We hope to see you again soon.',
     expiredOther:   'Do you have another booking with us?',
     expiredOtherBtn: 'Look up another booking',
+    roomsLabel:     'Rooms',
+    grupoTitulo:    (n) => `Your booking includes ${n} rooms`,
+    grupoDesc:      'Each room has its own traveller registration: the code for each room appears once the registration for that room is completed.',
+    grupoPendiente: 'registration pending',
+    grupoAbierta:   'no code: the room will be open',
     welcomeCard: (n, r, p, contact, roomId) => {
       const first = n ? n.split(' ')[0] : '';
       if (roomId === '720841') {
@@ -1254,6 +1265,11 @@ const I18N = {
     expiredDesc:    'Merci d\'avoir séjourné à ALC Homes ! Nous espérons vous revoir bientôt.',
     expiredOther:   'Avez-vous une autre réservation chez nous ?',
     expiredOtherBtn: 'Rechercher une autre réservation',
+    roomsLabel:     'Chambres',
+    grupoTitulo:    (n) => `Votre réservation comprend ${n} chambres`,
+    grupoDesc:      'Chaque chambre a son propre enregistrement voyageur : le code de chaque chambre apparaît une fois l\'enregistrement de cette chambre complété.',
+    grupoPendiente: 'enregistrement en attente',
+    grupoAbierta:   'pas de code : la chambre sera ouverte',
     welcomeCard: (n, r, p, contact, roomId) => {
       const first = n ? n.split(' ')[0] : '';
       if (roomId === '720841') {
@@ -1359,6 +1375,11 @@ const I18N = {
     expiredDesc:    'Danke für deinen Aufenthalt bei ALC Homes! Wir freuen uns, dich bald wiederzusehen.',
     expiredOther:   'Hast du eine weitere Buchung bei uns?',
     expiredOtherBtn: 'Andere Buchung suchen',
+    roomsLabel:     'Zimmer',
+    grupoTitulo:    (n) => `Deine Buchung umfasst ${n} Zimmer`,
+    grupoDesc:      'Jedes Zimmer hat seine eigene Reisemeldung: Der Code für jedes Zimmer erscheint, sobald die Meldung für dieses Zimmer abgeschlossen ist.',
+    grupoPendiente: 'Meldung ausstehend',
+    grupoAbierta:   'kein Code: das Zimmer ist offen',
     welcomeCard: (n, r, p, contact, roomId) => {
       const first = n ? n.split(' ')[0] : '';
       if (roomId === '720841') {
@@ -1464,6 +1485,11 @@ const I18N = {
     expiredDesc:    'Gràcies per allotjar-te a ALC Homes! Esperem veure\'t prompte.',
     expiredOther:   'Tens una altra reserva amb nosaltres?',
     expiredOtherBtn: 'Buscar una altra reserva',
+    roomsLabel:     'Habitacions',
+    grupoTitulo:    (n) => `La teua reserva inclou ${n} habitacions`,
+    grupoDesc:      'Cada habitació té el seu propi registre de viatgers: el codi de cada una apareix quan es completa el d\'eixa habitació.',
+    grupoPendiente: 'registre pendent',
+    grupoAbierta:   'sense codi: l\'habitació estarà oberta',
     welcomeCard: (n, r, p, contact, roomId) => {
       const first = n ? n.split(' ')[0] : '';
       if (roomId === '720841') {
@@ -1705,7 +1731,7 @@ function olvidarCopia() {
 function actualizarCopia() {
   if (!booking || booking.estado !== 'staying' || !accesoT || copiaCaducada(booking.departure)) { olvidarCopia(); return; }
   const datos = {};
-  ['room_id', 'room_name', 'guest_name', 'arrival', 'departure', 'estado', 'parte_submitted', 'pin_available', 'pin']
+  ['room_id', 'room_name', 'guest_name', 'arrival', 'departure', 'estado', 'parte_submitted', 'pin_available', 'pin', 'estado_grupo', 'habitaciones']
     .forEach((k) => { datos[k] = booking[k] === undefined ? null : booking[k]; });
   try { localStorage.setItem(KEY_COPIA, JSON.stringify({ t: accesoT, ts: Date.now(), datos })); } catch (_) { /* sin almacenamiento */ }
 }
@@ -1724,7 +1750,7 @@ function mostrarSinConexion(copia) {
   el.style.display = '';
 }
 function abrirDesdeCopia(copia) {
-  booking = { ok: true, ...copia.datos };
+  booking = normalizarGrupo({ ok: true, ...copia.datos });
   accesoT = copia.t;
   bookRef = booking.guest_name || '';
   sinConexion = true;
@@ -1756,7 +1782,7 @@ async function reintentarConexion() {
       sinConexion = false;
       clearInterval(offlineTimer); offlineTimer = null;
       $('ci-offline').style.display = 'none';
-      booking = data;
+      booking = normalizarGrupo(data);
       if (booking.estado === 'expired') {    // mientras no había conexión terminó la estancia
         olvidarAcceso(); olvidarCopia();
         accesoT = '';
@@ -1766,7 +1792,7 @@ async function reintentarConexion() {
         guardarAcceso();
         actualizarCopia();
       }
-      if (booking.room_name) $('ci-room-name').textContent = booking.room_name;
+      pintarCabeceraHab();
       renderInfoPanel();
     } else if (data.error === 'enlace_no_valido') {
       sinConexion = false;
@@ -1794,6 +1820,37 @@ function buscarOtraReserva() {
   show('s-booking');
   $('bk-input').focus();
 }
+// ── RESERVA DE VARIAS HABITACIONES ───────────────────────────────────────────
+// El backend manda `habitaciones` (una por habitación de la reserva, cada una con su estado, su parte y su código) y
+// `estado_grupo` (el más avanzado de todas). Una reserva de una sola habitación no trae `habitaciones` y va como siempre.
+function esGrupo(b) {
+  return !!(b && Array.isArray(b.habitaciones) && b.habitaciones.length > 1);
+}
+function normalizarGrupo(d) {
+  if (esGrupo(d) && d.estado_grupo) d.estado = d.estado_grupo;   // el estado «de arriba» pasa a ser el del conjunto
+  return d;
+}
+// Cabecera «Habitación X» / «Habitaciones X · Y» (solo las habitaciones cuyo parte ya está enviado)
+function pintarCabeceraHab() {
+  const etiqueta = $('ci-room-label'), nombre = $('ci-room-name');
+  let texto, rotulo;
+  if (esGrupo(booking)) {
+    texto  = booking.habitaciones.filter(h => h.parte_submitted && h.estado !== 'expired').map(h => h.room_name).join(' · ');
+    rotulo = t('roomsLabel');
+  } else {
+    texto  = booking.parte_submitted ? booking.room_name : '';
+    rotulo = booking.room_id === '720841' ? t('houseLabel') : t('roomLabel');
+  }
+  etiqueta.textContent = rotulo;
+  nombre.textContent = texto;
+  $('ci-room').style.display = '';
+  etiqueta.style.display = nombre.style.display = texto ? '' : 'none';
+}
+function firmaReserva(b) {
+  if (esGrupo(b)) return JSON.stringify(b.habitaciones.map(h => [h.book_id, h.estado, h.aviso_parte || null, !!h.pin]));
+  return JSON.stringify([b.estado, b.aviso_parte || null]);
+}
+
 function consultaCheckin() {
   return accesoT ? `t=${encodeURIComponent(accesoT)}` : `ref=${encodeURIComponent(bookRef)}`;
 }
@@ -1882,7 +1939,7 @@ async function lookupBooking() {
       return;
     }
 
-    booking = data;
+    booking = normalizarGrupo(data);
     if (booking.estado === 'expired') {
       accesoT = '';                          // una estancia terminada no se recuerda en el dispositivo
     } else {
@@ -1909,13 +1966,7 @@ $('bk-input').addEventListener('keydown', e => {
 // ── PANTALLA 3: CHECK-IN ─────────────────────────────────────────────────
 function renderCheckinScreen() {
   renderTileStrip();
-  $('ci-room-label').textContent = booking.room_id === '720841' ? t('houseLabel') : t('roomLabel');
-  if (booking.parte_submitted) {
-    $('ci-room-name').textContent = booking.room_name;
-  } else {
-    $('ci-room-label').style.display = 'none';
-    $('ci-room-name').style.display  = 'none';
-  }
+  pintarCabeceraHab();
   $('ci-sep-label').textContent = t('sepLabel');
   $('s-checkin-footer').innerHTML = t('footerContact');
   const recuerdo = $('ci-remember');
@@ -1967,17 +2018,13 @@ function rpvAvisoCard(T, aviso) {
         </div>`;
 }
 
-function renderInfoPanel() {
-  const T      = I18N[lang];
-  const el     = $('ci-info');
-  const estado = booking.estado;
-  stopPoll();
-
-  switch (estado) {
+function tarjetaReserva(b, T) {
+  let html = '', poll = false;
+  switch (b.estado) {
 
     case 'expired':
       // ── Estancia finalizada ────────────────────────────────────────────
-      el.innerHTML = `
+      html = `
         <div class="info-card done ic-appear">
           <span class="ic-icon">👋</span>
           <div class="ic-title">${T.expiredTitle}</div>
@@ -1990,62 +2037,99 @@ function renderInfoPanel() {
 
     case 'pre_checkin':
       // ── Antes del check-in, parte pendiente: enlace RPV ───────────────
-      if (booking.aviso_parte) {   // la reserva aún no está en RPV: aviso en vez del enlace (sigue el autopoll)
-        el.innerHTML = rpvAvisoCard(T, booking.aviso_parte);
-        startPoll();
+      if (b.aviso_parte) {   // la reserva aún no está en RPV: aviso en vez del enlace (sigue el autopoll)
+        html = rpvAvisoCard(T, b.aviso_parte);
+        poll = true;
         break;
       }
-      el.innerHTML = `
+      html = `
         <div class="info-card rpv ic-appear">
           <span class="ic-icon">📋</span>
           <div class="ic-title">${T.preTitle}</div>
-          <div class="ic-desc">${T.preDesc(fmtDate(booking.arrival), booking.room_id)}</div>
-          <button type="button" class="btn-rpv" onclick="openRpvReminder('${booking.rpv_link}')">
+          <div class="ic-desc">${T.preDesc(fmtDate(b.arrival), b.room_id)}</div>
+          <button type="button" class="btn-rpv" onclick="openRpvReminder('${b.rpv_link}')">
             ${T.rpvBtn}
           </button>
           <div class="ic-desc" style="margin-top:12px;">${T.footerContact}</div>
         </div>`;
-      startPoll();
+      poll = true;
       break;
 
     case 'pending_early':
       // ── Parte enviado con antelación (antes de las 15:00 del día de llegada) ──
-      el.innerHTML = `
+      html = `
         <div class="info-card done ic-appear">
           <span class="ic-icon">✅</span>
           <div class="ic-title">${T.pendingTitle}</div>
-          <div class="ic-desc">${T.pendingDesc(fmtDate(booking.arrival), isToday(booking.arrival), booking.room_id)}</div>
+          <div class="ic-desc">${T.pendingDesc(fmtDate(b.arrival), isToday(b.arrival), b.room_id)}</div>
           <div class="ic-desc">${T.footerContact}</div>
         </div>`;
       break;
 
     case 'checkin_pending':
       // ── Día de check-in 15:00+, parte aún pendiente: RPV + autopoll ───
-      if (booking.aviso_parte) {
-        el.innerHTML = rpvAvisoCard(T, booking.aviso_parte);
-        startPoll();
+      if (b.aviso_parte) {
+        html = rpvAvisoCard(T, b.aviso_parte);
+        poll = true;
         break;
       }
-      el.innerHTML = `
+      html = `
         <div class="info-card rpv ic-appear">
           <span class="ic-icon">📋</span>
           <div class="ic-title">${T.checkinPendingTitle}</div>
-          <div class="ic-desc">${T.checkinPendingDesc(booking.room_id)}</div>
-          <button type="button" class="btn-rpv" onclick="openRpvReminder('${booking.rpv_link}')">
+          <div class="ic-desc">${T.checkinPendingDesc(b.room_id)}</div>
+          <button type="button" class="btn-rpv" onclick="openRpvReminder('${b.rpv_link}')">
             ${T.rpvBtn}
           </button>
           <div class="rpv-poll">${T.rpvPoll}</div>
           <div class="ic-desc" style="margin-top:12px;">${T.footerContact}</div>
         </div>`;
-      startPoll();
+      poll = true;
       break;
 
     case 'staying':
     default:
       // ── En estancia con parte completado: tarjeta de bienvenida + PIN ──
-      el.innerHTML = T.welcomeCard(booking.guest_name, booking.room_name, booking.pin, T.footerContact, String(booking.room_id || ''));
+      html = T.welcomeCard(b.guest_name, b.room_name, b.pin, T.footerContact, String(b.room_id || ''));
       break;
   }
+  return { html, poll };
+}
+
+// Reserva de varias habitaciones: arriba un resumen con TODAS (código o estado de cada una, a la vista sin desplazarse);
+// después la tarjeta de bienvenida con las indicaciones y, por cada habitación aún sin parte, su propio aviso y botón de RPV
+function renderGrupo(b, T) {
+  const vivas = b.habitaciones.filter(h => h.estado !== 'expired');
+  if (!vivas.length) return tarjetaReserva({ ...b, estado: 'expired' }, T);
+  const fila = (h) => {
+    const detalle = h.estado !== 'staying' ? T.grupoPendiente
+      : (h.pin ? `<span class="welcome-pin-inline">${h.pin}</span>` : T.grupoAbierta);
+    return `<li><strong>${h.room_name}</strong>: ${detalle}</li>`;
+  };
+  let html = `
+        <div class="info-card done ic-appear">
+          <span class="ic-icon">🛏️</span>
+          <div class="ic-title">${T.grupoTitulo(b.habitaciones.length)}</div>
+          <div class="ic-desc">${T.grupoDesc}</div>
+          <ul style="margin:10px 0 0 18px;padding:0;line-height:2;">${vivas.map(fila).join('')}</ul>
+        </div>`;
+  let poll = false;
+  const conParte = vivas.filter(h => h.estado === 'staying');
+  if (conParte.length) html += T.welcomeCard(b.guest_name, conParte[0].room_name, conParte[0].pin, T.footerContact, String(conParte[0].room_id || ''));
+  vivas.filter(h => h.estado !== 'staying').forEach(h => {
+    const r = tarjetaReserva({ ...b, ...h }, T);
+    html += `<div class="grupo-hab-titulo">🛏️ ${h.room_name}</div>` + r.html;
+    poll = poll || r.poll;
+  });
+  return { html, poll };
+}
+
+function renderInfoPanel() {
+  const T = I18N[lang];
+  stopPoll();
+  const r = esGrupo(booking) ? renderGrupo(booking, T) : tarjetaReserva(booking, T);
+  $('ci-info').innerHTML = r.html;
+  if (r.poll) startPoll();
 }
 
 // ── AUTO-POLL (parte pendiente → detectar envío) ──────────────────────────
@@ -2055,28 +2139,27 @@ async function checkBookingStatus() {
   if (booking.estado === 'expired') return;   // una estancia terminada no cambia: no hay nada que comprobar
   try {
     const res  = await fetch(`${BACKEND}/check-in?${consultaCheckin()}`);
-    const data = await res.json();
+    const data = normalizarGrupo(await res.json());
     if (!data.ok) return;
+
+    if (firmaReserva(data) === firmaReserva(booking)) return; // sin cambios, no hacer nada
 
     const estadoAnterior = booking.estado;
     const avisoAnterior  = booking.aviso_parte || null;
-    if (data.estado === estadoAnterior && (data.aviso_parte || null) === avisoAnterior) return; // sin cambios, no hacer nada
-
+    const habitacionesAntes = esGrupo(booking) ? booking.habitaciones : [];
     booking = data;
     actualizarCopia();
 
-    if (booking.room_name) {
-      $('ci-room').style.display = '';
-      $('ci-room-name').textContent = booking.room_name;
-    }
+    pintarCabeceraHab();
     renderInfoPanel();
     if (booking.estado !== estadoAnterior) logEvent('state_changed', booking.estado);
     if ((booking.aviso_parte || null) !== avisoAnterior) logEvent('aviso_parte', booking.aviso_parte || 'ninguno');
 
-    // Solo avisamos por chat cuando el código de acceso ya está disponible
-    if (booking.estado === 'staying') {
-      addChatMsg(I18N[lang].pinUpdate, 'bot');
-    }
+    // Solo avisamos por chat cuando un código de acceso pasa a estar disponible
+    const nuevoCodigo = esGrupo(booking)
+      ? booking.habitaciones.some(h => h.estado === 'staying' && !habitacionesAntes.some(a => a.book_id === h.book_id && a.estado === 'staying'))
+      : booking.estado === 'staying';
+    if (nuevoCodigo) addChatMsg(I18N[lang].pinUpdate, 'bot');
   } catch (_) { /* silent */ }
 }
 
@@ -2102,6 +2185,8 @@ function buildSystemPrompt() {
   const r    = booking.room_name  || '';
   const p    = booking.parte_submitted;
   const accesoDisponible = booking.estado === 'staying'; // único estado con PIN/código realmente visible
+  const pinReal = booking.pin || '';          // el código de la habitación (antes se usaba por error `p`, que es si el parte está enviado)
+  const grupo   = esGrupo(booking) ? booking.habitaciones.filter(h => h.estado !== 'expired') : null;
 
   // La Casa de la Primavera es una propiedad distinta del hostal: nombre,
   // documento de referencia y forma de acceso (cajetín de llaves, no portal
@@ -2275,11 +2360,11 @@ function buildSystemPrompt() {
   };
 
   const pinLine = {
-    es: accesoDisponible ? (p ? `- Código de puerta de la habitación: ${p}` : `- Código de puerta de la habitación: NO FUNCIONA. La habitación estará abierta y la llave estará en la mesita de noche. Si preguntan por el código, indícales exactamente esto.`) : '',
-    en: accesoDisponible ? (p ? `- Room door code: ${p}` : `- Room door code: NOT WORKING. The room will be left open and the key will be on the nightstand. If asked for the code, tell them exactly this.`) : '',
-    fr: accesoDisponible ? (p ? `- Code de porte de la chambre : ${p}` : `- Code de porte de la chambre : NE FONCTIONNE PAS. La chambre sera laissée ouverte et la clé sera sur la table de chevet. Si on vous demande le code, indiquez exactement cela.`) : '',
-    de: accesoDisponible ? (p ? `- Türcode des Zimmers: ${p}` : `- Türcode des Zimmers: FUNKTIONIERT NICHT. Das Zimmer bleibt offen und der Schlüssel liegt auf dem Nachttisch. Wenn nach dem Code gefragt wird, sage genau das.`) : '',
-    val: accesoDisponible ? (p ? `- Codi de porta de l'habitació: ${p}` : `- Codi de porta de l'habitació: NO FUNCIONA. L'habitació estarà oberta i la clau estarà a la tauleta de nit. Si pregunten pel codi, digues-los exactament això.`) : '',
+    es: accesoDisponible ? (pinReal ? `- Código de puerta de la habitación: ${pinReal}` : `- Código de puerta de la habitación: NO FUNCIONA. La habitación estará abierta y la llave estará en la mesita de noche. Si preguntan por el código, indícales exactamente esto.`) : '',
+    en: accesoDisponible ? (pinReal ? `- Room door code: ${pinReal}` : `- Room door code: NOT WORKING. The room will be left open and the key will be on the nightstand. If asked for the code, tell them exactly this.`) : '',
+    fr: accesoDisponible ? (pinReal ? `- Code de porte de la chambre : ${pinReal}` : `- Code de porte de la chambre : NE FONCTIONNE PAS. La chambre sera laissée ouverte et la clé sera sur la table de chevet. Si on vous demande le code, indiquez exactement cela.`) : '',
+    de: accesoDisponible ? (pinReal ? `- Türcode des Zimmers: ${pinReal}` : `- Türcode des Zimmers: FUNKTIONIERT NICHT. Das Zimmer bleibt offen und der Schlüssel liegt auf dem Nachttisch. Wenn nach dem Code gefragt wird, sage genau das.`) : '',
+    val: accesoDisponible ? (pinReal ? `- Codi de porta de l'habitació: ${pinReal}` : `- Codi de porta de l'habitació: NO FUNCIONA. L'habitació estarà oberta i la clau estarà a la tauleta de nit. Si pregunten pel codi, digues-los exactament això.`) : '',
   };
 
   // Estado del código de entrada al PORTAL/EDIFICIO (130773#). El asistente
@@ -2315,14 +2400,20 @@ function buildSystemPrompt() {
         : `- Codi d'entrada: NO DISPONIBLE encara perquè el hoste ENCARA NO ha completat el full de viatger. Ho ha de fer primer (enllaç visible dalt); el codi apareixerà després, a partir de les 15:00 del dia d'arribada.`,
   };
 
+  // Reserva de varias habitaciones: cada una con su propio parte y su propio código (nunca se mezclan ni se prestan entre ellas)
+  const lineaGrupo = grupo ? `- La reserva incluye ${grupo.length} habitaciones, cada una con su propio parte de viajeros y su propio código: ` +
+    grupo.map(h => h.estado !== 'staying'
+      ? `${h.room_name}: NO DISPONIBLE todavía (el parte de viajeros de esa habitación aún no está completado)`
+      : (h.pin ? `${h.room_name}: código de puerta ${h.pin}` : `${h.room_name}: el código NO FUNCIONA, la habitación estará abierta y la llave estará en la mesita de noche`)).join('; ') + '.' : '';
+
   return `Eres el asistente virtual de recepción de ${propertyName}.
 
 CONTEXTO DE ESTA SESIÓN:
 ${horaLine[lang] || horaLine.es}
 ${arrivalLine[lang] || arrivalLine.es}
 - Huésped: ${n || 'Huésped'}
-${roomLine[lang] || roomLine.es}
-${pinLine[lang] || pinLine.es}
+${grupo ? lineaGrupo : (roomLine[lang] || roomLine.es)}
+${grupo ? '' : (pinLine[lang] || pinLine.es)}
 ${buildingCodeLine[lang] || buildingCodeLine.es}
 - Estado del registro de viajeros: ${statusText[lang] || statusText.es}
 
@@ -2450,7 +2541,7 @@ $('composerForm').addEventListener('submit', e => {
   try {
     const data = await pedirReserva(token, !!copia);
     if (data.ok) {
-      booking = data;
+      booking = normalizarGrupo(data);
       bookRef = data.guest_name || '';
       if (booking.estado === 'expired') {
         if (!params.get('t')) {
