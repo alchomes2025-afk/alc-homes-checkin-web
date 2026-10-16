@@ -1050,6 +1050,7 @@ const I18N = {
     grupoDesc:      'Cada habitación tiene su propio registro de viajeros: el código de cada una aparece cuando se completa el de esa habitación.',
     grupoPendiente: 'registro pendiente',
     grupoAbierta:   'sin código: la habitación estará abierta',
+    rpvFechas:      (e, s) => `Si RPV te pide las fechas, escribe: <strong>entrada ${e}</strong> · <strong>salida ${s}</strong> (así se une a tu reserva).`,
     welcomeCard: (n, r, p, contact, roomId) => {
       const first = n ? n.split(' ')[0] : '';
       if (roomId === '720841') {
@@ -1160,6 +1161,7 @@ const I18N = {
     grupoDesc:      'Each room has its own traveller registration: the code for each room appears once the registration for that room is completed.',
     grupoPendiente: 'registration pending',
     grupoAbierta:   'no code: the room will be open',
+    rpvFechas:      (e, s) => `If RPV asks for the dates, enter: <strong>check-in ${e}</strong> · <strong>check-out ${s}</strong> (this links it to your booking).`,
     welcomeCard: (n, r, p, contact, roomId) => {
       const first = n ? n.split(' ')[0] : '';
       if (roomId === '720841') {
@@ -1270,6 +1272,7 @@ const I18N = {
     grupoDesc:      'Chaque chambre a son propre enregistrement voyageur : le code de chaque chambre apparaît une fois l\'enregistrement de cette chambre complété.',
     grupoPendiente: 'enregistrement en attente',
     grupoAbierta:   'pas de code : la chambre sera ouverte',
+    rpvFechas:      (e, s) => `Si RPV vous demande les dates, saisissez : <strong>arrivée ${e}</strong> · <strong>départ ${s}</strong> (cela le relie à votre réservation).`,
     welcomeCard: (n, r, p, contact, roomId) => {
       const first = n ? n.split(' ')[0] : '';
       if (roomId === '720841') {
@@ -1380,6 +1383,7 @@ const I18N = {
     grupoDesc:      'Jedes Zimmer hat seine eigene Reisemeldung: Der Code für jedes Zimmer erscheint, sobald die Meldung für dieses Zimmer abgeschlossen ist.',
     grupoPendiente: 'Meldung ausstehend',
     grupoAbierta:   'kein Code: das Zimmer ist offen',
+    rpvFechas:      (e, s) => `Wenn RPV nach den Daten fragt, gib ein: <strong>Anreise ${e}</strong> · <strong>Abreise ${s}</strong> (so wird es deiner Buchung zugeordnet).`,
     welcomeCard: (n, r, p, contact, roomId) => {
       const first = n ? n.split(' ')[0] : '';
       if (roomId === '720841') {
@@ -1490,6 +1494,7 @@ const I18N = {
     grupoDesc:      'Cada habitació té el seu propi registre de viatgers: el codi de cada una apareix quan es completa el d\'eixa habitació.',
     grupoPendiente: 'registre pendent',
     grupoAbierta:   'sense codi: l\'habitació estarà oberta',
+    rpvFechas:      (e, s) => `Si RPV et demana les dates, escriu: <strong>entrada ${e}</strong> · <strong>eixida ${s}</strong> (així s'uneix a la teua reserva).`,
     welcomeCard: (n, r, p, contact, roomId) => {
       const first = n ? n.split(' ')[0] : '';
       if (roomId === '720841') {
@@ -2050,6 +2055,7 @@ function tarjetaReserva(b, T) {
           <button type="button" class="btn-rpv" onclick="openRpvReminder('${b.rpv_link}')">
             ${T.rpvBtn}
           </button>
+          <div class="ic-desc" style="margin-top:10px;font-size:.85rem;">${T.rpvFechas(fmtDate(b.arrival), fmtDate(b.departure))}</div>
           <div class="ic-desc" style="margin-top:12px;">${T.footerContact}</div>
         </div>`;
       poll = true;
@@ -2081,6 +2087,7 @@ function tarjetaReserva(b, T) {
           <button type="button" class="btn-rpv" onclick="openRpvReminder('${b.rpv_link}')">
             ${T.rpvBtn}
           </button>
+          <div class="ic-desc" style="margin-top:10px;font-size:.85rem;">${T.rpvFechas(fmtDate(b.arrival), fmtDate(b.departure))}</div>
           <div class="rpv-poll">${T.rpvPoll}</div>
           <div class="ic-desc" style="margin-top:12px;">${T.footerContact}</div>
         </div>`;
