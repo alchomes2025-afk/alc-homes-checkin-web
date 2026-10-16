@@ -536,6 +536,12 @@ html, body {
 }
 
 /* RPV button */
+.otras-card { background: #EEF4F8; border: 1px solid #C9DCE7; border-radius: 14px; padding: 12px 14px; margin-bottom: 12px; }
+.otras-card .otras-titulo { font-weight: 700; color: var(--azulejo-dk); margin-bottom: 6px; }
+.otras-card .otras-linea { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 6px 0; border-top: 1px solid #DCE8EF; font-size: .9rem; }
+.otras-card .otras-linea:first-of-type { border-top: none; }
+.otras-card button { flex-shrink: 0; background: var(--azulejo); color: #fff; border: none; border-radius: 10px; padding: 8px 12px; font: inherit; font-weight: 700; font-size: .85rem; cursor: pointer; }
+.btn-otra-reserva { display: block; width: 100%; margin: 0 0 12px; padding: 8px 12px; font-size: .82rem; background: transparent; color: var(--azulejo-dk); border: 1.5px solid var(--azulejo); border-radius: 12px; font: inherit; font-weight: 700; cursor: pointer; }
 .btn-rpv {
   display: flex;
   align-items: center;
@@ -1051,6 +1057,10 @@ const I18N = {
     grupoPendiente: 'registro pendiente',
     grupoAbierta:   'sin código: la habitación estará abierta',
     rpvFechas:      (e, s) => `Si RPV te pide las fechas, escribe: <strong>entrada ${e}</strong> · <strong>salida ${s}</strong> (así se une a tu reserva).`,
+    otrasTitulo:    '📅 También tienes esta reserva',
+    otrasBtn:       'Ver',
+    otrasFechas:    (e, s) => `del ${e} al ${s}`,
+    otraBuscar:     '¿Buscas otra reserva? Búscala por tu nombre',
     welcomeCard: (n, r, p, contact, roomId) => {
       const first = n ? n.split(' ')[0] : '';
       if (roomId === '720841') {
@@ -1162,6 +1172,10 @@ const I18N = {
     grupoPendiente: 'registration pending',
     grupoAbierta:   'no code: the room will be open',
     rpvFechas:      (e, s) => `If RPV asks for the dates, enter: <strong>check-in ${e}</strong> · <strong>check-out ${s}</strong> (this links it to your booking).`,
+    otrasTitulo:    '📅 You also have this booking',
+    otrasBtn:       'View',
+    otrasFechas:    (e, s) => `from ${e} to ${s}`,
+    otraBuscar:     'Looking for another booking? Search by your name',
     welcomeCard: (n, r, p, contact, roomId) => {
       const first = n ? n.split(' ')[0] : '';
       if (roomId === '720841') {
@@ -1273,6 +1287,10 @@ const I18N = {
     grupoPendiente: 'enregistrement en attente',
     grupoAbierta:   'pas de code : la chambre sera ouverte',
     rpvFechas:      (e, s) => `Si RPV vous demande les dates, saisissez : <strong>arrivée ${e}</strong> · <strong>départ ${s}</strong> (cela le relie à votre réservation).`,
+    otrasTitulo:    '📅 Vous avez aussi cette réservation',
+    otrasBtn:       'Voir',
+    otrasFechas:    (e, s) => `du ${e} au ${s}`,
+    otraBuscar:     'Vous cherchez une autre réservation ? Recherchez-la par votre nom',
     welcomeCard: (n, r, p, contact, roomId) => {
       const first = n ? n.split(' ')[0] : '';
       if (roomId === '720841') {
@@ -1384,6 +1402,10 @@ const I18N = {
     grupoPendiente: 'Meldung ausstehend',
     grupoAbierta:   'kein Code: das Zimmer ist offen',
     rpvFechas:      (e, s) => `Wenn RPV nach den Daten fragt, gib ein: <strong>Anreise ${e}</strong> · <strong>Abreise ${s}</strong> (so wird es deiner Buchung zugeordnet).`,
+    otrasTitulo:    '📅 Du hast auch diese Buchung',
+    otrasBtn:       'Ansehen',
+    otrasFechas:    (e, s) => `vom ${e} bis ${s}`,
+    otraBuscar:     'Suchst du eine andere Buchung? Suche sie mit deinem Namen',
     welcomeCard: (n, r, p, contact, roomId) => {
       const first = n ? n.split(' ')[0] : '';
       if (roomId === '720841') {
@@ -1495,6 +1517,10 @@ const I18N = {
     grupoPendiente: 'registre pendent',
     grupoAbierta:   'sense codi: l\'habitació estarà oberta',
     rpvFechas:      (e, s) => `Si RPV et demana les dates, escriu: <strong>entrada ${e}</strong> · <strong>eixida ${s}</strong> (així s'uneix a la teua reserva).`,
+    otrasTitulo:    '📅 També tens aquesta reserva',
+    otrasBtn:       'Veure',
+    otrasFechas:    (e, s) => `del ${e} al ${s}`,
+    otraBuscar:     'Busques una altra reserva? Busca-la pel teu nom',
     welcomeCard: (n, r, p, contact, roomId) => {
       const first = n ? n.split(' ')[0] : '';
       if (roomId === '720841') {
@@ -2131,11 +2157,56 @@ function renderGrupo(b, T) {
   return { html, poll };
 }
 
+// ── RESERVAS ENCADENADAS DEL MISMO HUÉSPED ───────────────────────────────────
+// Quien encadena dos reservas (p. ej. una noche y la siguiente en otra habitación) puede registrar la segunda desde el día
+// antes. El backend manda `otras_reservas` (las demás vigentes, cada una con su enlace personal): se muestran arriba y se
+// puede pasar de una a otra; si la recordada en el dispositivo ya terminó, se pasa sola a la siguiente.
+function tarjetaOtras(b, T) {
+  const otras = (b.otras_reservas || []).filter(o => o.acceso);
+  if (!otras.length) return '';
+  return `
+        <div class="otras-card ic-appear">
+          <div class="otras-titulo">${T.otrasTitulo}</div>
+          ${otras.map((o, i) => `<div class="otras-linea"><span>${T.otrasFechas(fmtDate(o.arrival), fmtDate(o.departure))}${o.room_name ? ' · ' + o.room_name : ''}</span>
+            <button type="button" onclick="verOtraReserva(${i})">${T.otrasBtn}</button></div>`).join('')}
+        </div>`;
+}
+async function cambiarAReserva(token) {
+  const cargando = $('acceso-cargando');
+  cargando.style.display = 'flex';
+  try {
+    const data = normalizarGrupo(await pedirReserva(token, false));
+    if (!data.ok) throw new Error(data.error || 'no_ok');
+    stopPoll();
+    booking = data;
+    accesoT = data.acceso || token;
+    bookRef = data.guest_name || '';
+    guardarAcceso();
+    actualizarCopia();
+    renderCheckinScreen();
+    show('s-checkin');
+    window.scrollTo(0, 0);
+    logEvent('page_view', booking.estado);
+    return true;
+  } catch (_) {
+    return false;
+  } finally {
+    cargando.style.display = 'none';
+  }
+}
+async function verOtraReserva(i) {
+  const o = ((booking && booking.otras_reservas) || []).filter(x => x.acceso)[i];
+  if (o && !(await cambiarAReserva(o.acceso))) buscarOtraReserva();
+}
+
 function renderInfoPanel() {
   const T = I18N[lang];
   stopPoll();
   const r = esGrupo(booking) ? renderGrupo(booking, T) : tarjetaReserva(booking, T);
-  $('ci-info').innerHTML = r.html;
+  // Arriba, a la vista: sus otras reservas (si las hay) y la salida para buscar otra reserva por nombre
+  // (la estancia terminada ya trae su propio botón).
+  const buscar = booking.estado === 'expired' ? '' : `<button type="button" class="btn-otra-reserva" onclick="buscarOtraReserva()">${T.otraBuscar}</button>`;
+  $('ci-info').innerHTML = tarjetaOtras(booking, T) + buscar + r.html;
   if (r.poll) startPoll();
 }
 
@@ -2150,6 +2221,8 @@ async function checkBookingStatus() {
     if (!data.ok) return;
 
     if (firmaReserva(data) === firmaReserva(booking)) return; // sin cambios, no hacer nada
+    const siguiente = data.estado === 'expired' && (data.otras_reservas || []).find(o => o.acceso);
+    if (siguiente) { await cambiarAReserva(siguiente.acceso); return; }   // terminó esta estancia: a la siguiente
 
     const estadoAnterior = booking.estado;
     const avisoAnterior  = booking.aviso_parte || null;
@@ -2553,7 +2626,9 @@ $('composerForm').addEventListener('submit', e => {
       if (booking.estado === 'expired') {
         if (!params.get('t')) {
           // Lo recordado en este dispositivo ya terminó (p. ej. quien encadena dos reservas): no se queda atrapado en la
-          // estancia caducada, se olvida y se le pide el nombre para encontrar la reserva nueva.
+          // estancia caducada. Si tiene otra reserva vigente se pasa a ella; si no, se olvida y se le pide el nombre.
+          const siguiente = (data.otras_reservas || []).find(o => o.acceso);
+          if (siguiente && await cambiarAReserva(siguiente.acceso)) { cargando.style.display = 'none'; return; }
           olvidarAcceso(); olvidarCopia();
           accesoT = ''; booking = null; bookRef = '';
           cargando.style.display = 'none';
