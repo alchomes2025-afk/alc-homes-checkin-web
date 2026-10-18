@@ -540,6 +540,8 @@ html, body {
 .otras-card .otras-titulo { font-weight: 700; color: var(--azulejo-dk); margin-bottom: 6px; }
 .otras-card .otras-linea { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 6px 0; border-top: 1px solid #DCE8EF; font-size: .9rem; }
 .otras-card .otras-linea:first-of-type { border-top: none; }
+.otras-card .otras-aviso { display: block; margin-top: 2px; font-size: .82rem; font-weight: 700; color: #9A4A00; }
+.otras-card .otras-btn-parte { background: #C2610C; }
 .otras-card button { flex-shrink: 0; background: var(--azulejo); color: #fff; border: none; border-radius: 10px; padding: 8px 12px; font: inherit; font-weight: 700; font-size: .85rem; cursor: pointer; }
 .btn-otra-reserva { display: block; width: 100%; margin: 0 0 12px; padding: 8px 12px; font-size: .82rem; background: transparent; color: var(--azulejo-dk); border: 1.5px solid var(--azulejo); border-radius: 12px; font: inherit; font-weight: 700; cursor: pointer; }
 .btn-rpv {
@@ -1059,6 +1061,8 @@ const I18N = {
     rpvFechas:      (e, s) => `Si RPV te pide las fechas, escribe: <strong>entrada ${e}</strong> · <strong>salida ${s}</strong> (así se une a tu reserva).`,
     otrasTitulo:    '📅 También tienes esta reserva',
     otrasBtn:       'Ver',
+    otrasBtnParte:  'Hacer registro',
+    otrasParte:     'Aún no has hecho su registro de viajeros: puedes hacerlo ya.',
     otrasFechas:    (e, s) => `del ${e} al ${s}`,
     otraBuscar:     '¿Buscas otra reserva? Búscala por tu nombre',
     welcomeCard: (n, r, p, contact, roomId) => {
@@ -1174,6 +1178,8 @@ const I18N = {
     rpvFechas:      (e, s) => `If RPV asks for the dates, enter: <strong>check-in ${e}</strong> · <strong>check-out ${s}</strong> (this links it to your booking).`,
     otrasTitulo:    '📅 You also have this booking',
     otrasBtn:       'View',
+    otrasBtnParte:  'Register now',
+    otrasParte:     'You have not done its traveller registration yet: you can do it now.',
     otrasFechas:    (e, s) => `from ${e} to ${s}`,
     otraBuscar:     'Looking for another booking? Search by your name',
     welcomeCard: (n, r, p, contact, roomId) => {
@@ -1289,6 +1295,8 @@ const I18N = {
     rpvFechas:      (e, s) => `Si RPV vous demande les dates, saisissez : <strong>arrivée ${e}</strong> · <strong>départ ${s}</strong> (cela le relie à votre réservation).`,
     otrasTitulo:    '📅 Vous avez aussi cette réservation',
     otrasBtn:       'Voir',
+    otrasBtnParte:  'Faire l\'enregistrement',
+    otrasParte:     'Vous n\'avez pas encore fait son enregistrement des voyageurs : vous pouvez le faire dès maintenant.',
     otrasFechas:    (e, s) => `du ${e} au ${s}`,
     otraBuscar:     'Vous cherchez une autre réservation ? Recherchez-la par votre nom',
     welcomeCard: (n, r, p, contact, roomId) => {
@@ -1404,6 +1412,8 @@ const I18N = {
     rpvFechas:      (e, s) => `Wenn RPV nach den Daten fragt, gib ein: <strong>Anreise ${e}</strong> · <strong>Abreise ${s}</strong> (so wird es deiner Buchung zugeordnet).`,
     otrasTitulo:    '📅 Du hast auch diese Buchung',
     otrasBtn:       'Ansehen',
+    otrasBtnParte:  'Jetzt registrieren',
+    otrasParte:     'Du hast die Gästeregistrierung dafür noch nicht gemacht: Du kannst sie jetzt erledigen.',
     otrasFechas:    (e, s) => `vom ${e} bis ${s}`,
     otraBuscar:     'Suchst du eine andere Buchung? Suche sie mit deinem Namen',
     welcomeCard: (n, r, p, contact, roomId) => {
@@ -1519,6 +1529,8 @@ const I18N = {
     rpvFechas:      (e, s) => `Si RPV et demana les dates, escriu: <strong>entrada ${e}</strong> · <strong>eixida ${s}</strong> (així s'uneix a la teua reserva).`,
     otrasTitulo:    '📅 També tens aquesta reserva',
     otrasBtn:       'Veure',
+    otrasBtnParte:  'Fer el registre',
+    otrasParte:     'Encara no has fet el seu registre de viatgers: pots fer-ho ja.',
     otrasFechas:    (e, s) => `del ${e} al ${s}`,
     otraBuscar:     'Busques una altra reserva? Busca-la pel teu nom',
     welcomeCard: (n, r, p, contact, roomId) => {
@@ -2167,8 +2179,8 @@ function tarjetaOtras(b, T) {
   return `
         <div class="otras-card ic-appear">
           <div class="otras-titulo">${T.otrasTitulo}</div>
-          ${otras.map((o, i) => `<div class="otras-linea"><span>${T.otrasFechas(fmtDate(o.arrival), fmtDate(o.departure))}${o.room_name ? ' · ' + o.room_name : ''}</span>
-            <button type="button" onclick="verOtraReserva(${i})">${T.otrasBtn}</button></div>`).join('')}
+          ${otras.map((o, i) => `<div class="otras-linea"><span>${T.otrasFechas(fmtDate(o.arrival), fmtDate(o.departure))}${o.room_name ? ' · ' + o.room_name : ''}${o.parte_pendiente === true ? `<span class="otras-aviso">${T.otrasParte}</span>` : ''}</span>
+            <button type="button" class="${o.parte_pendiente === true ? 'otras-btn-parte' : ''}" onclick="verOtraReserva(${i})">${o.parte_pendiente === true ? T.otrasBtnParte : T.otrasBtn}</button></div>`).join('')}
         </div>`;
 }
 async function cambiarAReserva(token) {
