@@ -520,6 +520,17 @@ html, body {
 }
 .info-card.rpv .ic-title { color: var(--azulejo-dk); }
 .info-card.pin .ic-title { color: #8B4520; }
+.grupo-op { display: block; width: 100%; text-align: left; margin-top: 10px; padding: 12px 14px; border-radius: 12px; border: 1.5px solid var(--azulejo-dk); background: #fff; cursor: pointer; font: inherit; color: inherit; }
+.grupo-op strong { display: block; color: var(--azulejo-dk); }
+.grupo-op span { display: block; font-size: .88rem; margin-top: 2px; }
+.grupo-error { color: #B3261E; font-size: .9rem; margin-top: 8px; min-height: 1em; }
+.grupo-fila { padding: 10px 0; border-top: 1px solid #DCE8EF; }
+.grupo-fila:first-of-type { border-top: none; }
+.grupo-fila .grupo-estado { font-size: .88rem; opacity: .85; }
+.grupo-acciones { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+.grupo-acciones button { padding: 8px 12px; border-radius: 10px; border: 1.5px solid var(--azulejo-dk); background: #fff; cursor: pointer; font: inherit; font-size: .88rem; }
+.grupo-acciones button.principal { background: var(--azulejo-dk); color: #fff; }
+.grupo-enlace { background: none; border: none; color: var(--azulejo-dk); text-decoration: underline; cursor: pointer; font: inherit; font-size: .88rem; padding: 10px 0 0; }
 .grupo-hab-titulo { font-weight: 700; font-size: .95rem; color: var(--azulejo-dk); margin: 16px 4px 4px; }
 .ic-desc {
   font-size: .8rem;
@@ -1059,6 +1070,23 @@ const I18N = {
     grupoDesc:      'Cada habitación tiene su propio registro de viajeros: el código de cada una aparece cuando se completa el de esa habitación.',
     grupoPendiente: 'registro pendiente',
     grupoAbierta:   'sin código: la habitación estará abierta',
+    eleccionPregunta:  '¿Quién se aloja en estas habitaciones?',
+    eleccionJuntos:    'Nos alojamos juntos',
+    eleccionJuntosSub: 'Familia o grupo: veré los códigos de todas las habitaciones.',
+    eleccionSeparados:    'Somos personas distintas',
+    eleccionSeparadosSub: 'Cada persona recibirá un enlace propio y solo verá el código de su habitación.',
+    repartoDesc:    'Cada persona entra con su propio enlace y solo ve su habitación y su código. Comparte el enlace de cada habitación con quien se aloja en ella.',
+    repartoAbrir:   'Abrir esta habitación',
+    repartoCopiar:  'Copiar enlace',
+    repartoCopiado: '¡Copiado!',
+    repartoCompartir: 'Compartir',
+    repartoListo:   'registro completado',
+    repartoVolver:  'Para volver a esta lista, busca tu reserva por nombre.',
+    repartoVerJuntos: 'Prefiero ver todos los códigos juntos',
+    repartoRepartir:  '¿Os alojáis personas distintas? Repartir un enlace por habitación',
+    confirmJuntos:      '¿Ver todos los códigos juntos? Quien tenga el enlace de la reserva los verá todos.',
+    confirmSeparados:   '¿Repartir un enlace por habitación? Dejarás de ver los códigos aquí: cada persona verá solo el suyo.',
+    grupoError:     'No se ha podido guardar. Inténtalo de nuevo.',
     rpvFechas:      (e, s) => `Si RPV te pide las fechas, escribe: <strong>entrada ${e}</strong> · <strong>salida ${s}</strong> (así se une a tu reserva).`,
     otrasTitulo:    '📅 También tienes esta reserva',
     otrasBtn:       'Ver',
@@ -1177,6 +1205,23 @@ const I18N = {
     grupoDesc:      'Each room has its own traveller registration: the code for each room appears once the registration for that room is completed.',
     grupoPendiente: 'registration pending',
     grupoAbierta:   'no code: the room will be open',
+    eleccionPregunta:  'Who is staying in these rooms?',
+    eleccionJuntos:    'We are staying together',
+    eleccionJuntosSub: 'Family or group: I will see the codes of all the rooms.',
+    eleccionSeparados:    'We are different people',
+    eleccionSeparadosSub: 'Each person gets their own link and only sees the code for their room.',
+    repartoDesc:    'Each person opens their own link and only sees their room and its code. Share each room\'s link with whoever is staying in it.',
+    repartoAbrir:   'Open this room',
+    repartoCopiar:  'Copy link',
+    repartoCopiado: 'Copied!',
+    repartoCompartir: 'Share',
+    repartoListo:   'registration completed',
+    repartoVolver:  'To come back to this list, look up your booking by name.',
+    repartoVerJuntos: 'I prefer to see all the codes together',
+    repartoRepartir:  'Are you different people? Share one link per room',
+    confirmJuntos:      'See all the codes together? Anyone with the booking link will see them all.',
+    confirmSeparados:   'Share one link per room? You will no longer see the codes here: each person will only see theirs.',
+    grupoError:     'Could not save. Please try again.',
     rpvFechas:      (e, s) => `If RPV asks for the dates, enter: <strong>check-in ${e}</strong> · <strong>check-out ${s}</strong> (this links it to your booking).`,
     otrasTitulo:    '📅 You also have this booking',
     otrasBtn:       'View',
@@ -1295,6 +1340,23 @@ const I18N = {
     grupoDesc:      'Chaque chambre a son propre enregistrement voyageur : le code de chaque chambre apparaît une fois l\'enregistrement de cette chambre complété.',
     grupoPendiente: 'enregistrement en attente',
     grupoAbierta:   'pas de code : la chambre sera ouverte',
+    eleccionPregunta:  'Qui séjourne dans ces chambres ?',
+    eleccionJuntos:    'Nous séjournons ensemble',
+    eleccionJuntosSub: 'Famille ou groupe : je verrai les codes de toutes les chambres.',
+    eleccionSeparados:    'Nous sommes des personnes différentes',
+    eleccionSeparadosSub: 'Chaque personne reçoit son propre lien et ne voit que le code de sa chambre.',
+    repartoDesc:    'Chaque personne ouvre son propre lien et ne voit que sa chambre et son code. Partagez le lien de chaque chambre avec la personne qui y séjourne.',
+    repartoAbrir:   'Ouvrir cette chambre',
+    repartoCopiar:  'Copier le lien',
+    repartoCopiado: 'Copié !',
+    repartoCompartir: 'Partager',
+    repartoListo:   'enregistrement terminé',
+    repartoVolver:  'Pour revenir à cette liste, recherchez votre réservation par nom.',
+    repartoVerJuntos: 'Je préfère voir tous les codes ensemble',
+    repartoRepartir:  'Vous êtes des personnes différentes ? Partager un lien par chambre',
+    confirmJuntos:      'Voir tous les codes ensemble ? Toute personne ayant le lien de la réservation les verra tous.',
+    confirmSeparados:   'Partager un lien par chambre ? Vous ne verrez plus les codes ici : chaque personne ne verra que le sien.',
+    grupoError:     'Impossible d\'enregistrer. Veuillez réessayer.',
     rpvFechas:      (e, s) => `Si RPV vous demande les dates, saisissez : <strong>arrivée ${e}</strong> · <strong>départ ${s}</strong> (cela le relie à votre réservation).`,
     otrasTitulo:    '📅 Vous avez aussi cette réservation',
     otrasBtn:       'Voir',
@@ -1413,6 +1475,23 @@ const I18N = {
     grupoDesc:      'Jedes Zimmer hat seine eigene Reisemeldung: Der Code für jedes Zimmer erscheint, sobald die Meldung für dieses Zimmer abgeschlossen ist.',
     grupoPendiente: 'Meldung ausstehend',
     grupoAbierta:   'kein Code: das Zimmer ist offen',
+    eleccionPregunta:  'Wer übernachtet in diesen Zimmern?',
+    eleccionJuntos:    'Wir übernachten zusammen',
+    eleccionJuntosSub: 'Familie oder Gruppe: Ich sehe die Codes aller Zimmer.',
+    eleccionSeparados:    'Wir sind verschiedene Personen',
+    eleccionSeparadosSub: 'Jede Person erhält einen eigenen Link und sieht nur den Code ihres Zimmers.',
+    repartoDesc:    'Jede Person öffnet ihren eigenen Link und sieht nur ihr Zimmer und ihren Code. Teile den Link jedes Zimmers mit der Person, die darin übernachtet.',
+    repartoAbrir:   'Dieses Zimmer öffnen',
+    repartoCopiar:  'Link kopieren',
+    repartoCopiado: 'Kopiert!',
+    repartoCompartir: 'Teilen',
+    repartoListo:   'Registrierung abgeschlossen',
+    repartoVolver:  'Um zu dieser Liste zurückzukehren, suche deine Buchung über den Namen.',
+    repartoVerJuntos: 'Ich möchte alle Codes zusammen sehen',
+    repartoRepartir:  'Seid ihr verschiedene Personen? Einen Link pro Zimmer teilen',
+    confirmJuntos:      'Alle Codes zusammen anzeigen? Jeder mit dem Buchungslink sieht dann alle.',
+    confirmSeparados:   'Einen Link pro Zimmer teilen? Du siehst die Codes hier nicht mehr: Jede Person sieht nur ihren eigenen.',
+    grupoError:     'Speichern nicht möglich. Bitte versuche es erneut.',
     rpvFechas:      (e, s) => `Wenn RPV nach den Daten fragt, gib ein: <strong>Anreise ${e}</strong> · <strong>Abreise ${s}</strong> (so wird es deiner Buchung zugeordnet).`,
     otrasTitulo:    '📅 Du hast auch diese Buchung',
     otrasBtn:       'Ansehen',
@@ -1531,6 +1610,23 @@ const I18N = {
     grupoDesc:      'Cada habitació té el seu propi registre de viatgers: el codi de cada una apareix quan es completa el d\'eixa habitació.',
     grupoPendiente: 'registre pendent',
     grupoAbierta:   'sense codi: l\'habitació estarà oberta',
+    eleccionPregunta:  'Qui s\'allotja en aquestes habitacions?',
+    eleccionJuntos:    'Ens allotgem junts',
+    eleccionJuntosSub: 'Família o grup: veuré els codis de totes les habitacions.',
+    eleccionSeparados:    'Som persones diferents',
+    eleccionSeparadosSub: 'Cada persona rebrà un enllaç propi i només veurà el codi de la seua habitació.',
+    repartoDesc:    'Cada persona entra amb el seu propi enllaç i només veu la seua habitació i el seu codi. Comparteix l\'enllaç de cada habitació amb qui s\'hi allotja.',
+    repartoAbrir:   'Obrir aquesta habitació',
+    repartoCopiar:  'Copiar l\'enllaç',
+    repartoCopiado: 'Copiat!',
+    repartoCompartir: 'Compartir',
+    repartoListo:   'registre completat',
+    repartoVolver:  'Per tornar a aquesta llista, busca la teua reserva pel nom.',
+    repartoVerJuntos: 'Preferisc veure tots els codis junts',
+    repartoRepartir:  'Sou persones diferents? Repartir un enllaç per habitació',
+    confirmJuntos:      'Veure tots els codis junts? Qui tinga l\'enllaç de la reserva els veurà tots.',
+    confirmSeparados:   'Repartir un enllaç per habitació? Deixaràs de veure els codis ací: cada persona només veurà el seu.',
+    grupoError:     'No s\'ha pogut guardar. Torna-ho a provar.',
     rpvFechas:      (e, s) => `Si RPV et demana les dates, escriu: <strong>entrada ${e}</strong> · <strong>eixida ${s}</strong> (així s'uneix a la teua reserva).`,
     otrasTitulo:    '📅 També tens aquesta reserva',
     otrasBtn:       'Veure',
@@ -1896,7 +1992,7 @@ function pintarCabeceraHab() {
   etiqueta.style.display = nombre.style.display = texto ? '' : 'none';
 }
 function firmaReserva(b) {
-  if (esGrupo(b)) return JSON.stringify(b.habitaciones.map(h => [h.book_id, h.estado, h.aviso_parte || null, !!h.pin]));
+  if (esGrupo(b)) return JSON.stringify([b.eleccion_grupo || '', b.habitaciones.map(h => [h.book_id, h.estado, h.aviso_parte || null, !!h.pin])]);
   return JSON.stringify([b.estado, b.aviso_parte || null]);
 }
 
@@ -2152,6 +2248,8 @@ function tarjetaReserva(b, T) {
 function renderGrupo(b, T) {
   const vivas = b.habitaciones.filter(h => h.estado !== 'expired');
   if (!vivas.length) return tarjetaReserva({ ...b, estado: 'expired' }, T);
+  if (b.eleccion_grupo === 'pendiente') return { html: tarjetaEleccion(b, T), poll: false };
+  if (b.eleccion_grupo === 'separados') return renderGrupoSeparado(b, T, vivas);
   const fila = (h) => {
     const detalle = h.estado !== 'staying' ? T.grupoPendiente
       : (h.pin ? `<span class="welcome-pin-inline">${h.pin}</span>` : T.grupoAbierta);
@@ -2172,7 +2270,97 @@ function renderGrupo(b, T) {
     html += `<div class="grupo-hab-titulo">🛏️ ${h.room_name}</div>` + r.html;
     poll = poll || r.poll;
   });
+  if (b.puede_repartir) html += `<button type="button" class="grupo-enlace" onclick="elegirReparto('separados', true)">${T.repartoRepartir}</button><div id="grupo-error" class="grupo-error"></div>`;
   return { html, poll };
+}
+
+// ── CÓDIGO POR HABITACIÓN (reserva de varias habitaciones con personas distintas) ──
+// El servidor no entrega ningún código del grupo hasta que quien reservó elige: «juntos» (los ve todos) o «separados» (cada habitación tiene su
+// propio enlace, que abre SOLO esa habitación). Ver services/grupos_acceso.py en el backend.
+function tarjetaEleccion(b, T) {
+  return `
+        <div class="info-card ic-appear grupo-elige">
+          <span class="ic-icon">🛏️</span>
+          <div class="ic-title">${T.grupoTitulo(b.habitaciones.length)}</div>
+          <div class="ic-desc">${T.eleccionPregunta}</div>
+          <button type="button" class="grupo-op" onclick="elegirReparto('juntos')"><strong>${T.eleccionJuntos}</strong><span>${T.eleccionJuntosSub}</span></button>
+          <button type="button" class="grupo-op" onclick="elegirReparto('separados')"><strong>${T.eleccionSeparados}</strong><span>${T.eleccionSeparadosSub}</span></button>
+          <div id="grupo-error" class="grupo-error"></div>
+        </div>`;
+}
+function renderGrupoSeparado(b, T, vivas) {
+  const filas = vivas.map((h, i) => `
+          <li class="grupo-fila">
+            <strong>${h.room_name}</strong> <span class="grupo-estado">· ${h.estado === 'staying' ? T.repartoListo : T.grupoPendiente}</span>
+            <div class="grupo-acciones">
+              <button type="button" class="principal" onclick="abrirHabitacion(${i})">${T.repartoAbrir}</button>
+              <button type="button" id="grupo-copiar-${i}" onclick="copiarEnlaceHabitacion(${i})">${T.repartoCopiar}</button>
+              ${navigator.share ? `<button type="button" onclick="compartirHabitacion(${i})">${T.repartoCompartir}</button>` : ''}
+            </div>
+          </li>`).join('');
+  return { html: `
+        <div class="info-card done ic-appear">
+          <span class="ic-icon">🛏️</span>
+          <div class="ic-title">${T.grupoTitulo(b.habitaciones.length)}</div>
+          <div class="ic-desc">${T.repartoDesc}</div>
+          <ul style="margin:6px 0 0;padding:0;list-style:none;">${filas}</ul>
+          <div class="ic-desc" style="margin-top:10px;font-size:.88rem;">${T.repartoVolver}</div>
+          <button type="button" class="grupo-enlace" onclick="elegirReparto('juntos', true)">${T.repartoVerJuntos}</button>
+          <div id="grupo-error" class="grupo-error"></div>
+        </div>`, poll: true };
+}
+function habitacionesVivas() {
+  return ((booking && booking.habitaciones) || []).filter(h => h.estado !== 'expired');
+}
+function enlaceHabitacion(h) {
+  return `${location.origin}/?t=${encodeURIComponent(h.acceso_hab)}&l=${lang}`;
+}
+async function elegirReparto(modo, confirmar) {
+  const T = I18N[lang];
+  if (confirmar && !window.confirm(modo === 'juntos' ? T.confirmJuntos : T.confirmSeparados)) return;
+  const error = $('grupo-error');
+  if (error) error.textContent = '';
+  document.querySelectorAll('.grupo-op, .grupo-enlace').forEach(b => { b.disabled = true; });
+  try {
+    const res = await fetch(`${BACKEND}/grupo-acceso`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ t: accesoT, modo }) });
+    const d = await res.json();
+    if (!d.ok) throw new Error(d.error || 'no_ok');
+    const r2 = await fetch(`${BACKEND}/check-in?${consultaCheckin()}`);
+    const data = normalizarGrupo(await r2.json());
+    if (!data.ok) throw new Error('no_ok');
+    booking = data;
+    actualizarCopia();
+    pintarCabeceraHab();
+    renderInfoPanel();
+  } catch (_) {
+    document.querySelectorAll('.grupo-op, .grupo-enlace').forEach(b => { b.disabled = false; });
+    const e2 = $('grupo-error');
+    if (e2) e2.textContent = T.grupoError;
+  }
+}
+async function abrirHabitacion(i) {
+  const h = habitacionesVivas()[i];
+  if (h && h.acceso_hab) await cambiarAReserva(h.acceso_hab);
+}
+async function copiarEnlaceHabitacion(i) {
+  const h = habitacionesVivas()[i];
+  if (!h || !h.acceso_hab) return;
+  const url = enlaceHabitacion(h);
+  try { await navigator.clipboard.writeText(url); }
+  catch (_) {
+    const ta = document.createElement('textarea');
+    ta.value = url; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); } catch (_2) { /* sin portapapeles */ }
+    ta.remove();
+  }
+  const b = $('grupo-copiar-' + i);
+  if (b) { const antes = b.textContent; b.textContent = I18N[lang].repartoCopiado; setTimeout(() => { b.textContent = antes; }, 2000); }
+}
+async function compartirHabitacion(i) {
+  const h = habitacionesVivas()[i];
+  if (!h || !h.acceso_hab) return;
+  try { await navigator.share({ title: h.room_name, url: enlaceHabitacion(h) }); } catch (_) { /* cancelado */ }
 }
 
 // ── RESERVAS ENCADENADAS DEL MISMO HUÉSPED ───────────────────────────────────
