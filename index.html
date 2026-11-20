@@ -853,6 +853,7 @@ form#composerForm {
 
 // ── CONFIG ───────────────────────────────────────────────────────────────
 const BACKEND = 'https://hostal-pdf-extractor.onrender.com';
+const SITE = 'alc-homes-checkin';   // identifica esta web ante el servidor (el actual lo ignora; la plataforma nueva lo usa)
 // El chat pasa por el proxy /chat de Render — la key de Groq nunca está en el HTML
 
 // ── DOCUMENTO FAQ (idéntico al asistente Vercel) ─────────────────────────
@@ -1806,7 +1807,7 @@ function renderTileStrip() {
 // ── HISTORIAL DE INTERACCIONES (Firestore vía backend) ─────────────────────
 function logEvent(eventType, content) {
   try {
-    fetch(`${BACKEND}/log-event`, {
+    fetch(`${BACKEND}/log-event?site=${SITE}`, {
       method:  'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -1909,7 +1910,7 @@ async function pedirReserva(token, conTiempoLimite) {
   const ctl = new AbortController();
   const plazo = conTiempoLimite ? setTimeout(() => ctl.abort(), 10_000) : null;
   try {
-    const res = await fetch(`${BACKEND}/check-in?t=${encodeURIComponent(token)}`, { signal: ctl.signal });
+    const res = await fetch(`${BACKEND}/check-in?t=${encodeURIComponent(token)}&site=${SITE}`, { signal: ctl.signal });
     return await res.json();
   } finally { if (plazo) clearTimeout(plazo); }
 }
@@ -2025,7 +2026,7 @@ async function solicitarAcceso() {
   btn.disabled = true;
   btn.innerHTML = `<div class="spin"></div><span>${t('mailSending')}</span>`;
   try {
-    const res  = await fetch(`${BACKEND}/solicitar-acceso`, {
+    const res  = await fetch(`${BACKEND}/solicitar-acceso?site=${SITE}`, {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ ref, email, idioma: lang }),
     });
@@ -2072,7 +2073,7 @@ async function lookupBooking() {
   $('bk-btn').innerHTML = `<div class="spin"></div><span>${t('bkSearching')}</span>`;
 
   try {
-    const res  = await fetch(`${BACKEND}/check-in?ref=${encodeURIComponent(ref)}`);
+    const res  = await fetch(`${BACKEND}/check-in?ref=${encodeURIComponent(ref)}&site=${SITE}`);
     const data = await res.json();
 
     $('bk-btn').disabled = false;
@@ -2322,10 +2323,10 @@ async function elegirReparto(modo, confirmar) {
   if (error) error.textContent = '';
   document.querySelectorAll('.grupo-op, .grupo-enlace').forEach(b => { b.disabled = true; });
   try {
-    const res = await fetch(`${BACKEND}/grupo-acceso`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ t: accesoT, modo }) });
+    const res = await fetch(`${BACKEND}/grupo-acceso?site=${SITE}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ t: accesoT, modo }) });
     const d = await res.json();
     if (!d.ok) throw new Error(d.error || 'no_ok');
-    const r2 = await fetch(`${BACKEND}/check-in?${consultaCheckin()}`);
+    const r2 = await fetch(`${BACKEND}/check-in?${consultaCheckin()}&site=${SITE}`);
     const data = normalizarGrupo(await r2.json());
     if (!data.ok) throw new Error('no_ok');
     booking = data;
@@ -2422,7 +2423,7 @@ async function checkBookingStatus() {
   if (sinConexion) { reintentarConexion(); return; }
   if (booking.estado === 'expired') return;   // una estancia terminada no cambia: no hay nada que comprobar
   try {
-    const res  = await fetch(`${BACKEND}/check-in?${consultaCheckin()}`);
+    const res  = await fetch(`${BACKEND}/check-in?${consultaCheckin()}&site=${SITE}`);
     const data = normalizarGrupo(await res.json());
     if (!data.ok) return;
 
@@ -2766,7 +2767,7 @@ function hideTyping() { const el = $('typingEl'); if (el) el.remove(); }
 async function askAssistant(userText) {
   const sys  = buildSystemPrompt();
   const msgs = [...chatHist, { role: 'user', content: userText }];
-  const resp = await fetch(`${BACKEND}/chat`, {
+  const resp = await fetch(`${BACKEND}/chat?site=${SITE}`, {
     method:  'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ system: sys, messages: msgs }),
