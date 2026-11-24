@@ -2473,11 +2473,11 @@ document.addEventListener('visibilitychange', () => {
 function buildSystemPrompt() {
   const T    = I18N[lang];
   const ln   = LANG_NAMES[lang] || 'castellano';
-  const n    = booking.guest_name || '';
+  const n    = ((booking.guest_name || '').trim().split(/\s+/)[0]) || '';   // solo el nombre de pila: el apellido no se envía a la IA
   const r    = booking.room_name  || '';
   const p    = booking.parte_submitted;
   const accesoDisponible = booking.estado === 'staying'; // único estado con PIN/código realmente visible
-  const pinReal = booking.pin || '';          // el código de la habitación (antes se usaba por error `p`, que es si el parte está enviado)
+  const hayPin  = !!booking.pin;              // solo si la habitación tiene código (el valor NUNCA se manda a la IA: está en la tarjeta de la página)
   const grupo   = esGrupo(booking) ? booking.habitaciones.filter(h => h.estado !== 'expired') : null;
 
   // La Casa de la Primavera es una propiedad distinta del hostal: nombre,
@@ -2487,12 +2487,6 @@ function buildSystemPrompt() {
   const propertyName = isPrimavera ? 'La Casa de la Primavera' : 'ALC Homes - Self Check In';
   const codigosComunes = booking.codigos_comunes
     || (grupo && (grupo.find(h => h.codigos_comunes) || {}).codigos_comunes) || {};
-  // Los códigos comunes (portal, urbanización) solo los entrega el servidor a quien está alojado; no están en el código de la web
-  const faqDoc        = (isPrimavera ? FAQ_DOCUMENT_CASA_PRIMAVERA : FAQ_DOCUMENT)
-    .replaceAll('{{codigo_urbanizacion}}', codigosComunes.urbanizacion || '(solo disponible para huéspedes alojados, desde las 15:00 del día de llegada; no lo des por otra vía)')
-    .replaceAll('{{wifi_ssid}}', (codigosComunes.wifi && codigosComunes.wifi.ssid) || '(solo disponible para huéspedes alojados)')
-    .replaceAll('{{wifi_clave}}', (codigosComunes.wifi && codigosComunes.wifi.clave) || '(solo disponible para huéspedes alojados; no la des por otra vía)');
-
   // Hora actual en Madrid, para que el asistente sepa exactamente cuándo estamos
   // respecto a las 15:00 (check-in) sin tener que asumir nada.
   const ahoraMadrid = new Date().toLocaleString('es-ES', {
@@ -2649,6 +2643,13 @@ function buildSystemPrompt() {
     val: accesoDisponible ? `- Habitació assignada: ${r}` : `- Habitació assignada: NO DISPONIBLE encara (només es revela quan el full de viatger està completat i són les 15:00 o més tard del dia d'arribada)`,
   };
 
+  const reglaPrivacidad = {
+    es: 'No pidas ni repitas datos personales (documentos de identidad, teléfonos, correos, tarjetas de pago ni apellidos). Si el huésped los escribe, no los uses ni los repitas en tu respuesta.',
+    en: 'Do not ask for or repeat personal data (ID documents, phone numbers, emails, payment cards or surnames). If the guest types them, do not use them or repeat them in your reply.',
+    fr: 'Ne demandez ni ne répétez de données personnelles (pièces d\'identité, téléphones, e-mails, cartes de paiement, noms de famille). Si le client les écrit, ne les utilisez pas et ne les répétez pas dans votre réponse.',
+    de: 'Frage nicht nach persönlichen Daten (Ausweise, Telefonnummern, E-Mails, Zahlungskarten, Nachnamen) und wiederhole sie nicht. Wenn der Gast sie schreibt, verwende sie nicht und wiederhole sie nicht in deiner Antwort.',
+    val: 'No demanes ni repetisques dades personals (documents d\'identitat, telèfons, correus, targetes de pagament ni cognoms). Si el hoste els escriu, no els uses ni els repetisques en la teua resposta.',
+  };
   const strictRule = {
     es: 'NUNCA menciones el nombre de la habitación, el código de puerta ni des a entender que el huésped ya puede acceder, salvo que arriba se indique explícitamente que está disponible. Si el huésped pregunta por el código de la puerta y todavía no está disponible, dile con claridad que primero debe completar el parte de viajeros (enlace visible arriba) y que el código aparecerá aquí en cuanto lo haga.',
     en: 'NEVER mention the room name, the door code, or imply the guest can already access the room, unless it is explicitly marked as available above. If the guest asks for the door code and it is not yet available, clearly tell them they must first complete the traveller registration (link visible above) and that the code will appear here once they do.',
@@ -2657,12 +2658,42 @@ function buildSystemPrompt() {
     val: 'MAI mencionar el nom de l\'habitació ni el codi de porta, ni donar a entendre que el hoste ja pot accedir, llevat que dalt s\'indique explícitament que està disponible. Si el hoste pregunta pel codi de porta i encara no està disponible, digues-li amb claredat que primer ha de completar el full de viatger (enllaç visible dalt) i que el codi apareixerà ací en fer-ho.',
   };
 
+  // Códigos y claves (puerta de la habitación, urbanización, wifi) NUNCA se mandan a la IA: el huésped los ve en la
+  // tarjeta de bienvenida de esta página y el asistente solo le remite allí (minimización de datos, RGPD).
+  const EN_TARJETA = {
+    es: 'se muestra en la tarjeta de bienvenida de ARRIBA en esta misma página; remítele allí, no lo repitas',
+    en: 'it is shown in the welcome card ABOVE on this same page; point the guest there, do not repeat it',
+    fr: 'il est affiché dans la carte de bienvenue CI-DESSUS sur cette même page ; renvoyez le client là-haut, ne le répétez pas',
+    de: 'er steht in der Willkommenskarte OBEN auf dieser Seite; verweise den Gast dorthin, wiederhole ihn nicht',
+    val: 'es mostra en la targeta de benvinguda de DALT en esta mateixa pàgina; remet-lo allí, no el repetisques',
+  };
+  const SOLO_ALOJADOS = {
+    es: 'solo disponible para huéspedes alojados, desde las 15:00 del día de llegada; no lo des por otra vía',
+    en: 'only available to checked-in guests, from 15:00 on the arrival day; do not give it by any other means',
+    fr: 'disponible uniquement pour les clients installés, à partir de 15h00 le jour d\'arrivée ; ne le donnez par aucun autre moyen',
+    de: 'nur für eingecheckte Gäste verfügbar, ab 15:00 Uhr am Anreisetag; gib ihn nicht auf anderem Weg weiter',
+    val: 'només disponible per a hostes allotjats, des de les 15:00 del dia d\'arribada; no el dónes per cap altra via',
+  };
+  const NO_DISPONIBLE = {
+    es: 'no disponible ahora mismo; indica al huésped que contacte con recepción',
+    en: 'not available right now; tell the guest to contact reception',
+    fr: 'indisponible pour le moment ; indiquez au client de contacter la réception',
+    de: 'derzeit nicht verfügbar; sage dem Gast, er soll die Rezeption kontaktieren',
+    val: 'no disponible ara mateix; digues-li al hoste que contacte amb recepció',
+  };
+  const refDato = (valor) => accesoDisponible ? (valor ? EN_TARJETA[lang] || EN_TARJETA.es : NO_DISPONIBLE[lang] || NO_DISPONIBLE.es)
+                                              : (SOLO_ALOJADOS[lang] || SOLO_ALOJADOS.es);
+  const faqDoc = (isPrimavera ? FAQ_DOCUMENT_CASA_PRIMAVERA : FAQ_DOCUMENT)
+    .replaceAll('{{codigo_urbanizacion}}', refDato(codigosComunes.urbanizacion))
+    .replaceAll('{{wifi_ssid}}', refDato(codigosComunes.wifi && codigosComunes.wifi.ssid))
+    .replaceAll('{{wifi_clave}}', refDato(codigosComunes.wifi && codigosComunes.wifi.clave));
+
   const pinLine = {
-    es: accesoDisponible ? (pinReal ? `- Código de puerta de la habitación: ${pinReal}` : `- Código de puerta de la habitación: NO FUNCIONA. La habitación estará abierta y la llave estará en la mesita de noche. Si preguntan por el código, indícales exactamente esto.`) : '',
-    en: accesoDisponible ? (pinReal ? `- Room door code: ${pinReal}` : `- Room door code: NOT WORKING. The room will be left open and the key will be on the nightstand. If asked for the code, tell them exactly this.`) : '',
-    fr: accesoDisponible ? (pinReal ? `- Code de porte de la chambre : ${pinReal}` : `- Code de porte de la chambre : NE FONCTIONNE PAS. La chambre sera laissée ouverte et la clé sera sur la table de chevet. Si on vous demande le code, indiquez exactement cela.`) : '',
-    de: accesoDisponible ? (pinReal ? `- Türcode des Zimmers: ${pinReal}` : `- Türcode des Zimmers: FUNKTIONIERT NICHT. Das Zimmer bleibt offen und der Schlüssel liegt auf dem Nachttisch. Wenn nach dem Code gefragt wird, sage genau das.`) : '',
-    val: accesoDisponible ? (pinReal ? `- Codi de porta de l'habitació: ${pinReal}` : `- Codi de porta de l'habitació: NO FUNCIONA. L'habitació estarà oberta i la clau estarà a la tauleta de nit. Si pregunten pel codi, digues-los exactament això.`) : '',
+    es: accesoDisponible ? (hayPin ? `- Código de puerta de la habitación: ${EN_TARJETA.es}` : `- Código de puerta de la habitación: NO FUNCIONA. La habitación estará abierta y la llave estará en la mesita de noche. Si preguntan por el código, indícales exactamente esto.`) : '',
+    en: accesoDisponible ? (hayPin ? `- Room door code: ${EN_TARJETA.en}` : `- Room door code: NOT WORKING. The room will be left open and the key will be on the nightstand. If asked for the code, tell them exactly this.`) : '',
+    fr: accesoDisponible ? (hayPin ? `- Code de porte de la chambre : ${EN_TARJETA.fr}` : `- Code de porte de la chambre : NE FONCTIONNE PAS. La chambre sera laissée ouverte et la clé sera sur la table de chevet. Si on vous demande le code, indiquez exactement cela.`) : '',
+    de: accesoDisponible ? (hayPin ? `- Türcode des Zimmers: ${EN_TARJETA.de}` : `- Türcode des Zimmers: FUNKTIONIERT NICHT. Das Zimmer bleibt offen und der Schlüssel liegt auf dem Nachttisch. Wenn nach dem Code gefragt wird, sage genau das.`) : '',
+    val: accesoDisponible ? (hayPin ? `- Codi de porta de l'habitació: ${EN_TARJETA.val}` : `- Codi de porta de l'habitació: NO FUNCIONA. L'habitació estarà oberta i la clau estarà a la tauleta de nit. Si pregunten pel codi, digues-los exactament això.`) : '',
   };
 
   // Estado del código de entrada al PORTAL/EDIFICIO. El asistente
@@ -2702,7 +2733,7 @@ function buildSystemPrompt() {
   const lineaGrupo = grupo ? `- La reserva incluye ${grupo.length} habitaciones, cada una con su propio parte de viajeros y su propio código: ` +
     grupo.map(h => h.estado !== 'staying'
       ? `${h.room_name}: NO DISPONIBLE todavía (el parte de viajeros de esa habitación aún no está completado)`
-      : (h.pin ? `${h.room_name}: código de puerta ${h.pin}` : `${h.room_name}: el código NO FUNCIONA, la habitación estará abierta y la llave estará en la mesita de noche`)).join('; ') + '.' : '';
+      : (h.pin ? `${h.room_name}: código de puerta (${EN_TARJETA[lang] || EN_TARJETA.es})` : `${h.room_name}: el código NO FUNCIONA, la habitación estará abierta y la llave estará en la mesita de noche`)).join('; ') + '.' : '';
 
   return `Eres el asistente virtual de recepción de ${propertyName}.
 
@@ -2726,6 +2757,7 @@ REGLAS ESTRICTAS:
 8. Usa siempre la fecha y hora actual indicada arriba para razonar sobre si ya son las 15:00 o no — nunca lo asumas ni lo calcules de otra forma.
 9. Usa siempre la línea de "Fecha de llegada (check-in)" de arriba para saber si HOY es, fue o será el día de check-in — nunca lo deduzcas ni lo asumas de otra manera. Si el huésped pregunta si hoy es su día de check-in, respóndele directamente basándote en esa línea.
 10. ${strictRule[lang] || strictRule.es}
+11. ${reglaPrivacidad[lang] || reglaPrivacidad.es}
 
 DOCUMENTO DE REFERENCIA:
 ${faqDoc}`;
